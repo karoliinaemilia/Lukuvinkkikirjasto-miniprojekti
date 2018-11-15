@@ -1,5 +1,7 @@
 package lukuvinkkiKirjasto.domain;
 
+import java.util.Date;
+
 
 public class Kirja {
     
@@ -8,9 +10,9 @@ public class Kirja {
     private int pituus;
     private String linkki;
     private String tekija;
-    private String paivamaara;
+    private Date paivamaara;
     
-    public Kirja(String genre2, String nimi2, int pituus2, String linkki2, String tekija2, String paivamaara2) {
+    public Kirja(String genre2, String nimi2, int pituus2, String linkki2, String tekija2, Date paivamaara2) {
         
         this.genre = genre2;
         this.nimi = nimi2; 
