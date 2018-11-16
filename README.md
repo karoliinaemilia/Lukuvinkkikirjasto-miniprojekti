@@ -8,3 +8,23 @@
 
 [![Build Status](https://travis-ci.org/karoliinaemilia/Lukuvinkkikirjasto-miniprojekti.svg?branch=master)](https://travis-ci.org/karoliinaemilia/Lukuvinkkikirjasto-miniprojekti)
 
+
+Definition of Done:
+
+1. User Story
+
+- Produced code for presumed functionalities
+- Project builds without errors
+- Unit tests written and passing
+- Feature is tested against acceptance criteria
+- Refactoring complete
+- Any configuration or build changes documented
+- Documentation updated
+
+2. Sprint
+
+- Definition of Done of each User story, included in the Sprint are met
+- All unit tests are passing
+- Product backlog updated
+- All bugs fixed
+
