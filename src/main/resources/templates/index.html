@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Lukuvinkkikirjasto</title>
+        <meta charset="UTF-8">
+        
+    </head>
+    <body>
+         <h1>Kirjat</h1>
+         
+         <ul>
+             <li th:each="kirja : ${kirjat}">
+                 <span th:text="${kirja.nimi}">Kirja</span>
+             </li>
+         </ul>
+         
+         <h2>Lisää uusi kirja</h2>
+         
+         <form method="POST" action="/kirjat">
+             <input type="text" name="nimi"/><br/>
+             <input type="text" name="genre"/><br/>
+             <input type="text" name="pituus" /> <br/>
+             <input type="text" name="linkki" /> <br/>
+             <input type="text" name="tekija" /> <br/>
+             <input type="submit" value="Lisää" />
+         </form>
+    </body>
+</html>

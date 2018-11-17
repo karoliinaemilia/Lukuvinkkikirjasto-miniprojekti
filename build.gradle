@@ -9,9 +9,7 @@ repositories {
 
 // In this section you declare the dependencies for your production and test code
 dependencies {
-    // The production code uses the SLF4J logging API at compile time
     compile 'org.slf4j:slf4j-api:1.7.21'
-
     testCompile 'junit:junit:4.12'
     compile 'com.sparkjava:spark-core:2.8.0'    
     compile 'org.xerial:sqlite-jdbc:3.25.2'
