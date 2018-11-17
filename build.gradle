@@ -40,4 +40,4 @@ run {
     standardInput = System.in
 }
 
-mainClassName = 'Main'
+mainClassName = 'lukuvinkkiKirjasto.ui.Ui'
