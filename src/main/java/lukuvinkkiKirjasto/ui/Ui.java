@@ -1,40 +1,19 @@
 
 package lukuvinkkiKirjasto.ui;
 
-import lukuvinkkiKirjasto.database.Database;
-import javafx.application.Application;
-import static javafx.application.Application.launch;
-import javafx.scene.Scene;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-import lukuvinkkiKirjasto.dao.KirjaDao;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import spark.Spark;
 
-public class Ui extends Application {
+public class Ui {
     
-    private Scene mainScene;
-    
-    @Override
-    public void init() throws Exception {
-        Database database = new Database("jdbc:sqlite:LukuvinkkiKirjasto.db");
+    public static void main(String[] args) throws Exception {
         
-        KirjaDao kirjaDao = new KirjaDao(database);
-    }
-
-    @Override
-    public void start(Stage primaryStage) {
-        VBox mainPane = new VBox(10);
-        HBox inputPane = new HBox(10);
-        
-        mainScene = new Scene(mainPane, 300, 250);  
-        
-        primaryStage.setTitle("Lukuvinkkikirjasto");
-        primaryStage.setScene(mainScene);
-        primaryStage.show();
-    }
-    
-    public static void main(String[] args) {
-        launch(args);
+        Spark.get("/hei", (req, res) -> {
+            return "Hei maailma!";
+        });
     }
     
 }
