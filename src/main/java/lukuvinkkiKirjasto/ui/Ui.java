@@ -66,21 +66,6 @@ public class Ui {
             return "";
         });
         
-        Spark.get("/listaaKirjat", (req, res) -> {
-            HashMap map = new HashMap();
-            map.put("kirjat", kirjaDao.findAll());
-            
-            return new ModelAndView(map, "kirjat");
-        }, new ThymeleafTemplateEngine());
-        
-//        Spark.post("/listaaKirjat", (req, res) -> {
-//            List<Kirja> kirjat = kirjaDao.findAll();
-//            for(int i = 0; i < kirjat.size(); i ++) {
-//                
-//            }
-//                    
-//            return "";
-//        });
         
     }
     
