@@ -22,11 +22,19 @@ and open the template in the editor.
          <h2>Lisää uusi kirja</h2>
          
          <form method="POST" action="/kirjat">
+             <span>Kirjan nimi:</span>
              <input type="text" name="nimi"/><br/>
+             <span>Genre:</span>
              <input type="text" name="genre"/><br/>
+             <span>Pituus:</span>
              <input type="text" name="pituus" /> <br/>
+             <span>Linkki:</span>
              <input type="text" name="linkki" /> <br/>
+             <span>Tekija:</span>
              <input type="text" name="tekija" /> <br/>
+             <span>Julkaisuvuosi:</span>
+             <input type="text" name="julkaisuVuosi" /> <br/>
+             
              <input type="submit" value="Lisää" />
          </form>
     </body>

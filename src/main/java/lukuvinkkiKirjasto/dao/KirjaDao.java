@@ -29,7 +29,7 @@ public class KirjaDao implements Dao<Kirja, Integer> {
             }
             Kirja kirja = new Kirja(rs.getInt("id"), rs.getString("genre"),
                     rs.getString("nimi"), rs.getInt("pituus"),
-                    rs.getString("linkki"), rs.getString("tekija"),
+                    rs.getString("linkki"), rs.getString("tekija"), rs.getInt("julkaisuVuosi"),
                     rs.getDate("paivamaara").toLocalDate());
             
             statement.close();
@@ -49,7 +49,7 @@ public class KirjaDao implements Dao<Kirja, Integer> {
             while (rs.next()) {
                 kirjat.add(new Kirja(rs.getInt("id"), rs.getString("genre"),
                         rs.getString("nimi"), rs.getInt("pituus"),
-                        rs.getString("linkki"), rs.getString("tekija"),
+                        rs.getString("linkki"), rs.getString("tekija"), rs.getInt("julkaisuVuosi"),
                         rs.getDate("paivamaara").toLocalDate()));
             }
             statement.close();

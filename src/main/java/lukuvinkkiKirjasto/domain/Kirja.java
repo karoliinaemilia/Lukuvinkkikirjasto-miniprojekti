@@ -5,26 +5,35 @@ import java.util.Date;
 
 public class Kirja {
 
-    private int id;
+    private Integer id;
     private String genre;
     private String nimi;
     private int pituus;
     private String linkki;
     private String tekija;
+    private int julkaisuVuosi;
     private LocalDate paivamaara;
-
-    public Kirja(int id, String genre, String nimi, int pituus, String linkki, String tekija, LocalDate paivamaara) {
+    public Kirja(Integer id, String genre, String nimi, int pituus, String linkki, String tekija, int julkaisuVuosi, LocalDate paivamaara) {
         this.id = id;
         this.genre = genre;
         this.nimi = nimi;
         this.pituus = pituus;
         this.linkki = linkki;
         this.tekija = tekija;
+        this.julkaisuVuosi = julkaisuVuosi;
         this.paivamaara = paivamaara;
 
     }
 
-    public int getId() {
+    public int getJulkaistu() {
+        return julkaisuVuosi;
+    }
+
+    public void setJulkaistu(int julkaistu) {
+        this.julkaisuVuosi = julkaistu;
+    }
+
+    public Integer getId() {
         return id;
     }
 
@@ -81,7 +90,7 @@ public class Kirja {
     }
 
     public String toString() {
-        String tuloste = getNimi() + ", Kirjailija: " + getTekija() + ", julkaistu: " + getPaivamaara() + ", pituus: " + getPituus() + ", genre: " + getGenre();
+        String tuloste = getNimi() + ", Kirjailija: " + getTekija() + ", julkaistu: " + getJulkaistu() + ", pituus: " + getPituus() + ", genre: " + getGenre();
         if (!linkki.isEmpty()) {
             tuloste += ", linkki: " + getLinkki();
         }

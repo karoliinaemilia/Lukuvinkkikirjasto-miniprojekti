@@ -1,8 +1,17 @@
 
 package lukuvinkkiKirjasto.ui;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import lukuvinkkiKirjasto.dao.KirjaDao;
 
 import lukuvinkkiKirjasto.database.Database;
@@ -14,10 +23,34 @@ import spark.template.thymeleaf.ThymeleafTemplateEngine;
 public class Ui {
     
     public static void main(String[] args) throws Exception {
+         if (System.getenv("PORT") != null) {
+        Spark.port(Integer.valueOf(System.getenv("PORT")));
+     }
         
-        Database db = new Database("jdbd:sqlite:LukuvinkkiKirjasto.db");
+        
+        Connection conn = DriverManager.getConnection("jdbc:sqlite:LukuvinkkiKirjasto.db");
+        PreparedStatement statement = conn.prepareStatement("SELECT 1");
+        ResultSet rs = statement.executeQuery();
+        
+        if(rs.next()) {
+            System.out.println("Yhteys onnistui");
+        } else {
+            System.out.println("Yhteys epäonnistui");
+        }
+        
+        Database db = new Database("jdbc:sqlite:LukuvinkkiKirjasto.db");
         
         KirjaDao kirjaDao = new KirjaDao(db);
+        
+        Spark.get("/", (req, res) -> {
+            HashMap map = new HashMap<>();
+             try {
+                 map.put("kirjat", kirjaDao.findAll());
+             } catch (SQLException ex) {
+                 Logger.getLogger(Ui.class.getName()).log(Level.SEVERE, null, ex);
+             }
+            return new ModelAndView(map, "aloitus");
+        }, new ThymeleafTemplateEngine());
         
         Spark.get("/kirjat", (req, res) -> {
             HashMap map = new HashMap<>();
@@ -28,10 +61,27 @@ public class Ui {
        
         
         Spark.post("/kirjat", (req, res) -> {
-            kirjaDao.saveOrUpdate(new Kirja(req.queryParams("genre"), req.queryParams("nimi"), Integer.parseInt(req.queryParams("pituus")), req.queryParams("linkki"), req.queryParams("tekija"), new Date()));
+            kirjaDao.saveOrUpdate(new Kirja(null, req.queryParams("genre"), req.queryParams("nimi"), Integer.parseInt(req.queryParams("pituus")), req.queryParams("linkki"), req.queryParams("tekija"), Integer.parseInt(req.queryParams("julkaisuVuosi")), LocalDate.now()));
             res.redirect("kirjat");
             return "";
         });
+        
+        Spark.get("/listaaKirjat", (req, res) -> {
+            HashMap map = new HashMap();
+            map.put("kirjat", kirjaDao.findAll());
+            
+            return new ModelAndView(map, "kirjat");
+        }, new ThymeleafTemplateEngine());
+        
+//        Spark.post("/listaaKirjat", (req, res) -> {
+//            List<Kirja> kirjat = kirjaDao.findAll();
+//            for(int i = 0; i < kirjat.size(); i ++) {
+//                
+//            }
+//                    
+//            return "";
+//        });
+        
     }
     
 }
