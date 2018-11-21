@@ -61,6 +61,47 @@ public class KirjaTest {
     }
     
     @Test
+    public void idnMuuttaminenOnnistuu() {
+        lehti.setId(4);
+        assertEquals(4, lehti.getId(), vertailuTarkkuus);
+    }
+    
+    @Test
+    public void nimenMuuttaminenOnnistuu() {
+        lehti.setId(4);
+        assertEquals(4, lehti.getId(), vertailuTarkkuus);
+    }
+    
+    @Test
+    public void genrenMuuttaminenOnnistuu() {
+        lehti.setGenre("kauhu");
+        assertEquals("kauhu", lehti.getGenre());
+    }
+    
+    @Test
+    public void pituudenMuuttaminenOnnistuu() {
+        lehti.setPituus(10);
+        assertEquals(10, lehti.getPituus(), vertailuTarkkuus);
+    }
+    
+    @Test
+    public void linkinMuuttaminenOnnistuu() {
+        lehti.setLinkki("www.testi2.fi");
+        assertEquals("www.testi2.fi", lehti.getLinkki());
+    }
+    
+    @Test
+    public void kirjoittajanMuuttaminenOnnistuu() {
+        lehti.setTekija("uusi");
+        assertEquals("uusi", lehti.getTekija());
+    }
+    
+    @Test
+    public void julkaisuvuodenMuuttaminenOnnistuu() {
+        lehti.setJulkaistu(2011);
+        assertEquals(2011, lehti.getJulkaistu(), vertailuTarkkuus);
+    }
+    @Test
     public void tulostusOnOikea() {
         assertEquals("testilehti, Kirjailija: testikirjoittaja, julkaistu: 2009, pituus: 20, genre: viihde, linkki: www.testi.fi", lehti.toString());
     }
