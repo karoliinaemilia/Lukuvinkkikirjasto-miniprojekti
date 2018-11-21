@@ -103,6 +103,6 @@ public class KirjaTest {
     }
     @Test
     public void tulostusOnOikea() {
-        assertEquals("testilehti, Kirjailija: testikirjoittaja, julkaistu: 2009, pituus: 20, genre: viihde, linkki: www.testi.fi", lehti.toString());
+        assertEquals("testilehti, Kirjailija: testikirjoittaja, julkaisuvuosi: 2009, pituus: 20, genre: viihde, linkki: www.testi.fi", lehti.toString());
     }
 }

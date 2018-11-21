@@ -90,7 +90,7 @@ public class Kirja {
     }
 
     public String toString() {
-        String tuloste = getNimi() + ", Kirjailija: " + getTekija() + ", julkaistu: " + getJulkaistu() + ", pituus: " + getPituus() + ", genre: " + getGenre();
+        String tuloste = getNimi() + ", Kirjailija: " + getTekija() + ", julkaisuvuosi: " + getJulkaistu() + ", pituus: " + getPituus() + ", genre: " + getGenre();
         if (!linkki.isEmpty()) {
             tuloste += ", linkki: " + getLinkki();
         }
