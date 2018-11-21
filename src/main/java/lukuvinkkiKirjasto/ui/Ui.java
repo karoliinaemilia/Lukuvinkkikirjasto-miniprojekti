@@ -41,6 +41,8 @@ public class Ui {
         Database db = new Database("jdbc:sqlite:LukuvinkkiKirjasto.db");
         
         KirjaDao kirjaDao = new KirjaDao(db);
+        Kirja kirja = new Kirja(null, "romantiikka", "jotain", 8, "skdfjkj", "henkilo", 200, LocalDate.now());
+        kirjaDao.saveOrUpdate(kirja);
         
         Spark.get("/", (req, res) -> {
             HashMap map = new HashMap<>();
@@ -62,7 +64,7 @@ public class Ui {
         
         Spark.post("/kirjat", (req, res) -> {
             kirjaDao.saveOrUpdate(new Kirja(null, req.queryParams("genre"), req.queryParams("nimi"), Integer.parseInt(req.queryParams("pituus")), req.queryParams("linkki"), req.queryParams("tekija"), Integer.parseInt(req.queryParams("julkaisuVuosi")), LocalDate.now()));
-            res.redirect("kirjat");
+            res.redirect("/kirjat");
             return "";
         });
         
