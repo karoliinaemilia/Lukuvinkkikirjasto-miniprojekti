@@ -41,8 +41,7 @@ public class Ui {
         Database db = new Database("jdbc:sqlite:LukuvinkkiKirjasto.db");
         
         KirjaDao kirjaDao = new KirjaDao(db);
-        Kirja kirja = new Kirja(null, "romantiikka", "jotain", 8, "skdfjkj", "henkilo", 200, LocalDate.now());
-        kirjaDao.saveOrUpdate(kirja);
+        
         
         Spark.get("/", (req, res) -> {
             HashMap map = new HashMap<>();

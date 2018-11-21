@@ -63,7 +63,7 @@ public class KirjaDao implements Dao<Kirja, Integer> {
     @Override
     public Kirja saveOrUpdate(Kirja kirja) throws SQLException {
         try (Connection conn = database.getConnection()) {
-            PreparedStatement statement = conn.prepareStatement("INSERT INTO Kirja (genre),(nimi),(pituus),(linkki),(tekija),(paivamaara) VALUES (?),(?),(?),(?),(?),(?)");
+            PreparedStatement statement = conn.prepareStatement("INSERT INTO Kirja (genre, nimi, pituus, linkki, tekija, paivamaara) VALUES (?, ?, ?, ?, ?, ?)");
             statement.setString(1, kirja.getGenre());
             statement.setString(2, kirja.getNimi());
             statement.setInt(3, kirja.getPituus());
