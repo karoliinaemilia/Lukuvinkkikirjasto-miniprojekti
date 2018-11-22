@@ -8,6 +8,8 @@
 
 [![Build Status](https://travis-ci.org/karoliinaemilia/Lukuvinkkikirjasto-miniprojekti.svg?branch=master)](https://travis-ci.org/karoliinaemilia/Lukuvinkkikirjasto-miniprojekti)
 
+[Heroku](https://lukuvinkkikirjasto.herokuapp.com/)
+
 
 Definition of Done:
 
