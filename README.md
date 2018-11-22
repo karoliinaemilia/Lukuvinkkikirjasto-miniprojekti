@@ -1,5 +1,7 @@
 # Lukuvinkkikirjasto-miniprojekti
 
+[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+
 ## Linkit backlogeihin
 
 [Product Backlog](https://docs.google.com/spreadsheets/d/1Aro0I-WY7YCHkPSGKGB8r2TdpK9SfSF0zFdTCQ5nMlM/edit#gid=0)
