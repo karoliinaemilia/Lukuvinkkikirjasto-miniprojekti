@@ -17,18 +17,22 @@
          <h2>Lisää uusi kirja</h2>
          
          <form method="POST" action="/kirjat">
-             <span>Kirjan nimi:</span>
+             <span>ISBN: </span> 
+             <input type="text" name="ISBN" /><br/>
+             <span>Kirjan nimi: </span>
              <input type="text" name="nimi"/><br/>
-             <span>Genre:</span>
+             <span>Genre: </span>
              <input type="text" name="genre"/><br/>
-             <span>Pituus:</span>
+             <span>Pituus: </span>
              <input type="text" name="pituus" /> <br/>
-             <span>Linkki:</span>
+             <span>Linkki: </span>
              <input type="text" name="linkki" /> <br/>
-             <span>Tekija:</span>
+             <span>Tekija: </span>
              <input type="text" name="tekija" /> <br/>
-             <span>Julkaisuvuosi:</span>
+             <span>Julkaisuvuosi: </span>
              <input type="text" name="julkaisuVuosi" /> <br/>
+             <span>Luettu: </span>
+             <input type="text" name="luettu" /> <br/>
              
              <input type="submit" value="Lisää" />
          </form>

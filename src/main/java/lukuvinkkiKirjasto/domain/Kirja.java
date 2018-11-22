@@ -109,7 +109,11 @@ public class Kirja {
     }
 
     public String toString() {
-        String tuloste = getNimi() + ", Kirjailija: " + getTekija() + ", julkaisuvuosi: " + getJulkaistu() + ", pituus: " + getPituus() + ", genre: " + getGenre();
+        String merkki = "LUKEMATON";
+        if (isLuettu() == true) {
+            merkki = "Luettu";
+        }
+        String tuloste = getNimi() + ", ISBN: " + getISBN() + ", Kirjailija: " + getTekija() + ", julkaisuvuosi: " + getJulkaistu() + ", pituus: " + getPituus() + ", genre: " + getGenre() + ", " + merkki;
         if (!linkki.isEmpty()) {
             tuloste += ", linkki: " + getLinkki();
         }

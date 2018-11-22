@@ -63,15 +63,16 @@ public class KirjaDao implements Dao<Kirja, Integer> {
     @Override
     public Kirja saveOrUpdate(Kirja kirja) throws SQLException {
         try (Connection conn = database.getConnection()) {
-            PreparedStatement statement = conn.prepareStatement("INSERT INTO Kirja (genre, nimi, pituus, linkki, tekija, julkaisuVuosi, paivamaara, luettu) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-            statement.setString(1, kirja.getGenre());
-            statement.setString(2, kirja.getNimi());
-            statement.setInt(3, kirja.getPituus());
-            statement.setString(4, kirja.getLinkki());
-            statement.setString(5, kirja.getTekija());
-            statement.setInt(6, kirja.getJulkaistu());
-            statement.setDate(7, Date.valueOf(kirja.getPaivamaara()));
-            statement.setBoolean(8, kirja.isLuettu());
+            PreparedStatement statement = conn.prepareStatement("INSERT INTO Kirja (ISBN, genre, nimi, pituus, linkki, tekija, julkaisuVuosi, paivamaara, luettu) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            statement.setInt(1, kirja.getISBN());
+            statement.setString(2, kirja.getGenre());
+            statement.setString(3, kirja.getNimi());
+            statement.setInt(4, kirja.getPituus());
+            statement.setString(5, kirja.getLinkki());
+            statement.setString(6, kirja.getTekija());
+            statement.setInt(7, kirja.getJulkaistu());
+            statement.setDate(8, Date.valueOf(kirja.getPaivamaara()));
+            statement.setBoolean(9, kirja.isLuettu());
             statement.executeUpdate();
         }
         return findOne(kirja.getISBN());
@@ -80,7 +81,7 @@ public class KirjaDao implements Dao<Kirja, Integer> {
     @Override
     public void delete(Integer key) throws SQLException {
         try (Connection conn = database.getConnection()) {
-            PreparedStatement statement = conn.prepareStatement("DELETE FROM Kirja WHERE id = ?");
+            PreparedStatement statement = conn.prepareStatement("DELETE FROM Kirja WHERE ISBN = ?");
             
             statement.setInt(1, key);
             statement.executeUpdate();

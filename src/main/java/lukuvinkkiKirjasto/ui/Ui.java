@@ -41,6 +41,8 @@ public class Ui {
         }
         
         KirjaDao kirjaDao = new KirjaDao(db);
+        Kirja kirja = new Kirja(9, "sanna", "sanna", 8, "sanna", "sanna", 1996, LocalDate.now(), true);
+        kirjaDao.saveOrUpdate(kirja);
         
         
         Spark.get("/", (req, res) -> {
@@ -62,7 +64,7 @@ public class Ui {
        
         
         Spark.post("/kirjat", (req, res) -> {
-            kirjaDao.saveOrUpdate(new Kirja(null, req.queryParams("genre"), req.queryParams("nimi"), Integer.parseInt(req.queryParams("pituus")), req.queryParams("linkki"), req.queryParams("tekija"), Integer.parseInt(req.queryParams("julkaisuVuosi")), LocalDate.now(), Boolean.getBoolean(req.queryParams("luettu"))));
+            kirjaDao.saveOrUpdate(new Kirja(Integer.parseInt(req.queryParams("ISBN")), req.queryParams("genre"), req.queryParams("nimi"), Integer.parseInt(req.queryParams("pituus")), req.queryParams("linkki"), req.queryParams("tekija"), Integer.parseInt(req.queryParams("julkaisuVuosi")), LocalDate.now(), Boolean.getBoolean(req.queryParams("luettu"))));
             res.redirect("/kirjat");
             return "";
         });
