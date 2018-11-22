@@ -72,7 +72,27 @@ public class Ui {
                     return "";
                 }
             } 
-            kirjaDao.saveOrUpdate(new Kirja(Integer.parseInt(req.queryParams("ISBN")), req.queryParams("genre"), req.queryParams("nimi"), Integer.parseInt(req.queryParams("pituus")), req.queryParams("linkki"), req.queryParams("tekija"), Integer.parseInt(req.queryParams("julkaisuVuosi")), LocalDate.now(), Boolean.getBoolean(req.queryParams("luettu"))));
+            
+            boolean lue = false;
+            try{
+                lue = req.queryParams("luettu").equals("true");
+            }catch(Exception e){
+                System.out.println(e);
+            }
+            
+            kirjaDao.saveOrUpdate(
+                    new Kirja(
+                            Integer.parseInt(req.queryParams("ISBN")), 
+                            req.queryParams("genre"), 
+                            req.queryParams("nimi"), 
+                            Integer.parseInt(req.queryParams("pituus")), 
+                            req.queryParams("linkki"), 
+                            req.queryParams("tekija"), 
+                            Integer.parseInt(req.queryParams("julkaisuVuosi")), 
+                            LocalDate.now(), 
+                            lue
+                    )
+            );
             res.redirect("/kirjat");
             return "";
         });
