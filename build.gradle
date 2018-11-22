@@ -44,10 +44,10 @@ dependencies {
     compile group: 'org.seleniumhq.selenium', name: 'selenium-api', version:seleniumVersion
     compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version:seleniumVersion    
 
+    compile 'org.xerial:sqlite-jdbc:3.25.2'
     compile group: 'org.postgresql', name: 'postgresql', version: '42.2.5'
 
-    compile 'com.sparkjava:spark-core:2.8.0'    
-    compile 'org.xerial:sqlite-jdbc:3.25.2'
+    compile 'com.sparkjava:spark-core:2.8.0'
     compile 'com.google.code.gson:gson:2.8.5'
     compile 'com.sparkjava:spark-template-thymeleaf:2.7.1'
 }

@@ -24,11 +24,12 @@ public class Ui {
     
     public static void main(String[] args) throws Exception {
          if (System.getenv("PORT") != null) {
-        Spark.port(Integer.valueOf(System.getenv("PORT")));
-     }
+            Spark.port(Integer.valueOf(System.getenv("PORT")));
+        }
+         
+        Class.forName("org.sqlite.JDBC"); 
         
-        
-        Connection conn = DriverManager.getConnection("jdbc:sqlite:LukuvinkkiKirjasto.db");
+        Connection conn = db.getConnection();
         PreparedStatement statement = conn.prepareStatement("SELECT 1");
         ResultSet rs = statement.executeQuery();
         
