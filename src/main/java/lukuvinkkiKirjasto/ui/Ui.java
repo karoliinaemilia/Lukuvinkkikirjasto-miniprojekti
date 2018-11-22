@@ -7,9 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import lukuvinkkiKirjasto.dao.KirjaDao;
@@ -21,6 +19,8 @@ import spark.Spark;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
 public class Ui {
+    
+    private static Database db = new Database("jdbc:sqlite:LukuvinkkiKirjasto.db");
     
     public static void main(String[] args) throws Exception {
          if (System.getenv("PORT") != null) {
@@ -37,8 +37,6 @@ public class Ui {
         } else {
             System.out.println("Yhteys epäonnistui");
         }
-        
-        Database db = new Database("jdbc:sqlite:LukuvinkkiKirjasto.db");
         
         KirjaDao kirjaDao = new KirjaDao(db);
         
@@ -68,6 +66,10 @@ public class Ui {
         });
         
         
+    }
+    
+    public static void setDatabase(Database db) {
+        Ui.db = db;
     }
     
 }

@@ -13,6 +13,7 @@ public class Kirja {
     private String tekija;
     private int julkaisuVuosi;
     private LocalDate paivamaara;
+    
     public Kirja(Integer id, String genre, String nimi, int pituus, String linkki, String tekija, int julkaisuVuosi, LocalDate paivamaara) {
         this.id = id;
         this.genre = genre;

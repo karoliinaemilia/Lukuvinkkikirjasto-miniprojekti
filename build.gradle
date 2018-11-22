@@ -1,12 +1,18 @@
-// Apply the java plugin to add support for Java
 apply plugin: 'java'
 apply plugin: 'application'
 apply plugin: 'build-dashboard'
+apply plugin: "jacoco"
+
 // In this section you declare where to find the dependencies of your project
 repositories {
     jcenter()
     mavenCentral()
 }
+
+task stage {
+  dependsOn build
+}
+
 task( browse, dependsOn: jar, type: JavaExec ) {
     main = 'ohtu.Tester'
     classpath = sourceSets.main.runtimeClasspath
@@ -16,7 +22,7 @@ project.ext {
     cucumberVersion = '1.2.5'
     seleniumVersion = '2.41.0'
 }
-// In this section you declare the dependencies for your production and test code
+
 dependencies {
 
     testCompile 'junit:junit:4.12'
@@ -34,24 +40,24 @@ dependencies {
     compile group: 'org.seleniumhq.selenium', name: 'selenium-api', version:seleniumVersion
     compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version:seleniumVersion    
 
-  compile 'org.slf4j:slf4j-api:1.7.21'
+    compile 'org.slf4j:slf4j-api:1.7.21'
     
     compile 'com.sparkjava:spark-core:2.8.0'    
     compile 'org.xerial:sqlite-jdbc:3.25.2'
     compile 'com.google.code.gson:gson:2.8.5'
     compile 'com.sparkjava:spark-template-thymeleaf:2.7.1'
-
-}
-
-jar {
-    manifest {
-        attributes 'Main-Class': 'Main'
-    }
 }
 
 run {
     standardInput = System.in
 }
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'Ui'
+    }
+}
+
 test {
     testLogging.showStandardStreams = true
     systemProperties System.getProperties()
