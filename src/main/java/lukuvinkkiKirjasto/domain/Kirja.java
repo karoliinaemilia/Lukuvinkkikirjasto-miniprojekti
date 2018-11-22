@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class Kirja {
 
-    private Integer id;
+    private Integer ISBN;
     private String genre;
     private String nimi;
     private int pituus;
@@ -13,9 +13,10 @@ public class Kirja {
     private String tekija;
     private int julkaisuVuosi;
     private LocalDate paivamaara;
+    private boolean luettu;
     
-    public Kirja(Integer id, String genre, String nimi, int pituus, String linkki, String tekija, int julkaisuVuosi, LocalDate paivamaara) {
-        this.id = id;
+    public Kirja(Integer id, String genre, String nimi, int pituus, String linkki, String tekija, int julkaisuVuosi, LocalDate paivamaara, boolean luettu) {
+        this.ISBN = id;
         this.genre = genre;
         this.nimi = nimi;
         this.pituus = pituus;
@@ -23,7 +24,24 @@ public class Kirja {
         this.tekija = tekija;
         this.julkaisuVuosi = julkaisuVuosi;
         this.paivamaara = paivamaara;
+        this.luettu = luettu;
 
+    }
+
+    public int getJulkaisuVuosi() {
+        return julkaisuVuosi;
+    }
+
+    public void setJulkaisuVuosi(int julkaisuVuosi) {
+        this.julkaisuVuosi = julkaisuVuosi;
+    }
+
+    public boolean isLuettu() {
+        return luettu;
+    }
+
+    public void setLuettu(boolean luettu) {
+        this.luettu = luettu;
     }
 
     public int getJulkaistu() {
@@ -34,12 +52,12 @@ public class Kirja {
         this.julkaisuVuosi = julkaistu;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getISBN() {
+        return ISBN;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.ISBN = id;
     }
 
     public String getGenre() {

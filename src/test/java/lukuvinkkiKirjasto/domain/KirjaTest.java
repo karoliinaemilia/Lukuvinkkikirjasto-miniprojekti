@@ -21,13 +21,13 @@ public class KirjaTest {
 
     @Before
     public void setUp() {
-        lehti = new Kirja(1, "viihde", "testilehti", 20, "www.testi.fi", "testikirjoittaja", 2009, LocalDate.now());
+        lehti = new Kirja(1, "viihde", "testilehti", 20, "www.testi.fi", "testikirjoittaja", 2009, LocalDate.now(), true);
 
     }
 
     @Test
     public void konstruktoriLuoOikeanIdn() {
-        assertEquals(1, lehti.getId(), vertailuTarkkuus);
+        assertEquals(1, lehti.getISBN(), vertailuTarkkuus);
     }
     
     @Test
@@ -63,13 +63,13 @@ public class KirjaTest {
     @Test
     public void idnMuuttaminenOnnistuu() {
         lehti.setId(4);
-        assertEquals(4, lehti.getId(), vertailuTarkkuus);
+        assertEquals(4, lehti.getISBN(), vertailuTarkkuus);
     }
     
     @Test
     public void nimenMuuttaminenOnnistuu() {
         lehti.setId(4);
-        assertEquals(4, lehti.getId(), vertailuTarkkuus);
+        assertEquals(4, lehti.getISBN(), vertailuTarkkuus);
     }
     
     @Test
