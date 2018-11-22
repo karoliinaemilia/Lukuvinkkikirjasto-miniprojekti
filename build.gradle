@@ -40,6 +40,8 @@ dependencies {
     compile group: 'org.seleniumhq.selenium', name: 'selenium-api', version:seleniumVersion
     compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version:seleniumVersion    
 
+    compile group: 'org.postgresql', name: 'postgresql', version: '42.2.5'
+
     compile 'com.sparkjava:spark-core:2.8.0'    
     compile 'org.xerial:sqlite-jdbc:3.25.2'
     compile 'com.google.code.gson:gson:2.8.5'
@@ -52,7 +54,7 @@ run {
 
 jar {
     manifest {
-        attributes 'Main-Class': 'Ui'
+        attributes 'Main-Class': 'lukuvinkkiKirjasto.ui.Ui'
     }
 }
 
