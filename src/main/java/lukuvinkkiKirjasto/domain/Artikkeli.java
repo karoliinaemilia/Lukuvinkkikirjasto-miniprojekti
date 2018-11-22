@@ -15,8 +15,9 @@ public class Artikkeli {
     private int numero;
     private String sivut;
     private LocalDate paivamaara;
+    private boolean luettu;
     
-    public Artikkeli(Integer id, String nimi, int pituus, String linkki, String tekija, String julkaisuLehti,int julkaisuVuosi, int numero, String sivut,LocalDate paivamaara) {
+    public Artikkeli(Integer id, String nimi, int pituus, String linkki, String tekija, String julkaisuLehti,int julkaisuVuosi, int numero, String sivut,LocalDate paivamaara, boolean luettu) {
         this.id = id;
         this.nimi = nimi;
         this.pituus = pituus;
@@ -27,9 +28,20 @@ public class Artikkeli {
         this.numero = numero;
         this.sivut = sivut;
         this.paivamaara = paivamaara;
+        this.luettu = luettu;
 
     }
 
+    
+    
+    public boolean isLuettu() {
+        return luettu;
+    }
+
+    public void setLuettu(boolean luettu) {
+        this.luettu = luettu;
+    }
+    
     
      public int getNumero() {
         return this.numero;
