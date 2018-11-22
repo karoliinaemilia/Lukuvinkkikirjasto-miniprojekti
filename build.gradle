@@ -40,8 +40,6 @@ dependencies {
     compile group: 'org.seleniumhq.selenium', name: 'selenium-api', version:seleniumVersion
     compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version:seleniumVersion    
 
-    compile 'org.slf4j:slf4j-api:1.7.21'
-    
     compile 'com.sparkjava:spark-core:2.8.0'    
     compile 'org.xerial:sqlite-jdbc:3.25.2'
     compile 'com.google.code.gson:gson:2.8.5'
