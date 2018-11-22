@@ -10,9 +10,10 @@ public class Database {
         this.databaseAddress = databaseAddress;
     }
 
-    public Connection getConnection() throws SQLException {
+    public Connection getConnection() throws SQLException, ClassNotFoundException {
         String dbUrl = System.getenv("JDBC_DATABASE_URL");
         if (dbUrl != null && dbUrl.length() > 0) {
+            Class.forName("org.postgresql.JDBC");
             return DriverManager.getConnection(dbUrl);
         }
         
