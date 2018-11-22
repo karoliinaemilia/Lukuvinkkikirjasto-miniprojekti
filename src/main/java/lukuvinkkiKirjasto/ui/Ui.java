@@ -27,7 +27,8 @@ public class Ui {
             Spark.port(Integer.valueOf(System.getenv("PORT")));
         }
          
-        Class.forName("org.sqlite.JDBC"); 
+        Class.forName("org.sqlite.JDBC");
+        Class.forName("org.postgresql.JDBC");
         
         Connection conn = db.getConnection();
         PreparedStatement statement = conn.prepareStatement("SELECT 1");
