@@ -1,1 +1,1 @@
-"This file can be removed"
+This file can be removed.
