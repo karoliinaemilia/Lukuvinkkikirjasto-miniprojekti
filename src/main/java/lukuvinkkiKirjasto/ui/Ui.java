@@ -28,6 +28,7 @@ public class Ui {
         }
          
         Class.forName("org.sqlite.JDBC");
+        Class.forName("org.postgresql.Driver");
         
         Connection conn = db.getConnection();
         PreparedStatement statement = conn.prepareStatement("SELECT 1");
