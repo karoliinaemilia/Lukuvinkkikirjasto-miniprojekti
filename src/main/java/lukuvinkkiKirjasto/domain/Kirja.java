@@ -111,7 +111,7 @@ public class Kirja {
     public String toString() {
         String merkki = "LUKEMATON";
         if (isLuettu() == true) {
-            merkki = "Luettu";
+            merkki = "LUETTU";
         }
         String tuloste = getNimi() + ", ISBN: " + getISBN() + ", Kirjailija: " + getTekija() + ", julkaisuvuosi: " + getJulkaistu() + ", pituus: " + getPituus() + ", genre: " + getGenre() + ", " + merkki;
         if (!linkki.isEmpty()) {
