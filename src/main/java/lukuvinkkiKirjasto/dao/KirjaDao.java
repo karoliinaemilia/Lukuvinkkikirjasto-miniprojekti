@@ -3,8 +3,6 @@ package lukuvinkkiKirjasto.dao;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import lukuvinkkiKirjasto.database.Database;
 
 import lukuvinkkiKirjasto.domain.Kirja;
@@ -19,7 +17,6 @@ public class KirjaDao implements Dao<Kirja, Integer> {
     
     @Override
     public Kirja findOne(Integer key) throws SQLException {
-        Kirja kirja = null;
         try (Connection conn = database.getConnection()) {
             PreparedStatement statement = conn.prepareStatement("SELECT * FROM Kirja where id = ?");
             statement.setObject(1, key);
@@ -30,7 +27,7 @@ public class KirjaDao implements Dao<Kirja, Integer> {
                 return null;
                 
             }
-            kirja = new Kirja(rs.getInt("id"), rs.getString("genre"),
+            Kirja kirja = new Kirja(rs.getInt("id"), rs.getString("genre"),
                     rs.getString("nimi"), rs.getInt("pituus"),
                     rs.getString("linkki"), rs.getString("tekija"), rs.getInt("julkaisuVuosi"),
                     rs.getDate("paivamaara").toLocalDate());
@@ -38,11 +35,9 @@ public class KirjaDao implements Dao<Kirja, Integer> {
             statement.close();
             rs.close();
             conn.close();
-            
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(KirjaDao.class.getName()).log(Level.SEVERE, null, ex);
+            return kirja;
         }
-        return kirja;
+        
     }
     
     @Override
@@ -60,11 +55,9 @@ public class KirjaDao implements Dao<Kirja, Integer> {
             statement.close();
             rs.close();
             conn.close();
-            
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(KirjaDao.class.getName()).log(Level.SEVERE, null, ex);
+            return kirjat;
         }
-        return kirjat;
+        
     }
     
     @Override
@@ -79,8 +72,6 @@ public class KirjaDao implements Dao<Kirja, Integer> {
             statement.setInt(6, kirja.getJulkaistu());
             statement.setDate(7, Date.valueOf(kirja.getPaivamaara()));
             statement.executeUpdate();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(KirjaDao.class.getName()).log(Level.SEVERE, null, ex);
         }
         return findOne(kirja.getId());
     }
@@ -94,8 +85,6 @@ public class KirjaDao implements Dao<Kirja, Integer> {
             statement.executeUpdate();
             statement.close();
             conn.close();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(KirjaDao.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
