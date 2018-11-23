@@ -21,7 +21,7 @@ import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
 public class Ui {
     
-    private static Database db = new Database("jdbc:sqlite:LukuvinkkiKirjasto.db");
+    public static Database db = new Database("jdbc:sqlite:LukuvinkkiKirjasto.db");
     
     public static void main(String[] args) throws Exception {
          if (System.getenv("PORT") != null) {

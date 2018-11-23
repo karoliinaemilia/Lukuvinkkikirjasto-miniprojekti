@@ -20,15 +20,17 @@ public class ServerRule extends ExternalResource {
     @Override
     protected void before() throws Throwable {
         Spark.port(port);
-        Ui.setDatabase(new Database("jdbc:sqlite:testitietokanta.db"));
-        Connection conn = DriverManager.getConnection("jdbc:sqlite:testitietokanta.db");
-        PreparedStatement statement = conn.prepareStatement("DELETE FROM Kirja");
-        statement.execute();
+        Ui.setDatabase(new Database("jdbc:sqlite:LukuvinkkiKirjasto.db"));
+        Ui.db.setTest(true);
+        Connection conn = DriverManager.getConnection("jdbc:sqlite:LukuvinkkiKirjasto.db");
+        PreparedStatement stmt = conn.prepareStatement("DELETE FROM Kirja;");
+        stmt.execute();
         Ui.main(null);
     }
 
     @Override
     protected void after() {
+        Ui.db.setTest(false);
         Spark.stop();
     }
     

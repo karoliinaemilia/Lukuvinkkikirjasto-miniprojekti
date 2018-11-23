@@ -13,7 +13,7 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 public class Stepdefs {
     
-    WebDriver driver = new HtmlUnitDriver();
+    WebDriver driver = new ChromeDriver();
     String baseUrl = "http://localhost:4567";
     
     @Given("^mennaan alkusivulle$")
@@ -27,6 +27,8 @@ public class Stepdefs {
     public void kentat_taytetaan_tiedoilla_ja_painetaan_lisaa() throws Throwable {
         WebElement element = driver.findElement(By.name("nimi"));
         element.sendKeys("Testi");
+        element = driver.findElement(By.name("ISBN"));
+        element.sendKeys("97801346");
         element = driver.findElement(By.name("genre"));
         element.sendKeys("testinen");
         element = driver.findElement(By.name("pituus"));
@@ -41,7 +43,8 @@ public class Stepdefs {
     
     @Then("^Sovellus lisaa yhden kirjan$")
     public void sovellus_lisaa_yhden_kirjan() throws Throwable {
-        pageHasContent("Testi, Kirjailija: Testi testinen, julkaisuvuosi: 2018, pituus: 200, genre: testinen");
+        pageHasContent("Testi, ISBN: 97801346, Kirjailija: Testi testinen, julkaisuvuosi: 2018, pituus: 200, genre: testinen, LUETTU");
+   
     }
     
     private void pageHasContent(String content) {
