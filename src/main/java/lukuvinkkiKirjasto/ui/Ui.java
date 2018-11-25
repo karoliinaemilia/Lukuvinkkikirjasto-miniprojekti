@@ -18,6 +18,7 @@ import lukuvinkkiKirjasto.domain.Kirja;
 import spark.ModelAndView;
 import spark.Spark;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
+import info.knigoed.isbn.ISBNCheck;
 
 public class Ui {
     
@@ -42,7 +43,7 @@ public class Ui {
         }
         
         KirjaDao kirjaDao = new KirjaDao(db);
-        
+        ISBNCheck isbn = new ISBNCheck();
         
         
         Spark.get("/", (req, res) -> {
@@ -66,16 +67,28 @@ public class Ui {
         Spark.post("/kirjat", (req, res) -> {
             List<Kirja> kirjat = kirjaDao.findAll();
             
+            char[] testi = req.queryParams("ISBN").toCharArray();
+            
+           
             for (int j = 0; j < kirjat.size(); j ++) {
                 if (kirjat.get(j).getISBN().equals(Integer.parseInt(req.queryParams("ISBN")))) {
                     res.redirect("/kirjat");
                     return "";
                 }
-            } 
+            }
+//            
+//             if (!isbn.(testi)) {
+//                res.redirect("/kirjat");
+//                return "";
+//            }
             
             boolean lue = false;
             try{
-                lue = req.queryParams("luettu").equals("true");
+                if(req.queryParams("luettu").equals("true")) {
+                    lue = true;
+                } else {
+                 lue = false;   
+                }
             }catch(Exception e){
                 System.out.println(e);
             }
@@ -103,5 +116,7 @@ public class Ui {
     public static void setDatabase(Database db) {
         Ui.db = db;
     }
+    
+  
     
 }
