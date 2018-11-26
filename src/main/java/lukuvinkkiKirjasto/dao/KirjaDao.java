@@ -7,7 +7,7 @@ import lukuvinkkiKirjasto.database.Database;
 
 import lukuvinkkiKirjasto.domain.Kirja;
 
-public class KirjaDao implements Dao<Kirja, Integer> {
+public class KirjaDao implements Dao<Kirja, String> {
     
     private Database database;
     
@@ -16,7 +16,7 @@ public class KirjaDao implements Dao<Kirja, Integer> {
     }
     
     @Override
-    public Kirja findOne(Integer key) throws SQLException {
+    public Kirja findOne(String key) throws SQLException {
         try (Connection conn = database.getConnection()) {
             PreparedStatement statement = conn.prepareStatement("SELECT * FROM Kirja where ISBN = ?");
             statement.setObject(1, key);
@@ -27,7 +27,7 @@ public class KirjaDao implements Dao<Kirja, Integer> {
                 return null;
                 
             }
-            Kirja kirja = new Kirja(rs.getInt("ISBN"), rs.getString("genre"),
+            Kirja kirja = new Kirja(rs.getString("ISBN"), rs.getString("genre"),
                     rs.getString("nimi"), rs.getInt("pituus"),
                     rs.getString("linkki"), rs.getString("tekija"), rs.getInt("julkaisuVuosi"),
                     rs.getDate("paivamaara").toLocalDate(), rs.getBoolean("luettu"));
@@ -47,7 +47,7 @@ public class KirjaDao implements Dao<Kirja, Integer> {
             PreparedStatement statement = conn.prepareStatement("SELECT * FROM Kirja");
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                kirjat.add(new Kirja(rs.getInt("ISBN"), rs.getString("genre"),
+                kirjat.add(new Kirja(rs.getString("ISBN"), rs.getString("genre"),
                         rs.getString("nimi"), rs.getInt("pituus"),
                         rs.getString("linkki"), rs.getString("tekija"), rs.getInt("julkaisuVuosi"),
                         rs.getDate("paivamaara").toLocalDate(), rs.getBoolean("luettu")));
@@ -64,7 +64,7 @@ public class KirjaDao implements Dao<Kirja, Integer> {
     public Kirja saveOrUpdate(Kirja kirja) throws SQLException {
         try (Connection conn = database.getConnection()) {
             PreparedStatement statement = conn.prepareStatement("INSERT INTO Kirja (ISBN, genre, nimi, pituus, linkki, tekija, julkaisuVuosi, paivamaara, luettu) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            statement.setInt(1, kirja.getISBN());
+            statement.setString(1, kirja.getISBN());
             statement.setString(2, kirja.getGenre());
             statement.setString(3, kirja.getNimi());
             statement.setInt(4, kirja.getPituus());
@@ -79,11 +79,11 @@ public class KirjaDao implements Dao<Kirja, Integer> {
     }
     
     @Override
-    public void delete(Integer key) throws SQLException {
+    public void delete(String key) throws SQLException {
             Connection conn = database.getConnection();
             PreparedStatement statement = conn.prepareStatement("DELETE FROM Kirja WHERE ISBN = ?");
             
-            statement.setInt(1, key);
+            statement.setString(1, key);
             statement.executeUpdate();
             statement.close();
             conn.close();
