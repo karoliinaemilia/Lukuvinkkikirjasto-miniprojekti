@@ -14,7 +14,7 @@ public class Kirja {
     private int julkaisuVuosi;
     private LocalDate paivamaara;
     private boolean luettu;
-    
+
     public Kirja(Integer id, String genre, String nimi, int pituus, String linkki, String tekija, int julkaisuVuosi, LocalDate paivamaara, boolean luettu) {
         this.ISBN = id;
         this.genre = genre;
@@ -113,10 +113,11 @@ public class Kirja {
         if (isLuettu() == true) {
             merkki = "LUETTU";
         }
-        String tuloste = getNimi() + ", ISBN: " + getISBN() + ", Kirjailija: " + getTekija() + ", julkaisuvuosi: " + getJulkaistu() + ", pituus: " + getPituus() + ", genre: " + getGenre() + ", " + merkki;
+        String tuloste = getNimi() + ", ISBN: " + getISBN() + ", Kirjailija: " + getTekija() + ", julkaisuvuosi: " + getJulkaistu() + ", pituus: " + getPituus() + ", genre: " + getGenre();
         if (!linkki.isEmpty()) {
             tuloste += ", linkki: " + getLinkki();
         }
+        tuloste += ", " + merkki;
         return tuloste;
     }
 }
