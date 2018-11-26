@@ -28,8 +28,7 @@ public class Artikkeli {
         this.numero = numero;
         this.sivut = sivut;
         this.paivamaara = paivamaara;
-        this.luettu = luettu;
-
+        this.luettu = luettu; 
     }
 
     

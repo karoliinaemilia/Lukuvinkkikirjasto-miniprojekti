@@ -28,7 +28,7 @@ project.ext {
 }
 
 dependencies {
-
+   
     testCompile 'junit:junit:4.12'
     compile 'com.google.guava:guava:20.0'
     compile group: 'com.sparkjava', name: 'spark-core', version: '2.2'
@@ -43,13 +43,14 @@ dependencies {
     compile group: 'org.seleniumhq.selenium', name: 'selenium-chrome-driver', version:seleniumVersion
     compile group: 'org.seleniumhq.selenium', name: 'selenium-api', version:seleniumVersion
     compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version:seleniumVersion    
-
+    compile group: 'info.knigoed.isbn', name: 'isbn-check', version: '2.1.3'
     compile 'org.xerial:sqlite-jdbc:3.25.2'
     compile group: 'org.postgresql', name: 'postgresql', version: '42.2.5'
 
     compile 'com.sparkjava:spark-core:2.8.0'
     compile 'com.google.code.gson:gson:2.8.5'
     compile 'com.sparkjava:spark-template-thymeleaf:2.7.1'
+    
 }
 
 run {

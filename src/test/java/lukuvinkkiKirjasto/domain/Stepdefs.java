@@ -19,7 +19,7 @@ public class Stepdefs {
     @Given("^mennaan alkusivulle$")
     public void mennaan_alkusivulle() throws Throwable {
         driver.get(baseUrl);
-        WebElement element = driver.findElement(By.linkText("Täältä kirjojen listaukseen"));
+        WebElement element = driver.findElement(By.linkText("Kirjojen listaukseen"));
         element.click();
     }
     

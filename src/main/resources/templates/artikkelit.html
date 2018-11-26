@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Lukuvinkkikirjasto</title>
+        <meta charset="UTF-8">
+        
+    </head>
+    <body>
+         <h1>Artikkelit</h1>
+         
+         <ul>
+             <li th:each="artikkeli : ${artikkelit}">
+                 <span th:text="${artikkeli}">Artikkeli</span>
+             </li>
+         </ul>
+         
+         <h2>Lisää uusi artikkeli</h2>
+         
+         <form method="POST" action="/artikkelit">
+             <span>Artikkelin nimi: </span>
+             <input type="text" name="nimi"/><br/>
+             <span>Pituus: </span>
+             <input type="text" name="pituus" /> <br/>
+             <span>Linkki: </span>
+             <input type="text" name="linkki" /> <br/>
+             <span>Tekija: </span>
+             <input type="text" name="tekija" /> <br/>
+             <span>Julkaisu lehti: </span>
+             <input type="text" name="julkaisuLehti" /> <br/>
+             <span>Julkaisuvuosi: </span>
+             <input type="text" name="julkaisuVuosi" /> <br/>
+             <span>Numero: </span>
+             <input type="text" name="numero" /> <br/>
+             <span>Sivut: </span>
+             <input type="text" name="sivut" /> <br/>
+             <span>Luettu: </span>
+             <input type="checkbox" name="luettu" value="true"/> <br/>
+             
+             <input type="submit" value="Lisää" />
+         </form>
+         
+         <p><a href="/">Aloitussivulle</a></p>
+         
+    </body>
+</html>

@@ -7,6 +7,7 @@
 
     </head>
     <body>
+<<<<<<< HEAD:src/main/resources/templates/index.html
         <h1>Kirjat</h1>
         <table>
             
@@ -40,5 +41,40 @@
 
             <input type="submit" value="Lisää" />
         </form>
+=======
+         <h1>Kirjat</h1>
+         
+         <ul>
+             <li th:each="kirja : ${kirjat}">
+                 <span th:text="${kirja}">Kirja</span>
+             </li>
+         </ul>
+         
+         <h2>Lisää uusi kirja</h2>
+         
+         <form method="POST" action="/kirjat">
+             <span>ISBN: </span> 
+             <input type="text" name="ISBN" /><br/>
+             <span>Kirjan nimi: </span>
+             <input type="text" name="nimi"/><br/>
+             <span>Genre: </span>
+             <input type="text" name="genre"/><br/>
+             <span>Pituus: </span>
+             <input type="text" name="pituus" /> <br/>
+             <span>Linkki: </span>
+             <input type="text" name="linkki" /> <br/>
+             <span>Tekija: </span>
+             <input type="text" name="tekija" /> <br/>
+             <span>Julkaisuvuosi: </span>
+             <input type="text" name="julkaisuVuosi" /> <br/>
+             <span>Luettu: </span>
+             <input type="checkbox" name="luettu" value="true" checked /> <br/>
+             
+             <input type="submit" value="Lisää" />
+         </form>
+         
+         <p><a href="/">Aloitussivulle</a></p>
+         
+>>>>>>> 0684142c2d725d305424e6dbd66b5ca295103644:src/main/resources/templates/kirjat.html
     </body>
 </html>
