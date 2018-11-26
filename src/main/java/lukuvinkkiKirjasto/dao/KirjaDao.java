@@ -80,14 +80,14 @@ public class KirjaDao implements Dao<Kirja, Integer> {
     
     @Override
     public void delete(Integer key) throws SQLException {
-        try (Connection conn = database.getConnection()) {
+            Connection conn = database.getConnection();
             PreparedStatement statement = conn.prepareStatement("DELETE FROM Kirja WHERE ISBN = ?");
             
             statement.setInt(1, key);
             statement.executeUpdate();
             statement.close();
             conn.close();
-        }
+        
     }
     
 }

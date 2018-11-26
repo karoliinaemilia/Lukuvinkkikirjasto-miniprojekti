@@ -44,14 +44,14 @@ public class Ui {
         }
 
         KirjaDao kirjaDao = new KirjaDao(db);
-<<<<<<< HEAD
 
-=======
+
+
         ArtikkeliDao artikkeliDao = new ArtikkeliDao(db);
         ISBNCheck isbn = new ISBNCheck();
         
         
->>>>>>> 0684142c2d725d305424e6dbd66b5ca295103644
+
         Spark.get("/", (req, res) -> {
             HashMap map = new HashMap<>();
             try {
@@ -68,13 +68,9 @@ public class Ui {
 
             return new ModelAndView(map, "kirjat");
         }, new ThymeleafTemplateEngine());
-<<<<<<< HEAD
+        
 
-        Spark.post("/kirjat", (req, res) -> {
-            List<Kirja> kirjat = kirjaDao.findAll();
 
-            for (int j = 0; j < kirjat.size(); j++) {
-=======
        
         Spark.get("/artikkelit", (req, res) -> {
             HashMap map = new HashMap<>();
@@ -90,12 +86,12 @@ public class Ui {
             
            
             for (int j = 0; j < kirjat.size(); j ++) {
->>>>>>> 0684142c2d725d305424e6dbd66b5ca295103644
+
                 if (kirjat.get(j).getISBN().equals(Integer.parseInt(req.queryParams("ISBN")))) {
                     res.redirect("/kirjat");
                     return "";
                 }
-<<<<<<< HEAD
+
             }
 
             boolean lue = false;
@@ -105,19 +101,19 @@ public class Ui {
                 System.out.println(e);
             }
 
-            kirjaDao.saveOrUpdate(
-                    new Kirja(
-                            Integer.parseInt(req.queryParams("ISBN")),
-                            req.queryParams("genre"),
-                            req.queryParams("nimi"),
-                            Integer.parseInt(req.queryParams("pituus")),
-                            req.queryParams("linkki"),
-                            req.queryParams("tekija"),
-                            Integer.parseInt(req.queryParams("julkaisuVuosi")),
-                            LocalDate.now(),
-                            lue
-=======
-            }
+//            kirjaDao.saveOrUpdate(
+//                    new Kirja(
+//                            Integer.parseInt(req.queryParams("ISBN")),
+//                            req.queryParams("genre"),
+//                            req.queryParams("nimi"),
+//                            Integer.parseInt(req.queryParams("pituus")),
+//                            req.queryParams("linkki"),
+//                            req.queryParams("tekija"),
+//                            Integer.parseInt(req.queryParams("julkaisuVuosi")),
+//                            LocalDate.now(),
+//                            lue));
+
+            
 //            
 //             if (!isbn.(testi)) {
 //                res.redirect("/kirjat");
@@ -136,23 +132,23 @@ public class Ui {
                             Integer.parseInt(req.queryParams("julkaisuVuosi")), 
                             LocalDate.now(), 
                             Boolean.parseBoolean(req.queryParams("luettu"))
->>>>>>> 0684142c2d725d305424e6dbd66b5ca295103644
+
                     )
             );
             res.redirect("/kirjat");
             return "";
         });
-<<<<<<< HEAD
+
         Spark.post("/kirjat/:ISBN", (req, res) -> {
             System.out.println("jtn");
-            System.out.println(req.queryParams(":ISBN"));
-            kirjaDao.delete(Integer.parseInt(req.queryParams(":ISBN")));
+            System.out.println(req.params(":ISBN"));
+            kirjaDao.delete(Integer.parseInt(req.params(":ISBN")));
 
             res.redirect("/kirjat");
             return "";
         });
 
-=======
+
         
         Spark.post("/artikkelit", (req, res) -> {
             List<Artikkeli> kirjat = artikkeliDao.findAll();
@@ -177,18 +173,15 @@ public class Ui {
             return "";
         });
         
-        
->>>>>>> 0684142c2d725d305424e6dbd66b5ca295103644
+
     }
 
     public static void setDatabase(Database db) {
         Ui.db = db;
     }
-<<<<<<< HEAD
 
-=======
     
   
     
->>>>>>> 0684142c2d725d305424e6dbd66b5ca295103644
+
 }
