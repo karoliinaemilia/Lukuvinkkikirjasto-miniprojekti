@@ -9,3 +9,4 @@ bin
 .classpath
 nbproject/
 .env
+.DS_store
