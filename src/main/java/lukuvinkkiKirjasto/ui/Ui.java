@@ -73,7 +73,6 @@ public class Ui {
         Spark.get("/artikkelit", (req, res) -> {
             HashMap map = new HashMap<>();
             map.put("artikkelit", artikkeliDao.findAll());
-
             return new ModelAndView(map, "artikkelit");
         }, new ThymeleafTemplateEngine());
         
@@ -100,16 +99,8 @@ public class Ui {
                    res.redirect("/kirjat");
                    return "";
                }
-            }catch (Exception e) {System.out.println("aaaaaa");}
-            
-            boolean lue = false;
-            try {
-                lue = req.queryParams("luettu").equals("true");
-            } catch (Exception e) {
-                System.out.println(e);
-            }                       
-
-         
+            } catch (Exception e) {System.out.println("aaaaaa");}
+             
            
             
             kirjaDao.saveOrUpdate(
@@ -132,8 +123,6 @@ public class Ui {
         });
 
         Spark.post("/kirjat/:ISBN", (req, res) -> {
-            System.out.println("jtn");
-            System.out.println(req.params(":ISBN"));
             kirjaDao.delete(req.params(":ISBN"));
 
             res.redirect("/kirjat");
@@ -143,8 +132,16 @@ public class Ui {
 
         
         Spark.post("/artikkelit", (req, res) -> {
-            List<Artikkeli> kirjat = artikkeliDao.findAll();
+            List<Artikkeli> artikkelit = artikkeliDao.findAll();
             
+            for (int j = 0; j < artikkelit.size(); j ++) {
+
+                if (artikkelit.get(j).getNimi().equals(req.queryParams("nimi"))) {
+                    res.redirect("/artikkelit");
+                    return "";
+                }
+
+            }
             
             artikkeliDao.saveOrUpdate(
                     new Artikkeli(
@@ -161,6 +158,15 @@ public class Ui {
                             Boolean.parseBoolean(req.queryParams("luettu"))
                     )
             );
+            
+            res.redirect("/artikkelit");
+            return "";
+        });
+        
+        Spark.post("/artikkelit/:id", (req, res) -> {
+            System.out.println(Integer.parseInt(req.params(":id")));
+            artikkeliDao.delete(Integer.parseInt(req.params(":id")));
+
             res.redirect("/artikkelit");
             return "";
         });

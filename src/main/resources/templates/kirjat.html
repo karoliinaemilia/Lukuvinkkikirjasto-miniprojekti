@@ -3,22 +3,22 @@
 
     <head>
         <title>Lukuvinkkikirjasto</title>
-        <meta charset="UTF-8">
+        <meta charset="UTF-8"/>
 
     </head>
     <body>
 
         <h1>Kirjat</h1>
-        <ul>
+        <table>
             
-                <li th:each="kirja : ${kirjat}">
+                <tr th:each="kirja : ${kirjat}">
                     <td th:text="${kirja}">Kirja</td>
-                    <form th:action="@{~/kirjat/{ISBN}(ISBN=${kirja.ISBN})}" method="post">
+                    <td><form th:action="@{~/kirjat/{ISBN}(ISBN=${kirja.ISBN})}" method="post">
                             <input type="submit" value= "poista" />
-                    </form> 
-                </li>
+                    </form></td>
+                </tr>
             
-        </ul>
+        </table>>
         <h2>Lisää uusi kirja</h2>
 
         <form method="POST" action="/kirjat">
