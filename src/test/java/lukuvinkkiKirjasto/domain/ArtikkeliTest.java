@@ -13,63 +13,66 @@ import java.time.LocalDate;
 import java.util.Date;
 
 
-public class KirjaTest {
+public class ArtikkeliTest {
 
-    Kirja lehti;
+    Artikkeli lehti;
 
     double vertailuTarkkuus = 0.0001;
 
     @Before
     public void setUp() {
-        lehti = new Kirja("1234", "viihde", "testilehti", 20, "www.testi.fi", "testikirjoittaja", 2009, LocalDate.now(), true);
+        lehti = new Artikkeli(1, "testiartikkeli", 10,"www.testiartikkeli.fi","testaaja","testijulkaisija", 2018, 2, "20-30",LocalDate.now(),true);
 
     }
 
     @Test
-    public void konstruktoriLuoOikeanISBN() {
-        assertEquals("1234", lehti.getISBN());
+    public void konstruktoriLuoOikeanIdn() {
+        assertEquals(1, lehti.getId(), vertailuTarkkuus);
     }
-    
     
      @Test
     public void konstruktoriLuoOikeanLuetun() {
         assertEquals(true, lehti.isLuettu());
     }
-    
     @Test
     public void konstruktoriLuoOikeanNimen() {
-        assertEquals("testilehti", lehti.getNimi());
+        assertEquals("testiartikkeli", lehti.getNimi());
     }
     
     @Test
-    public void konstruktoriLuoOikeanGenren() {
-        assertEquals("viihde", lehti.getGenre());
+    public void konstruktoriLuoOikeanNumeron() {
+        assertEquals(2, lehti.getNumero(), vertailuTarkkuus);
     }
 
     @Test
+    public void konstruktoriLuoOikeanJulkaisuLehden() {
+        assertEquals("testijulkaisija", lehti.getJulkaisuLehti());
+    }
+
+    @Test
+    public void konstruktoriLuoOikeatSivut() {
+        assertEquals("20-30", lehti.getSivut());
+    }
+    
+    
+    @Test
     public void konstruktoriLuoOikeanPituuden() {
-        assertEquals(20, lehti.getPituus(), vertailuTarkkuus);
+        assertEquals(10, lehti.getPituus(), vertailuTarkkuus);
     }
     
     @Test
     public void konstruktoriLuoOikeanLinkin() {
-        assertEquals("www.testi.fi", lehti.getLinkki());
+        assertEquals("www.testiartikkeli.fi", lehti.getLinkki());
     }
     
     @Test
     public void konstruktoriLuoOikeanTekijan() {
-        assertEquals("testikirjoittaja", lehti.getTekija());
+        assertEquals("testaaja", lehti.getTekija());
     }
     
     @Test
     public void konstruktoriLuoOikeanPaivamaaran() {
         assertEquals(LocalDate.now(), lehti.getPaivamaara());
-    }
-    
-    @Test
-    public void isbnMuuttaminenOnnistuu() {
-        lehti.setId("4321");
-        assertEquals("4321", lehti.getISBN());
     }
     
     
@@ -78,23 +81,41 @@ public class KirjaTest {
         lehti.setLuettu(false);
         assertEquals(false, lehti.isLuettu());
     }
+    @Test
+    public void idnMuuttaminenOnnistuu() {
+        lehti.setId(4);
+        assertEquals(4, lehti.getId(), vertailuTarkkuus);
+    }
     
+    @Test
+    public void numeronMuuttaminenOnnistuu() {
+        lehti.setNumero(14);
+        assertEquals(14, lehti.getNumero());
+    }
+    
+    
+    @Test
+    public void julkaisulehdenMuuttaminenOnnistuu() {
+        lehti.setJulkaisuLehti("lehti1");
+        assertEquals("lehti1", lehti.getJulkaisuLehti());
+    }
+    
+    @Test
+    public void sivujenMuuttaminenOnnistuu() {
+        lehti.setSivut("30-40");
+        assertEquals("30-40", lehti.getSivut());
+    }
     @Test
     public void nimenMuuttaminenOnnistuu() {
-        lehti.setNimi("testi");
-        assertEquals("testi", lehti.getNimi());
+        lehti.setNimi("testi1");
+        assertEquals("testi1", lehti.getNimi());
     }
     
-    @Test
-    public void genrenMuuttaminenOnnistuu() {
-        lehti.setGenre("kauhu");
-        assertEquals("kauhu", lehti.getGenre());
-    }
     
     @Test
     public void pituudenMuuttaminenOnnistuu() {
-        lehti.setPituus(10);
-        assertEquals(10, lehti.getPituus(), vertailuTarkkuus);
+        lehti.setPituus(20);
+        assertEquals(20, lehti.getPituus(), vertailuTarkkuus);
     }
     
     @Test
