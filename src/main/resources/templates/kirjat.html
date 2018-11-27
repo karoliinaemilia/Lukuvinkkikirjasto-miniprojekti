@@ -3,12 +3,17 @@
 
     <head>
         <title>Lukuvinkkikirjasto</title>
-        <meta charset="UTF-8">
+        <meta charset="UTF-8"/>
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     </head>
     <body>
 
         <h1>Kirjat</h1>
+        <div class="table">
         <table>
             
                 <tr th:each="kirja : ${kirjat}">
@@ -19,27 +24,42 @@
                 </tr>
             
         </table>
+        </div>
         <h2>Lisää uusi kirja</h2>
 
         <form method="POST" action="/kirjat">
-            <span>ISBN: </span> 
-            <input type="text" name="ISBN" /><br/>
-            <span>Kirjan nimi: </span>
-            <input type="text" name="nimi"/><br/>
-            <span>Genre: </span>
-            <input type="text" name="genre"/><br/>
-            <span>Pituus: </span>
-            <input type="text" name="pituus" /> <br/>
-            <span>Linkki: </span>
-            <input type="text" name="linkki" /> <br/>
-            <span>Tekija: </span>
-            <input type="text" name="tekija" /> <br/>
-            <span>Julkaisuvuosi: </span>
-            <input type="text" name="julkaisuVuosi" /> <br/>
-            <span>Luettu: </span>
-            <input type="checkbox" name="luettu" value="true" checked /> <br/>
-
-            <input type="submit" value="Lisää" />
+            <div class="form-group">
+                <label for="ISBN">ISBN: </label> 
+                 <input type="text" name="ISBN" />
+            </div>
+            <div class="form-group">
+                <label>Kirjan nimi: </label>
+                <input type="text" name="nimi"/>
+            </div>
+            <div class="form-group">
+                <label>Genre: </label>
+                <input type="text" name="genre"/>
+            </div>
+            <div class="form-group">
+                <label>Pituus: </label>
+                <input type="text" name="pituus" />
+            </div>
+            <div class="form-group">
+                <label>Linkki: </label>
+                <input type="text" name="linkki" />
+            </div>
+            <div class="form-group">
+               <label>Tekija: </label>
+               <input type="text" name="tekija" />
+            </div>
+            <div class="form-group">
+               <label>Julkaisuvuosi: </label>
+                <input type="text" name="julkaisuVuosi" />
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" name="luettu" value="true"/>luettu</label>
+            </div>
+            <button type="submit" class="btn btn-submit">Lisää</button>
         </form>
 
          
