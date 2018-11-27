@@ -132,8 +132,6 @@ public class Ui {
         });
 
         Spark.post("/kirjat/:ISBN", (req, res) -> {
-            System.out.println("jtn");
-            System.out.println(req.params(":ISBN"));
             kirjaDao.delete(req.params(":ISBN"));
 
             res.redirect("/kirjat");
