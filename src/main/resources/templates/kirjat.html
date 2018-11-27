@@ -18,9 +18,9 @@
             
                 <tr th:each="kirja : ${kirjat}">
                     <td th:text="${kirja}">Kirja</td>
-                    <td><form th:action="@{~/kirjat/{ISBN}(ISBN=${kirja.ISBN})}" method="post">
-                            <input type="submit" value= "poista" />
-                    </form></td>
+                    <td> <form th:action="@{~/kirjat/{ISBN}(ISBN=${kirja.ISBN})}" method="post" id="nappi">
+                            <input type="submit" value="poista"/>
+                        </form> </td>
                 </tr>
             
         </table>
