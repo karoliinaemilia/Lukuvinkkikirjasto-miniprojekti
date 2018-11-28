@@ -16,8 +16,8 @@ public class Artikkeli {
     private String sivut;
     private LocalDate paivamaara;
     private boolean luettu;
-    
-    public Artikkeli(Integer id, String nimi, int pituus, String linkki, String tekija, String julkaisuLehti,int julkaisuVuosi, int numero, String sivut,LocalDate paivamaara, boolean luettu) {
+
+    public Artikkeli(Integer id, String nimi, int pituus, String linkki, String tekija, String julkaisuLehti, int julkaisuVuosi, int numero, String sivut, LocalDate paivamaara, boolean luettu) {
         this.id = id;
         this.nimi = nimi;
         this.pituus = pituus;
@@ -28,11 +28,9 @@ public class Artikkeli {
         this.numero = numero;
         this.sivut = sivut;
         this.paivamaara = paivamaara;
-        this.luettu = luettu; 
+        this.luettu = luettu;
     }
 
-    
-    
     public boolean isLuettu() {
         return luettu;
     }
@@ -40,15 +38,15 @@ public class Artikkeli {
     public void setLuettu(boolean luettu) {
         this.luettu = luettu;
     }
-    
-    
-     public int getNumero() {
+
+    public int getNumero() {
         return this.numero;
     }
 
     public void setNumero(int numero) {
         this.numero = numero;
     }
+
     public String getJulkaisuLehti() {
         return this.julkaisuLehti;
     }
@@ -56,7 +54,7 @@ public class Artikkeli {
     public void setJulkaisuLehti(String julkaisuLehti) {
         this.julkaisuLehti = julkaisuLehti;
     }
-    
+
     public String getSivut() {
         return this.sivut;
     }
@@ -64,8 +62,7 @@ public class Artikkeli {
     public void setSivut(String sivut) {
         this.sivut = sivut;
     }
-    
-    
+
     public int getJulkaistu() {
         return julkaisuVuosi;
     }
@@ -123,9 +120,14 @@ public class Artikkeli {
     }
 
     public String toString() {
-        String tuloste = getTekija() + ", " + getJulkaistu() + ". " + getNimi() + ",  " + getJulkaisuLehti() + " " + getNumero()+ ": "+ getSivut()+". ";
+        String tuloste = nimi + ", Lehti: " + julkaisuLehti + ", nro: " + numero + ", sivuja: " + sivut + ", tekijä: " + tekija + ", julkaistu: " + julkaisuVuosi;
         if (!linkki.isEmpty()) {
-            tuloste += ", linkki: " + getLinkki();
+            tuloste += ", linkki: " + linkki;
+        }
+        if (luettu) {
+            tuloste += ", luettu";
+        } else {
+            tuloste += ", lukematon";
         }
         return tuloste;
     }

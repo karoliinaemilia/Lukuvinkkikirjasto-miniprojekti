@@ -17,15 +17,15 @@ public class Stepdefs {
     WebDriver driver = new HtmlUnitDriver();
     String baseUrl = "http://localhost:4567";
 
-    @Given("^mennaan alkusivulle$")
-    public void mennaan_alkusivulle() throws Throwable {
+    @Given("^mennaan kirjojen alkusivulle$")
+    public void mennaan_kirjojen_alkusivulle() throws Throwable {
         driver.get(baseUrl);
         WebElement element = driver.findElement(By.linkText("Kirjojen listaukseen"));
         element.click();
     }
 
-    @When("^kentat taytetaan tiedoilla ja linkilla \"([^\"]*)\",\"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\" ,\"([^\"]*)\", \"([^\"]*)\"  ja painetaan lisaa$")
-    public void kentat_taytetaan_tiedoilla_ja_linkilla_ja_painetaan_lisaa(String ISBN, String nimi, String genre, String pituus, String linkki, String tekija, String julkaisuVuosi) throws Throwable {
+    @When("^kentat taytetaan tiedoilla \"([^\"]*)\",\"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\" ,\"([^\"]*)\", \"([^\"]*)\"  ja painetaan lisaa$")
+    public void kentat_taytetaan_tiedoilla_ja_painetaan_lisaa(String ISBN, String nimi, String genre, String pituus, String linkki, String tekija, String julkaisuVuosi) throws Throwable {
         fillBookForm(ISBN, nimi, genre, pituus, linkki, tekija, julkaisuVuosi);
     }
 
@@ -39,11 +39,6 @@ public class Stepdefs {
     public void kirjaa_linkilla_ei_lisata(String ISBN, String nimi, String genre, String pituus, String linkki, String tekija, String julkaisuVuosi) throws Throwable {
         pageDoesNotHaveContent(nimi + ", ISBN: " + ISBN + ", Kirjailija: " + tekija + ", julkaisuvuosi: " + julkaisuVuosi + ", pituus: " + pituus + ", genre: " + genre + ", linkki: " + linkki);
 
-    }
-
-    @When("^kentat taytetaan tiedoilla ilman linkkia \"([^\"]*)\",\"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\" ,\"([^\"]*)\", \"([^\"]*)\"  ja painetaan lisaa$")
-    public void kentat_taytetaan_tiedoilla_ilman_linkkia_ja_painetaan_lisaa(String ISBN, String nimi, String genre, String pituus, String tekija, String julkaisuVuosi) throws Throwable {
-        fillBookForm(ISBN, nimi, genre, pituus, "", tekija, julkaisuVuosi);
     }
 
     @Then("^Sovellus on lisannyt kirjan tiedoilla ilman linkkia \"([^\"]*)\",\"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\"$")
@@ -61,7 +56,40 @@ public class Stepdefs {
     @Then("^kirja \"([^\"]*)\",\"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\" ,\"([^\"]*)\", \"([^\"]*)\" on poistunut$")
     public void kirja_on_poistunut(String ISBN, String nimi, String genre, String pituus, String linkki, String tekija, String julkaisuVuosi) throws Throwable {
         pageDoesNotHaveContent(nimi + ", ISBN: " + ISBN + ", Kirjailija: " + tekija + ", julkaisuvuosi: " + julkaisuVuosi + ", pituus: " + pituus + ", genre: " + genre + ", linkki: " + linkki);
+    }
+//artikkeli 
 
+    @Given("^mennaan artikkelien alkusivulle$")
+    public void mennaan_artikkelien_alkusivulle() throws Throwable {
+        driver.get(baseUrl);
+        WebElement element = driver.findElement(By.linkText("Artikkelien listaukseen"));
+        element.click();
+    }
+
+    @When("^kentat taytetaan tiedoilla \"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\" ,\"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"  ja painetaan lisaa$")
+    public void kentat_taytetaan_tiedoilla_ja_painetaan_lisaa(String nimi, String pituus, String linkki, String tekija, String lehti, String vuosi, String numero, String sivut) throws Throwable {
+        fillArticleForm(nimi, pituus, linkki, tekija, lehti, vuosi, numero, sivut);
+    }
+
+    @Then("^Sovellus on lisannyt artikkelin tiedoilla ja linkilla \"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\" ,\"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$")
+    public void sovellus_on_lisannyt_artikkelin_tiedoilla_ja_linkilla(String nimi, String pituus, String linkki, String tekija, String lehti, String vuosi, String numero, String sivut) throws Throwable {
+        pageHasContent(nimi + ", Lehti: " + lehti + ", nro: " + numero + ", sivuja: " + sivut + ", tekijä: " + tekija + ", julkaistu: " + vuosi + ", linkki: " + linkki);
+    }
+
+    @Then("^Sovellus on lisannyt artikkelin tiedoilla ilman linkkia \"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\" ,\"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$")
+    public void sovellus_on_lisannyt_artikkelin_tiedoilla_ilman_linkkia(String nimi, String pituus, String linkki, String tekija, String lehti, String vuosi, String numero, String sivut) throws Throwable {
+        pageHasContent(nimi + ", Lehti: " + lehti + ", nro: " + numero + ", sivuja: " + sivut + ", tekijä: " + tekija + ", julkaistu: " + vuosi);
+    }
+
+    @When("^painetaan artikkelin poista nappia$")
+    public void painetaan_artikkelin_poista_nappia() throws Throwable {
+        List<WebElement> elements = driver.findElements(By.id("nappi"));
+        elements.get(elements.size() - 1).submit();
+    }
+
+    @Then("^artikkeli \"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\" ,\"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" on poistunut$")
+    public void artikkeli_on_poistunut(String nimi, String pituus, String linkki, String tekija, String lehti, String vuosi, String numero, String sivut) throws Throwable {
+        pageDoesNotHaveContent(nimi + ", Lehti: " + lehti + ", nro: " + numero + ", sivuja: " + sivut + ", tekijä: " + tekija + ", julkaistu: " + vuosi);
     }
 
     private void pageHasContent(String content) {
@@ -87,6 +115,28 @@ public class Stepdefs {
         element.sendKeys(tekija);
         element = driver.findElement(By.name("julkaisuVuosi"));
         element.sendKeys(julkaisuVuosi);
+
+        element.submit();
+    }
+
+    private void fillArticleForm(String nimi, String pituus, String linkki, String tekija, String lehti, String vuosi, String numero, String sivut) {
+
+        WebElement element = driver.findElement(By.name("nimi"));
+        element.sendKeys(nimi);
+        element = driver.findElement(By.name("pituus"));
+        element.sendKeys(pituus);
+        element = driver.findElement(By.name("linkki"));
+        element.sendKeys(linkki);
+        element = driver.findElement(By.name("tekija"));
+        element.sendKeys(tekija);
+        element = driver.findElement(By.name("julkaisuLehti"));
+        element.sendKeys(lehti);
+        element = driver.findElement(By.name("julkaisuVuosi"));
+        element.sendKeys(vuosi);
+        element = driver.findElement(By.name("numero"));
+        element.sendKeys(numero);
+        element = driver.findElement(By.name("sivut"));
+        element.sendKeys(sivut);
 
         element.submit();
     }

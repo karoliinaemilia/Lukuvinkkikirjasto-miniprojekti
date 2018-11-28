@@ -16,8 +16,8 @@
          <table>
             <tr th:each="artikkeli : ${artikkelit}">
                 <td th:text="${artikkeli}">Artikkeli</td>
-                <td><form th:action="@{~/artikkelit/{id}(id=${artikkeli.id})}" method="post">
-                    <input type="submit" value= "poista" />
+                <td><form th:action="@{~/artikkelit/{id}(id=${artikkeli.id})}" method="post" id="nappi">
+                    <input class="btn btn-danger" type="submit" value="poista" />
                 </form></td> 
             </tr>
         </table>
