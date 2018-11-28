@@ -2,6 +2,8 @@
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://github.com/karoliinaemilia/Lukuvinkkikirjasto-miniprojekti/blob/master/LICENSE)
 
+[Ohjelman selitys/käyttöohje](https://github.com/karoliinaemilia/Lukuvinkkikirjasto-miniprojekti/blob/master/Kaytto-ohje.md)
+
 ## Linkit backlogeihin
 
 [Product Backlog](https://docs.google.com/spreadsheets/d/1Aro0I-WY7YCHkPSGKGB8r2TdpK9SfSF0zFdTCQ5nMlM/edit#gid=0)
