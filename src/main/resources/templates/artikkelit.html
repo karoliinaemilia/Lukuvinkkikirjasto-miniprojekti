@@ -17,7 +17,7 @@
             <table class="table">
                 <tr th:each="artikkeli : ${artikkelit}">
                     <td>
-                        <strong th:text="${artikkeli.getNimi}">N</strong> </br>
+                        <a th:href="@{~/artikkeli/{id}(id=${artikkeli.id})}" ><strong th:text="${artikkeli.getNimi}">N</strong></a> </br>
                     <span th:text="${artikkeli.getTekija}">T</span> </br>
                     <span th:text="${artikkeli.getLuettuString}">L</span>
                     </td>

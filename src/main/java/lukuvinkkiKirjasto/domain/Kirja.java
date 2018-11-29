@@ -46,7 +46,7 @@ public class Kirja {
     
     public String getLuettuString() {
         if (this.luettu) {
-            return "Luettu";
+            return "Luettu " + paivamaara;
         } else {
             return "Lukematon";
         }

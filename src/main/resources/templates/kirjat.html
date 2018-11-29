@@ -17,7 +17,7 @@
                 <table class="table">
                     <tr th:each="kirja : ${kirjat}">
                         <td>
-                        <strong th:text="${kirja.getNimi}">Kirja</strong></br>
+                            <a th:href="@{~/kirja/{ISBN}(ISBN=${kirja.getISBN})}"><strong th:text="${kirja.getNimi}">Kirja</strong></a></br>
                         <span th:text="${kirja.getTekija}">Tekija</span></br> 
                         <span th:text="${kirja.getLuettuString}">L</span>
                         </td>

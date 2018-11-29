@@ -1,0 +1,35 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://wwwxmlns.thymeleaf.org">
+
+    <head>
+        <title>Kirja</title>
+        <meta charset="utf-8" />
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+
+    </head>
+
+    <body>
+        <div class="container">
+            <h1><span th:text="${kirja.getNimi}">nimi</span></h1>
+
+
+
+            Tekijät: <span th:text="${kirja.getTekija}">Tekija</span>, Julkaisuvuosi: <span th:text="${kirja.getJulkaistu}">Vuosi</span></br>
+            Pituus: <span th:text="${kirja.getPituus}">Pituus</span>, Genre: <span th:text="${kirja.getGenre}">Genre</span></br>
+            <a th:href="${kirja.getLinkki}"><span th:text="${kirja.getLinkki}">Linkki</span></a></br>
+            <span th:text="${kirja.getISBN}">isbn</span></br>
+            <span th:text="${kirja.getLuettuString}">Luettu</span> </br>
+            <p><a href="/kirjat">Kirjojen listaukseen</a></p> </br>
+            <p><a href="/">Aloitussivulle</a></p>
+
+        </div>
+
+
+    </body>
+
+</html>

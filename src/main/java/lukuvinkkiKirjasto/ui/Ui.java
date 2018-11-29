@@ -76,6 +76,25 @@ public class Ui {
             return new ModelAndView(map, "artikkelit");
         }, new ThymeleafTemplateEngine());
         
+        Spark.get("/kirja/:ISBN", (req, res) -> {
+            HashMap map = new HashMap();
+            String tunnus = req.params(":ISBN");
+            map.put("kirja", kirjaDao.findOne(tunnus));
+            return new ModelAndView(map, "kirja");
+        }, new ThymeleafTemplateEngine());
+        
+        Spark.get("/artikkeli/:id", (req, res) -> {
+            HashMap map = new HashMap();
+            int i = Integer.parseInt(req.params(":id"));
+            try {
+                map.put("artikkeli", artikkeliDao.findOne(i));
+            } catch (SQLException ex) {
+                Logger.getLogger(Ui.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return new ModelAndView(map, "artikkeli");
+            
+        }, new ThymeleafTemplateEngine());
+        
         Spark.post("/kirjat", (req, res) -> {
             
             List<Kirja> kirjat = kirjaDao.findAll();

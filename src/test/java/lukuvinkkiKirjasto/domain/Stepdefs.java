@@ -29,17 +29,17 @@ public class Stepdefs {
         fillBookForm(ISBN, nimi, genre, pituus, linkki, tekija, julkaisuVuosi);
     }
 
-    @Then("^Sovellus on lisannyt kirjan tiedoilla \"([^\"]*)\", \"([^\"]*)\"$")
-    public void sovellus_on_lisannyt_kirjan_tiedoilla(String ISBN, String nimi, String genre, String pituus, String linkki, String tekija, String julkaisuVuosi) throws Throwable {
-        pageHasContent(nimi);
+//    @Then("^Sovellus on lisannyt kirjan tiedoilla \"([^\"]*)\", \"([^\"]*)\"$")
+//    public void sovellus_on_lisannyt_kirjan_tiedoilla(String ISBN, String nimi, String genre, String pituus, String linkki, String tekija, String julkaisuVuosi) throws Throwable {
+//        pageHasContent(nimi);
 //        pageHasContent(ISBN);
-        pageHasContent(tekija);
+//        pageHasContent(tekija);
 //        pageHasContent(julkaisuVuosi);
 //        pageHasContent(pituus);
 //        pageHasContent(genre);
 //        pageHasContent(linkki);
-        
-    }
+//        
+//    }
 
     @Then("^kirjaa \"([^\"]*)\",\"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\" ,\"([^\"]*)\", \"([^\"]*)\" ei lisata$")
     public void kirjaa_ei_lisata(String ISBN, String nimi, String genre, String pituus, String linkki, String tekija, String julkaisuVuosi) throws Throwable {
@@ -60,12 +60,12 @@ public class Stepdefs {
     @Then("^kirja \"([^\"]*)\",\"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\" ,\"([^\"]*)\", \"([^\"]*)\" on poistunut$")
     public void kirja_on_poistunut(String ISBN, String nimi, String genre, String pituus, String linkki, String tekija, String julkaisuVuosi) throws Throwable {
         pageDoesNotHaveContent(nimi);
-//        pageDoesNotHaveContent(ISBN);
+        pageDoesNotHaveContent(ISBN);
         pageDoesNotHaveContent(tekija);
-//        pageDoesNotHaveContent(julkaisuVuosi);
-//        pageDoesNotHaveContent(pituus);
-//        pageDoesNotHaveContent(genre);
-//        pageDoesNotHaveContent(linkki);
+        pageDoesNotHaveContent(julkaisuVuosi);
+        pageDoesNotHaveContent(pituus);
+        pageDoesNotHaveContent(genre);
+        pageDoesNotHaveContent(linkki);
     }
 //artikkeli 
 
@@ -81,15 +81,15 @@ public class Stepdefs {
         fillArticleForm(nimi, pituus, linkki, tekija, lehti, vuosi, numero, sivut);
     }
 
-    @Then("^Sovellus on lisannyt artikkelin tiedoilla \"([^\"]*)\", \"([^\"]*)\"$")
-    public void sovellus_on_lisannyt_artikkelin_tiedoilla(String nimi, String pituus, String linkki, String tekija, String lehti, String vuosi, String numero, String sivut) throws Throwable {
-        pageHasContent(nimi);
-//        pageHasContent(lehti);
-        pageHasContent(tekija);
-//        pageHasContent(numero);
-//        pageHasContent(sivut);
-//        pageHasContent(linkki);
-    }
+//    @Then("^Sovellus on lisannyt artikkelin tiedoilla \"([^\"]*)\", \"([^\"]*)\"$")
+//    public void sovellus_on_lisannyt_artikkelin_tiedoilla(String nimi, String pituus, String linkki, String tekija, String lehti, String vuosi, String numero, String sivut) throws Throwable {
+//        pageHasContent(nimi);
+////        pageHasContent(lehti);
+//        pageHasContent(tekija);
+////        pageHasContent(numero);
+////        pageHasContent(sivut);
+////        pageHasContent(linkki);
+//    }
 
 
     @When("^painetaan artikkelin poista nappia$")
