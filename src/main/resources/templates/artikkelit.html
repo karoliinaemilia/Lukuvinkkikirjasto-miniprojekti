@@ -17,10 +17,8 @@
             <table class="table">
                 <tr th:each="artikkeli : ${artikkelit}">
                     <td>
-                        <strong th:text="${artikkeli.getNimi}">N</strong></br>
-                    <span th:text="${artikkeli.getTekija}">T</span> <span th:text="${artikkeli.getJulkaistu}">J</span></br>
-                    <i th:text="${artikkeli.getJulkaisuLehti}">L</i> <span th:text="${artikkeli.getNumero}">N</span> pp. <span th:text="${artikkeli.getSivut}">S</span></br>
-                    <a th:href=${artikkeli.getLinkki}><span th:text="${artikkeli.getLinkki}">L</span></a></br>
+                        <strong th:text="${artikkeli.getNimi}">N</strong> </br>
+                    <span th:text="${artikkeli.getTekija}">T</span> </br>
                     <span th:text="${artikkeli.getLuettuString}">L</span>
                     </td>
                     <td><form th:action="@{~/artikkelit/{id}(id=${artikkeli.id})}" method="post" id="nappi">
