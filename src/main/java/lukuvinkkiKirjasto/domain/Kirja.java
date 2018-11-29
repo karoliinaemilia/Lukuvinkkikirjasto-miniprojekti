@@ -43,6 +43,14 @@ public class Kirja {
     public void setLuettu(boolean luettu) {
         this.luettu = luettu;
     }
+    
+    public String getLuettuString() {
+        if (this.luettu) {
+            return "Luettu";
+        } else {
+            return "Lukematon";
+        }
+    }
 
     public int getJulkaistu() {
         return julkaisuVuosi;

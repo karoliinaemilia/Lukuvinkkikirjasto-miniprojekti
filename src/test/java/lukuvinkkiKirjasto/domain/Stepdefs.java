@@ -29,22 +29,26 @@ public class Stepdefs {
         fillBookForm(ISBN, nimi, genre, pituus, linkki, tekija, julkaisuVuosi);
     }
 
-    @Then("^Sovellus on lisannyt kirjan tiedoilla ja linkilla \"([^\"]*)\",\"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\" ,\"([^\"]*)\", \"([^\"]*)\"$")
-    public void sovellus_on_lisannyt_kirjan_tiedoilla_ja_linkilla(String ISBN, String nimi, String genre, String pituus, String linkki, String tekija, String julkaisuVuosi) throws Throwable {
-        pageHasContent(nimi + ", ISBN: " + ISBN + ", Kirjailija: " + tekija + ", julkaisuvuosi: " + julkaisuVuosi + ", pituus: " + pituus + ", genre: " + genre + ", linkki: " + linkki);
-
+    @Then("^Sovellus on lisannyt kirjan tiedoilla \"([^\"]*)\",\"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\" ,\"([^\"]*)\", \"([^\"]*)\"$")
+    public void sovellus_on_lisannyt_kirjan_tiedoilla(String ISBN, String nimi, String genre, String pituus, String linkki, String tekija, String julkaisuVuosi) throws Throwable {
+        pageHasContent(nimi);
+        pageHasContent(ISBN);
+        pageHasContent(tekija);
+        pageHasContent(julkaisuVuosi);
+        pageHasContent(pituus);
+        pageHasContent(genre);
+        pageHasContent(linkki);
+        
     }
 
-    @Then("^kirjaa linkilla \"([^\"]*)\",\"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\" ,\"([^\"]*)\", \"([^\"]*)\" ei lisata$")
-    public void kirjaa_linkilla_ei_lisata(String ISBN, String nimi, String genre, String pituus, String linkki, String tekija, String julkaisuVuosi) throws Throwable {
-        pageDoesNotHaveContent(nimi + ", ISBN: " + ISBN + ", Kirjailija: " + tekija + ", julkaisuvuosi: " + julkaisuVuosi + ", pituus: " + pituus + ", genre: " + genre + ", linkki: " + linkki);
-
-    }
-
-    @Then("^Sovellus on lisannyt kirjan tiedoilla ilman linkkia \"([^\"]*)\",\"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\"$")
-    public void sovellus_on_lisannyt_kirjan_tiedoilla_ilman_linkkia(String ISBN, String nimi, String genre, String pituus, String tekija, String julkaisuVuosi) throws Throwable {
-        pageHasContent(nimi + ", ISBN: " + ISBN + ", Kirjailija: " + tekija + ", julkaisuvuosi: " + julkaisuVuosi + ", pituus: " + pituus + ", genre: " + genre);
-
+    @Then("^kirjaa \"([^\"]*)\",\"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\" ,\"([^\"]*)\", \"([^\"]*)\" ei lisata$")
+    public void kirjaa_ei_lisata(String ISBN, String nimi, String genre, String pituus, String linkki, String tekija, String julkaisuVuosi) throws Throwable {
+        pageDoesNotHaveContent(nimi);
+        pageDoesNotHaveContent(tekija);
+        pageDoesNotHaveContent(julkaisuVuosi);
+        pageDoesNotHaveContent(pituus);
+        pageDoesNotHaveContent(genre);
+        pageDoesNotHaveContent(linkki);
     }
 
     @When("^painetaan kirjan poista nappia$")
@@ -55,7 +59,13 @@ public class Stepdefs {
 
     @Then("^kirja \"([^\"]*)\",\"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\" ,\"([^\"]*)\", \"([^\"]*)\" on poistunut$")
     public void kirja_on_poistunut(String ISBN, String nimi, String genre, String pituus, String linkki, String tekija, String julkaisuVuosi) throws Throwable {
-        pageDoesNotHaveContent(nimi + ", ISBN: " + ISBN + ", Kirjailija: " + tekija + ", julkaisuvuosi: " + julkaisuVuosi + ", pituus: " + pituus + ", genre: " + genre + ", linkki: " + linkki);
+        pageDoesNotHaveContent(nimi);
+        pageDoesNotHaveContent(ISBN);
+        pageDoesNotHaveContent(tekija);
+        pageDoesNotHaveContent(julkaisuVuosi);
+        pageDoesNotHaveContent(pituus);
+        pageDoesNotHaveContent(genre);
+        pageDoesNotHaveContent(linkki);
     }
 //artikkeli 
 
@@ -71,15 +81,16 @@ public class Stepdefs {
         fillArticleForm(nimi, pituus, linkki, tekija, lehti, vuosi, numero, sivut);
     }
 
-    @Then("^Sovellus on lisannyt artikkelin tiedoilla ja linkilla \"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\" ,\"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$")
-    public void sovellus_on_lisannyt_artikkelin_tiedoilla_ja_linkilla(String nimi, String pituus, String linkki, String tekija, String lehti, String vuosi, String numero, String sivut) throws Throwable {
-        pageHasContent(nimi + ", Lehti: " + lehti + ", nro: " + numero + ", sivuja: " + sivut + ", tekijä: " + tekija + ", julkaistu: " + vuosi + ", linkki: " + linkki);
+    @Then("^Sovellus on lisannyt artikkelin tiedoilla \"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\" ,\"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$")
+    public void sovellus_on_lisannyt_artikkelin_tiedoilla(String nimi, String pituus, String linkki, String tekija, String lehti, String vuosi, String numero, String sivut) throws Throwable {
+        pageHasContent(nimi);
+        pageHasContent(lehti);
+        pageHasContent(tekija);
+        pageHasContent(numero);
+        pageHasContent(sivut);
+        pageHasContent(linkki);
     }
 
-    @Then("^Sovellus on lisannyt artikkelin tiedoilla ilman linkkia \"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\" ,\"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"$")
-    public void sovellus_on_lisannyt_artikkelin_tiedoilla_ilman_linkkia(String nimi, String pituus, String linkki, String tekija, String lehti, String vuosi, String numero, String sivut) throws Throwable {
-        pageHasContent(nimi + ", Lehti: " + lehti + ", nro: " + numero + ", sivuja: " + sivut + ", tekijä: " + tekija + ", julkaistu: " + vuosi);
-    }
 
     @When("^painetaan artikkelin poista nappia$")
     public void painetaan_artikkelin_poista_nappia() throws Throwable {
@@ -89,7 +100,12 @@ public class Stepdefs {
 
     @Then("^artikkeli \"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\" ,\"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" on poistunut$")
     public void artikkeli_on_poistunut(String nimi, String pituus, String linkki, String tekija, String lehti, String vuosi, String numero, String sivut) throws Throwable {
-        pageDoesNotHaveContent(nimi + ", Lehti: " + lehti + ", nro: " + numero + ", sivuja: " + sivut + ", tekijä: " + tekija + ", julkaistu: " + vuosi);
+        pageDoesNotHaveContent(nimi);
+        pageDoesNotHaveContent(lehti);
+        pageDoesNotHaveContent(tekija);
+        pageDoesNotHaveContent(numero);
+        pageDoesNotHaveContent(sivut);
+        pageDoesNotHaveContent(linkki);
     }
 
     private void pageHasContent(String content) {

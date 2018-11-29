@@ -4,66 +4,74 @@
     <head>
         <title>Lukuvinkkikirjasto</title>
         <meta charset="UTF-8"/>
-        
+
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     </head>
     <body>
+        <div class="container">
+            <h1>Kirjat</h1>
+            
+                <table class="table">
+                    <tr th:each="kirja : ${kirjat}">
+                        <td>
+                        <strong th:text="${kirja.getNimi}">Kirja</strong></br>
+                        <span th:text="${kirja.getTekija}">Tekija</span> <span th:text="${kirja.getJulkaistu}">Vuosi</span></br>
+                        Pituus: <span th:text="${kirja.getPituus}">Pituus</span>, Genre: <span th:text="${kirja.getGenre}">G</span></br>
+                        <a th:href="${kirja.getLinkki}"><span th:text="${kirja.getLinkki}">L</span></a></br>
+                        <span th:text="${kirja.getISBN}">I</span></br>
+                        <span th:text="${kirja.getLuettuString}">L</span>
+                        </td>
+                        <td> <form th:action="@{~/kirjat/{ISBN}(ISBN=${kirja.ISBN})}" method="post" id="nappi">
+                                <input class="btn btn-danger" type="submit" value="poista"/>
+                            </form> </td>
+                    </tr>
+                </table>
+            
+            <h2>Lisää uusi kirja</h2>
 
-        <h1>Kirjat</h1>
-        <div class="table">
-        <table>
-            
-                <tr th:each="kirja : ${kirjat}">
-                    <td th:text="${kirja}">Kirja</td>
-                    <td> <form th:action="@{~/kirjat/{ISBN}(ISBN=${kirja.ISBN})}" method="post" id="nappi">
-                            <input class="btn btn-danger" type="submit" value="poista"/>
-                        </form> </td>
-                </tr>
-            
-        </table>
+            <form method="POST" action="/kirjat">
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label" for="ISBN">ISBN: </label> 
+                    <input type="text" name="ISBN" />
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Kirjan nimi: </label>
+                    <input type="text" name="nimi"/>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Genre: </label>
+                    <input type="text" name="genre"/>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Pituus: </label>
+                    <input type="text" name="pituus" />
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Linkki: </label>
+                    <input type="text" name="linkki" />
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Tekija: </label>
+                    <input type="text" name="tekija" />
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Julkaisuvuosi: </label>
+                    <input type="text" name="julkaisuVuosi" />
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2">Luettu: </label>
+                    <input type="checkbox" name="luettu" value="true"/>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Lisää</button>
+            </form>
+
+
+        </br>
+            <p><a href="/">Aloitussivulle</a></p>
         </div>
-        <h2>Lisää uusi kirja</h2>
-
-        <form method="POST" action="/kirjat">
-            <div class="form-group">
-                <label for="ISBN">ISBN: </label> 
-                 <input type="text" name="ISBN" />
-            </div>
-            <div class="form-group">
-                <label>Kirjan nimi: </label>
-                <input type="text" name="nimi"/>
-            </div>
-            <div class="form-group">
-                <label>Genre: </label>
-                <input type="text" name="genre"/>
-            </div>
-            <div class="form-group">
-                <label>Pituus: </label>
-                <input type="text" name="pituus" />
-            </div>
-            <div class="form-group">
-                <label>Linkki: </label>
-                <input type="text" name="linkki" />
-            </div>
-            <div class="form-group">
-               <label>Tekija: </label>
-               <input type="text" name="tekija" />
-            </div>
-            <div class="form-group">
-               <label>Julkaisuvuosi: </label>
-                <input type="text" name="julkaisuVuosi" />
-            </div>
-            <div class="checkbox">
-                <label><input type="checkbox" name="luettu" value="true"/>luettu</label>
-            </div>
-            <button type="submit" class="btn btn-submit">Lisää</button>
-        </form>
-
-         
-         <p><a href="/">Aloitussivulle</a></p>
-         
     </body>
 </html>

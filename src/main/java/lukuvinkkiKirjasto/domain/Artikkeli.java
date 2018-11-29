@@ -38,6 +38,14 @@ public class Artikkeli {
     public void setLuettu(boolean luettu) {
         this.luettu = luettu;
     }
+    
+    public String getLuettuString() {
+        if (this.luettu) {
+            return "Luettu";
+        } else {
+            return "Lukematon";
+        }
+    }
 
     public int getNumero() {
         return this.numero;

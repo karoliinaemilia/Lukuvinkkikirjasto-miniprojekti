@@ -3,51 +3,76 @@
     <head>
         <title>Lukuvinkkikirjasto</title>
         <meta charset="UTF-8"/>
-        
+
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-        
+
     </head>
     <body>
-         <h1>Artikkelit</h1>
+        <div class="container">
+            <h1>Artikkelit</h1>
 
-         <table>
-            <tr th:each="artikkeli : ${artikkelit}">
-                <td th:text="${artikkeli}">Artikkeli</td>
-                <td><form th:action="@{~/artikkelit/{id}(id=${artikkeli.id})}" method="post" id="nappi">
-                    <input class="btn btn-danger" type="submit" value="poista" />
-                </form></td> 
-            </tr>
-        </table>
-         
-         <h2>Lisää uusi artikkeli</h2>
-         
-         <form method="POST" action="/artikkelit">
-             <span>Artikkelin nimi: </span>
-             <input type="text" name="nimi"/><br/>
-             <span>Pituus: </span>
-             <input type="text" name="pituus" /> <br/>
-             <span>Linkki: </span>
-             <input type="text" name="linkki" /> <br/>
-             <span>Tekija: </span>
-             <input type="text" name="tekija" /> <br/>
-             <span>Julkaisu lehti: </span>
-             <input type="text" name="julkaisuLehti" /> <br/>
-             <span>Julkaisuvuosi: </span>
-             <input type="text" name="julkaisuVuosi" /> <br/>
-             <span>Numero: </span>
-             <input type="text" name="numero" /> <br/>
-             <span>Sivut: </span>
-             <input type="text" name="sivut" /> <br/>
-             <span>Luettu: </span>
-             <input type="checkbox" name="luettu" value="true"/> <br/>
-             
-             <input type="submit" value="Lisää" />
-         </form>
-         
-         <p><a href="/">Aloitussivulle</a></p>
-         
+            <table class="table">
+                <tr th:each="artikkeli : ${artikkelit}">
+                    <td>
+                        <strong th:text="${artikkeli.getNimi}">N</strong></br>
+                    <span th:text="${artikkeli.getTekija}">T</span> <span th:text="${artikkeli.getJulkaistu}">J</span></br>
+                    <i th:text="${artikkeli.getJulkaisuLehti}">L</i> <span th:text="${artikkeli.getNumero}">N</span> pp. <span th:text="${artikkeli.getSivut}">S</span></br>
+                    <a th:href=${artikkeli.getLinkki}><span th:text="${artikkeli.getLinkki}">L</span></a></br>
+                    <span th:text="${artikkeli.getLuettuString}">L</span>
+                    </td>
+                    <td><form th:action="@{~/artikkelit/{id}(id=${artikkeli.id})}" method="post" id="nappi">
+                            <input class="btn btn-danger" type="submit" value="poista" />
+                    </form></td> 
+                </tr>
+            </table>
+
+            <h2>Lisää uusi artikkeli</h2>
+
+            <form method="POST" action="/artikkelit">
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Artikkelin nimi: </label>
+                    <input type="text" name="nimi"/>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Pituus: </label>
+                    <input type="text" name="pituus" />
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Linkki: </label>
+                    <input type="text" name="linkki" />
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Tekija: </label>
+                    <input type="text" name="tekija" />
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Julkaisu lehti: </label>
+                    <input type="text" name="julkaisuLehti" />
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Julkaisuvuosi: </label>
+                    <input type="text" name="julkaisuVuosi" />
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Numero: </label>
+                    <input type="text" name="numero" />
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Sivut: </label>
+                    <input type="text" name="sivut" />
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2">Luettu: </label>
+                    <input type="checkbox" name="luettu" value="true"/>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Lisää</button>
+            </form>
+
+            <p><a href="/">Aloitussivulle</a></p>
+        </div>
     </body>
 </html>

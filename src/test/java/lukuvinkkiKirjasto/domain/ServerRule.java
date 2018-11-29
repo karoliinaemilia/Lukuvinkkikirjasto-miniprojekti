@@ -25,6 +25,8 @@ public class ServerRule extends ExternalResource {
         Connection conn = DriverManager.getConnection("jdbc:sqlite:LukuvinkkiKirjasto.db");
         PreparedStatement stmt = conn.prepareStatement("DELETE FROM Kirja;");
         stmt.execute();
+        stmt = conn.prepareStatement("DELETE FROM Artikkeli;");
+        stmt.execute();
         Ui.main(null);
     }
 
