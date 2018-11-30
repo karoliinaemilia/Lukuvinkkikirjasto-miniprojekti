@@ -183,23 +183,36 @@ public class Ui {
         });
         
         
-        Spark.post("/artikkelit/:artikkeliId", (req, res) -> {
+        
+        Spark.post("/artikkelit/:id", (req, res) -> {
+            
+            String act = req.queryParams("nappi");
+
+            System.out.print(act);
+
+            if (act.equals("poista")) {
+                 artikkeliDao.delete(Integer.parseInt(req.params(":id")));
+            } else if (act.equals("Merkitse luetuksi")){
+                Artikkeli artikkeli = artikkeliDao.findOne(Integer.parseInt(req.params(":id")));
+                artikkeli.setLuettu(true);
+                artikkeliDao.updateInformation(artikkeli);
+            } 
+
+
+            res.redirect("/artikkelit");
+            return "";
+        });
+        
+        /*Spark.post("/artikkelit/:artikkeliId", (req, res) -> {
             Artikkeli artikkeli = artikkeliDao.findOne(Integer.parseInt(req.params(":artikkeliId")));
             System.out.println(artikkeli.toString());
             artikkeli.setLuettu(true);
             artikkeliDao.updateInformation(artikkeli);
             res.redirect("/artikkelit");
             return "";
-        });
+        });*/
   
         
-        Spark.post("/artikkelit/:id", (req, res) -> {
-            System.out.println(Integer.parseInt(req.params(":id")));
-            artikkeliDao.delete(Integer.parseInt(req.params(":id")));
-
-            res.redirect("/artikkelit");
-            return "";
-        });
         
         
 
