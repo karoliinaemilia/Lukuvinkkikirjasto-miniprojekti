@@ -96,7 +96,7 @@ public class ArtikkeliDao implements Dao<Artikkeli, Integer> {
     
  
 
-    public Artikkeli updateInformation(Artikkeli artikkeli) throws SQLException {
+    public void updateInformation(Artikkeli artikkeli) throws SQLException {
         try (Connection conn = database.getConnection()) {
             PreparedStatement statement = conn.prepareStatement("UPDATE Artikkeli set luettu = ? WHERE id = ?");
             statement.setBoolean(1, artikkeli.isLuettu());
@@ -104,7 +104,6 @@ public class ArtikkeliDao implements Dao<Artikkeli, Integer> {
             statement.executeUpdate();
         }
         
-        return findOne(artikkeli.getId());
     }
     
 }
