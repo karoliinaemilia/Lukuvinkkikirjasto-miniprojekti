@@ -21,9 +21,16 @@
                     <span th:text="${artikkeli.getTekija}">T</span> </br>
                     <span th:text="${artikkeli.getLuettuString}">L</span>
                     </td>
-                    <td><form th:action="@{~/artikkelit/{id}(id=${artikkeli.id})}" method="post" id="nappi">
-                            <input class="btn btn-danger" type="submit" value="poista" />
-                    </form></td> 
+                    <td>
+                        <form th:action="@{~/artikkelit/{id}(id=${artikkeli.id})}" method="post">
+                            <input class="btn btn-danger" type="submit" id="nappi" value="poista" />
+                        </form>
+                    </td>   
+                    <td>
+                        <form th:action="@{~/artikkelit/{artikkeliId}(artikkeliId=${artikkeli.id})}" method="post">
+                            <input class="btn btn-success" type="submit" id="nappula" value="Merkitse luetuksi" />
+                        </form>
+                    </td> 
                 </tr>
             </table>
 

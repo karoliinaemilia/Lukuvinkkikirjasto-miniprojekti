@@ -182,6 +182,17 @@ public class Ui {
             return "";
         });
         
+        
+        Spark.post("/artikkelit/:artikkeliId", (req, res) -> {
+            Artikkeli artikkeli = artikkeliDao.findOne(Integer.parseInt(req.params(":artikkeliId")));
+            System.out.println(artikkeli.toString());
+            artikkeli.setLuettu(true);
+            artikkeliDao.updateInformation(artikkeli);
+            res.redirect("/artikkelit");
+            return "";
+        });
+  
+        
         Spark.post("/artikkelit/:id", (req, res) -> {
             System.out.println(Integer.parseInt(req.params(":id")));
             artikkeliDao.delete(Integer.parseInt(req.params(":id")));
@@ -190,6 +201,9 @@ public class Ui {
             return "";
         });
         
+        
+
+  
 
     }
 
