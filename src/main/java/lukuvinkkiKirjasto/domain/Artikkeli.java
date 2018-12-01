@@ -1,21 +1,13 @@
 package lukuvinkkiKirjasto.domain;
 
 import java.time.LocalDate;
-import java.util.Date;
 
-public class Artikkeli {
+public class Artikkeli extends Vinkki {
 
     private Integer id;
-    private String nimi;
-    private int pituus;
-    private String linkki;
-    private String tekija;
     private String julkaisuLehti;
-    private int julkaisuVuosi;
     private int numero;
     private String sivut;
-    private LocalDate paivamaara;
-    private boolean luettu;
 
     public Artikkeli(Integer id, String nimi, int pituus, String linkki, String tekija, String julkaisuLehti, int julkaisuVuosi, int numero, String sivut, LocalDate paivamaara, boolean luettu) {
         this.id = id;
@@ -29,22 +21,6 @@ public class Artikkeli {
         this.sivut = sivut;
         this.paivamaara = paivamaara;
         this.luettu = luettu;
-    }
-
-    public boolean isLuettu() {
-        return luettu;
-    }
-
-    public void setLuettu(boolean luettu) {
-        this.luettu = luettu;
-    }
-    
-    public String getLuettuString() {
-        if (this.luettu) {
-            return "Luettu";
-        } else {
-            return "Lukematon";
-        }
     }
 
     public int getNumero() {
@@ -71,60 +47,12 @@ public class Artikkeli {
         this.sivut = sivut;
     }
 
-    public int getJulkaistu() {
-        return julkaisuVuosi;
-    }
-
-    public void setJulkaistu(int julkaistu) {
-        this.julkaisuVuosi = julkaistu;
-    }
-
     public Integer getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getNimi() {
-        return nimi;
-    }
-
-    public void setNimi(String nimi) {
-        this.nimi = nimi;
-    }
-
-    public int getPituus() {
-        return pituus;
-    }
-
-    public void setPituus(int pituus) {
-        this.pituus = pituus;
-    }
-
-    public String getLinkki() {
-        return linkki;
-    }
-
-    public void setLinkki(String linkki) {
-        this.linkki = linkki;
-    }
-
-    public String getTekija() {
-        return tekija;
-    }
-
-    public void setTekija(String tekija) {
-        this.tekija = tekija;
-    }
-
-    public LocalDate getPaivamaara() {
-        return paivamaara;
-    }
-
-    public void setPaivamaara(LocalDate paivamaara) {
-        this.paivamaara = paivamaara;
     }
 
     public String toString() {
