@@ -117,7 +117,7 @@ public class KirjaTest {
     
     @Test
     public void julkaisuVuodenOikeaPalautus() {
-        assertEquals(lehti.getJulkaisuVuosi(), 2011, vertailuTarkkuus);
+        assertEquals(lehti.getJulkaisuVuosi(), 2009, vertailuTarkkuus);
     }
     @Test
     public void julkaisuVuodenMuokkaaminen() {    
@@ -132,7 +132,7 @@ public class KirjaTest {
     @Test
     public void LuettuStringPalutuuOikeinLuetulla() {
         lehti.setLuettu(false);
-        assertEquals(lehti.getLuettuString(), "Luettu 2018-1");
+        assertEquals(lehti.getLuettuString(), "Lukematon");
     }
     
     @Test
