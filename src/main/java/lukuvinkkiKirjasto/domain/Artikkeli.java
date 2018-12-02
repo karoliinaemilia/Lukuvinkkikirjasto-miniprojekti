@@ -16,8 +16,12 @@ public class Artikkeli {
     private String sivut;
     private LocalDate paivamaara;
     private boolean luettu;
+    private String luettuAika;
 
-    public Artikkeli(Integer id, String nimi, int pituus, String linkki, String tekija, String julkaisuLehti, int julkaisuVuosi, int numero, String sivut, LocalDate paivamaara, boolean luettu) {
+    public Artikkeli(Integer id, String nimi, int pituus, String linkki, String 
+            tekija, String julkaisuLehti, int julkaisuVuosi, int numero, String 
+            sivut, LocalDate paivamaara, boolean luettu, String aika) {
+        
         this.id = id;
         this.nimi = nimi;
         this.pituus = pituus;
@@ -29,6 +33,7 @@ public class Artikkeli {
         this.sivut = sivut;
         this.paivamaara = paivamaara;
         this.luettu = luettu;
+        this.luettuAika = aika;
     }
 
     public boolean isLuettu() {
@@ -41,10 +46,18 @@ public class Artikkeli {
     
     public String getLuettuString() {
         if (this.luettu) {
-            return "Luettu";
+            return "Luettu " + luettuAika;
         } else {
             return "Lukematon";
         }
+    }
+
+    public String getLuettuAika() {
+        return luettuAika;
+    }
+
+    public void setLuettuAika(String luettuAika) {
+        this.luettuAika = luettuAika;
     }
 
     public int getNumero() {
@@ -128,7 +141,7 @@ public class Artikkeli {
     }
 
     public String toString() {
-        String tuloste = nimi + ", Lehti: " + julkaisuLehti + ", nro: " + numero + ", sivuja: " + sivut + ", tekijä: " + tekija + ", julkaistu: " + julkaisuVuosi;
+        String tuloste =  id + "    jkgugjh" + nimi + ", Lehti: " + julkaisuLehti + ", nro: " + numero + ", sivuja: " + sivut + ", tekijä: " + tekija + ", julkaistu: " + julkaisuVuosi;
         if (!linkki.isEmpty()) {
             tuloste += ", linkki: " + linkki;
         }

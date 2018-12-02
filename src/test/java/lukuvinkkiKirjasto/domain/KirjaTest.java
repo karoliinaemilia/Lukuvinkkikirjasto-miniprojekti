@@ -21,7 +21,7 @@ public class KirjaTest {
 
     @Before
     public void setUp() {
-        lehti = new Kirja("1234", "viihde", "testilehti", 20, "www.testi.fi", "testikirjoittaja", 2009, LocalDate.now(), true);
+        lehti = new Kirja("1234", "viihde", "testilehti", 20, "www.testi.fi", "testikirjoittaja", 2009, LocalDate.now(), true, "2018-12");
 
     }
 

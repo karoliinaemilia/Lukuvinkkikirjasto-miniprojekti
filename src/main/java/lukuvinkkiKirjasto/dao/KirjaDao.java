@@ -30,7 +30,7 @@ public class KirjaDao implements Dao<Kirja, String> {
             Kirja kirja = new Kirja(rs.getString("ISBN"), rs.getString("genre"),
                     rs.getString("nimi"), rs.getInt("pituus"),
                     rs.getString("linkki"), rs.getString("tekija"), rs.getInt("julkaisuVuosi"),
-                    rs.getDate("paivamaara").toLocalDate(), rs.getBoolean("luettu"));
+                    rs.getDate("paivamaara").toLocalDate(), rs.getBoolean("luettu"), rs.getString("luettuAika"));
             
             statement.close();
             rs.close();
@@ -50,7 +50,7 @@ public class KirjaDao implements Dao<Kirja, String> {
                 kirjat.add(new Kirja(rs.getString("ISBN"), rs.getString("genre"),
                         rs.getString("nimi"), rs.getInt("pituus"),
                         rs.getString("linkki"), rs.getString("tekija"), rs.getInt("julkaisuVuosi"),
-                        rs.getDate("paivamaara").toLocalDate(), rs.getBoolean("luettu")));
+                        rs.getDate("paivamaara").toLocalDate(), rs.getBoolean("luettu"), rs.getString("luettuAika")));
             }
             statement.close();
             rs.close();
@@ -63,7 +63,9 @@ public class KirjaDao implements Dao<Kirja, String> {
     @Override
     public Kirja saveOrUpdate(Kirja kirja) throws SQLException {
         try (Connection conn = database.getConnection()) {
-            PreparedStatement statement = conn.prepareStatement("INSERT INTO Kirja (ISBN, genre, nimi, pituus, linkki, tekija, julkaisuVuosi, paivamaara, luettu) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            PreparedStatement statement = conn.prepareStatement("INSERT INTO Kirja "
+                    + "(ISBN, genre, nimi, pituus, linkki, tekija, julkaisuVuosi,"
+                    + " paivamaara, luettu, luettuAika) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             statement.setString(1, kirja.getISBN());
             statement.setString(2, kirja.getGenre());
             statement.setString(3, kirja.getNimi());
@@ -73,6 +75,7 @@ public class KirjaDao implements Dao<Kirja, String> {
             statement.setInt(7, kirja.getJulkaistu());
             statement.setDate(8, Date.valueOf(kirja.getPaivamaara()));
             statement.setBoolean(9, kirja.isLuettu());
+            statement.setString(10, kirja.getLuettuAika());
             statement.executeUpdate();
         }
         return findOne(kirja.getISBN());
@@ -91,11 +94,21 @@ public class KirjaDao implements Dao<Kirja, String> {
     }
     
     
-    public void updateInformation(Kirja artikkeli) throws SQLException {
+    public void updateInformation(Kirja kirja) throws SQLException {
         try (Connection conn = database.getConnection()) {
-            PreparedStatement statement = conn.prepareStatement("UPDATE Artikkeli set luettu = ? WHERE id = ?");
-            statement.setBoolean(1, artikkeli.isLuettu());
-            statement.setString(2,artikkeli.getISBN());
+            PreparedStatement statement = conn.prepareStatement("UPDATE Kirja SET "
+                    + "genre = ?, nimi = ?, pituus = ?, linkki = ?, tekija = ?, "
+                    + "julkaisuVuosi = ?, paivamaara = ?, luettu = ?, luettuAika = ? WHERE ISBN = ?");
+            statement.setString(1, kirja.getGenre());
+            statement.setString(2, kirja.getNimi());
+            statement.setInt(3, kirja.getPituus());
+             statement.setString(4, kirja.getLinkki());
+            statement.setString(5, kirja.getTekija());
+            statement.setInt(6, kirja.getJulkaisuVuosi());
+             statement.setDate(7, Date.valueOf(kirja.getPaivamaara()));
+            statement.setBoolean(8, kirja.isLuettu());
+            statement.setString(9, kirja.getLuettuAika());
+            statement.setString(10, kirja.getISBN());
             statement.executeUpdate();
         }
         

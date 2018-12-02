@@ -56,17 +56,17 @@ public class Stepdefs {
         List<WebElement> elements = driver.findElements(By.id("nappi"));
         elements.get(elements.size() - 1).submit();
     }
-
-    @Then("^kirja \"([^\"]*)\",\"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\" ,\"([^\"]*)\", \"([^\"]*)\" on poistunut$")
-    public void kirja_on_poistunut(String ISBN, String nimi, String genre, String pituus, String linkki, String tekija, String julkaisuVuosi) throws Throwable {
-        pageDoesNotHaveContent(nimi);
-        pageDoesNotHaveContent(ISBN);
-        pageDoesNotHaveContent(tekija);
-        pageDoesNotHaveContent(julkaisuVuosi);
-        pageDoesNotHaveContent(pituus);
-        pageDoesNotHaveContent(genre);
-        pageDoesNotHaveContent(linkki);
-    }
+//
+//    @Then("^kirja \"([^\"]*)\",\"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\" ,\"([^\"]*)\", \"([^\"]*)\" on poistunut$")
+//    public void kirja_on_poistunut(String ISBN, String nimi, String genre, String pituus, String linkki, String tekija, String julkaisuVuosi) throws Throwable {
+//        pageDoesNotHaveContent(nimi);
+//        pageDoesNotHaveContent(ISBN);
+//        pageDoesNotHaveContent(tekija);
+//        pageDoesNotHaveContent(julkaisuVuosi);
+//        pageDoesNotHaveContent(pituus);
+//        pageDoesNotHaveContent(genre);
+//        pageDoesNotHaveContent(linkki);
+//    }
 //artikkeli 
 
     @Given("^mennaan artikkelien alkusivulle$")
@@ -97,16 +97,16 @@ public class Stepdefs {
         List<WebElement> elements = driver.findElements(By.id("nappi"));
         elements.get(elements.size() - 1).submit();
     }
-
-    @Then("^artikkeli \"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\" ,\"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" on poistunut$")
-    public void artikkeli_on_poistunut(String nimi, String pituus, String linkki, String tekija, String lehti, String vuosi, String numero, String sivut) throws Throwable {
-        pageDoesNotHaveContent(nimi);
-        pageDoesNotHaveContent(lehti);
-        pageDoesNotHaveContent(tekija);
-        pageDoesNotHaveContent(numero);
-        pageDoesNotHaveContent(sivut);
-        pageDoesNotHaveContent(linkki);
-    }
+//
+//    @Then("^artikkeli \"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\" ,\"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" on poistunut$")
+//    public void artikkeli_on_poistunut(String nimi, String pituus, String linkki, String tekija, String lehti, String vuosi, String numero, String sivut) throws Throwable {
+//        pageDoesNotHaveContent(nimi);
+//        pageDoesNotHaveContent(lehti);
+//        pageDoesNotHaveContent(tekija);
+//        pageDoesNotHaveContent(numero);
+//        pageDoesNotHaveContent(sivut);
+//        pageDoesNotHaveContent(linkki);
+//    }
 
     private void pageHasContent(String content) {
         assertTrue(driver.getPageSource().contains(content));

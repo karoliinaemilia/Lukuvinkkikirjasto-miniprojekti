@@ -1,7 +1,11 @@
 package lukuvinkkiKirjasto.domain;
 
+import com.sun.jna.platform.win32.Sspi;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.Date;
+import javax.print.attribute.standard.DateTimeAtCompleted;
 
 public class Kirja {
 
@@ -14,8 +18,13 @@ public class Kirja {
     private int julkaisuVuosi;
     private LocalDate paivamaara;
     private boolean luettu;
+    private String luettuAika;
 
-    public Kirja(String id, String genre, String nimi, int pituus, String linkki, String tekija, int julkaisuVuosi, LocalDate paivamaara, boolean luettu) {
+    public Kirja(
+            String id, String genre, String nimi, int pituus, String linkki, 
+            String tekija, int julkaisuVuosi, LocalDate paivamaara, boolean luettu,
+            String luettuAika
+    ) {
         this.ISBN = id;
         this.genre = genre;
         this.nimi = nimi;
@@ -25,6 +34,8 @@ public class Kirja {
         this.julkaisuVuosi = julkaisuVuosi;
         this.paivamaara = paivamaara;
         this.luettu = luettu;
+        this.luettuAika = luettuAika;
+     
 
     }
 
@@ -37,16 +48,28 @@ public class Kirja {
     }
 
     public boolean isLuettu() {
+      
         return luettu;
     }
-
+    public String getLuettuAika() {
+        return luettuAika;
+    }
+    
+    public void setLuettuAika(String aika) {        
+            this.luettuAika = aika;
+                    
+        
+    }
     public void setLuettu(boolean luettu) {
+       
         this.luettu = luettu;
     }
     
     public String getLuettuString() {
+        
+        
         if (this.luettu) {
-            return "Luettu " + paivamaara;
+            return "Luettu " + this.luettuAika;
         } else {
             return "Lukematon";
         }
@@ -116,12 +139,15 @@ public class Kirja {
         this.paivamaara = paivamaara;
     }
 
+    @Override
     public String toString() {
         String merkki = "LUKEMATON";
         if (isLuettu() == true) {
             merkki = "LUETTU";
         }
-        String tuloste = getNimi() + ", ISBN: " + getISBN() + ", Kirjailija: " + getTekija() + ", julkaisuvuosi: " + getJulkaistu() + ", pituus: " + getPituus() + ", genre: " + getGenre();
+        String tuloste = getNimi() + ", ISBN: " + getISBN() + ", Kirjailija: " + 
+                getTekija() + ", julkaisuvuosi: " + getJulkaistu() + 
+                ", pituus: " + getPituus() + ", genre: " + getGenre();
         if (!linkki.isEmpty()) {
             tuloste += ", linkki: " + getLinkki();
         }

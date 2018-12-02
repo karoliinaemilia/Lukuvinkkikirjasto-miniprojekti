@@ -21,7 +21,7 @@ public class ArtikkeliTest {
 
     @Before
     public void setUp() {
-        lehti = new Artikkeli(1, "testiartikkeli", 10,"www.testiartikkeli.fi","testaaja","testijulkaisija", 2018, 2, "20-30",LocalDate.now(),true);
+        lehti = new Artikkeli(1, "testiartikkeli", 10,"www.testiartikkeli.fi","testaaja","testijulkaisija", 2018, 2, "20-30",LocalDate.now(),true, "2018-1");
 
     }
 
