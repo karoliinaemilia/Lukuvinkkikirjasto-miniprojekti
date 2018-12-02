@@ -90,4 +90,15 @@ public class KirjaDao implements Dao<Kirja, String> {
         
     }
     
+    
+    public void updateInformation(Kirja artikkeli) throws SQLException {
+        try (Connection conn = database.getConnection()) {
+            PreparedStatement statement = conn.prepareStatement("UPDATE Artikkeli set luettu = ? WHERE id = ?");
+            statement.setBoolean(1, artikkeli.isLuettu());
+            statement.setString(2,artikkeli.getISBN());
+            statement.executeUpdate();
+        }
+        
+    }
+    
 }

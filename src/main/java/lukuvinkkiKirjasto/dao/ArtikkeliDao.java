@@ -87,12 +87,23 @@ public class ArtikkeliDao implements Dao<Artikkeli, Integer> {
     public void delete(Integer key) throws SQLException {
         try (Connection conn = database.getConnection()) {
             PreparedStatement statement = conn.prepareStatement("DELETE FROM Artikkeli WHERE id = ?");
-            
             statement.setInt(1, key);
             statement.executeUpdate();
             statement.close();
             conn.close();
         }
+    }
+    
+ 
+
+    public void updateInformation(Artikkeli artikkeli) throws SQLException {
+        try (Connection conn = database.getConnection()) {
+            PreparedStatement statement = conn.prepareStatement("UPDATE Artikkeli set luettu = ? WHERE id = ?");
+            statement.setBoolean(1, artikkeli.isLuettu());
+            statement.setInt(2,artikkeli.getId());
+            statement.executeUpdate();
+        }
+        
     }
     
 }
