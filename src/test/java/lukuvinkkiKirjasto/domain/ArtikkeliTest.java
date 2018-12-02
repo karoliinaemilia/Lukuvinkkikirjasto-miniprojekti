@@ -148,4 +148,27 @@ public class ArtikkeliTest {
         assertEquals(kappale.toString(), "joku, Lehti: jossain, "
                 + "nro: 11, sivuja: 2-3, tekijä: tuntematon, julkaistu: 2018, lukematon");
     }
+    @Test
+    public void lukemisenAjankohtaOnnistuu() {
+        assertEquals(lehti.getLuettuAika(), "2018-1");
+    }
+    @Test
+    public void lukemisenAjankohtaaVoiVaihtaa() {
+        lehti.setLuettuAika("2019");
+        assertEquals(lehti.getLuettuAika(), "2019");
+    }
+    @Test
+    public void lukematonArvona() {
+        assertEquals(lehti.getLuettuString(), "Luettu 2018-1");
+    }
+    @Test
+    public void luettuArvona() {
+        lehti.setLuettu(false);
+        assertEquals(lehti.getLuettuString(), "Lukematon");
+    }
+    @Test
+    public void paivamaaraaVoiVaihtaa() {
+        lehti.setPaivamaara(LocalDate.now());
+        assertEquals(lehti.getPaivamaara(), LocalDate.now());
+    }
 }

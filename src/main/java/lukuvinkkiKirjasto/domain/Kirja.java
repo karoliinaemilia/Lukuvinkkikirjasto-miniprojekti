@@ -141,17 +141,8 @@ public class Kirja {
 
     @Override
     public String toString() {
-        String merkki = "LUKEMATON";
-        if (isLuettu() == true) {
-            merkki = "LUETTU";
-        }
-        String tuloste = getNimi() + ", ISBN: " + getISBN() + ", Kirjailija: " + 
-                getTekija() + ", julkaisuvuosi: " + getJulkaistu() + 
-                ", pituus: " + getPituus() + ", genre: " + getGenre();
-        if (!linkki.isEmpty()) {
-            tuloste += ", linkki: " + getLinkki();
-        }
-        tuloste += ", " + merkki;
-        return tuloste;
+       
+        
+        return "Tekijä: " + tekija + ", nimi: " + nimi;
     }
 }

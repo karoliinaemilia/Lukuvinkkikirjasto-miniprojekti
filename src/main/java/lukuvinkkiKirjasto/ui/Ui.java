@@ -115,8 +115,8 @@ public class Ui {
             }
             String aika = "";
             if (Boolean.parseBoolean(req.queryParams("luettu"))) {
-                aika = LocalDate.now().toString()
-                        + LocalDateTime.now().getHour()
+                aika = LocalDate.now().toString() + " "
+                        + LocalDateTime.now().getHour() + ":"
                         + LocalDateTime.now().getMinute();
                 System.out.println(aika);
             }
@@ -150,8 +150,8 @@ public class Ui {
             if (act.equals("poista")) {
                 kirjaDao.delete(req.params(":ISBN"));
             } else if (act.equals("Merkitse luetuksi")) {
-                String uusiAika = LocalDate.now().toString()
-                        + LocalDateTime.now().getHour()
+                String uusiAika = LocalDate.now().toString() + " "
+                        + LocalDateTime.now().getHour() + ":"
                         + LocalDateTime.now().getMinute();
                 Kirja kirja = kirjaDao.findOne(req.params(":ISBN"));
                 kirja.setLuettu(true);
@@ -209,13 +209,12 @@ public class Ui {
             String act = req.queryParams("nappi");
 
             System.out.print(act);
-            System.out.println("mitä ihmettä");
 
             if (act.equals("poista")) {
                 artikkeliDao.delete(Integer.parseInt(req.params(":id")));
             } else if (act.equals("Merkitse luetuksi")) {
-                String uusiAika = LocalDate.now().toString()
-                        + LocalDateTime.now().getHour()
+                String uusiAika = LocalDate.now().toString() + " " 
+                        + LocalDateTime.now().getHour() + ":"
                         + LocalDateTime.now().getMinute();
                 Artikkeli artikkeli = artikkeliDao.findOne(Integer.parseInt(req.params(":id")));
                 artikkeli.setLuettu(true);

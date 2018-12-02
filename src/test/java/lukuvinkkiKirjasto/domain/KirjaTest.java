@@ -130,20 +130,22 @@ public class KirjaTest {
         assertEquals(lehti.getLuettuAika(), "2019");
     }
     @Test
-    public void LuettuStringPalutuuOikeinLuetulla() {
+    public void LuettuStringPalutuuOikeinLukemattomalla() {
         lehti.setLuettu(false);
         assertEquals(lehti.getLuettuString(), "Lukematon");
     }
-    
     @Test
-    public void PaivamaaranVoiVaihtaa() {
+    public void palauttaaOikeinLuetulla() {
+        assertEquals(lehti.getLuettuString(), "Luettu 2018-12");
+    }
+    @Test
+    public void paivamaaranVoiVaihtaa() {
         lehti.setPaivamaara(LocalDate.now());
         assertEquals(lehti.getPaivamaara(), LocalDate.now());
     }
-    
-    /*
     @Test
-    public void tulostusOnOikea() {
-        assertEquals("testilehti, Kirjailija: testikirjoittaja, julkaisuvuosi: 2009, pituus: 20, genre: viihde, linkki: www.testi.fi", lehti.toString());
-    }*/
+    public void tulostusToimii() {
+        assertEquals(lehti.toString(), "Tekijä: testikirjoittaja, nimi: testilehti");
+    }
+    
 }
