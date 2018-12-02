@@ -141,7 +141,7 @@ public class Artikkeli {
     }
 
     public String toString() {
-        String tuloste =  id + "    jkgugjh" + nimi + ", Lehti: " + julkaisuLehti + ", nro: " + numero + ", sivuja: " + sivut + ", tekijä: " + tekija + ", julkaistu: " + julkaisuVuosi;
+        String tuloste =  nimi + ", Lehti: " + julkaisuLehti + ", nro: " + numero + ", sivuja: " + sivut + ", tekijä: " + tekija + ", julkaistu: " + julkaisuVuosi;
         if (!linkki.isEmpty()) {
             tuloste += ", linkki: " + linkki;
         }

@@ -135,9 +135,17 @@ public class ArtikkeliTest {
         lehti.setJulkaistu(2011);
         assertEquals(2011, lehti.getJulkaistu(), vertailuTarkkuus);
     }
-    /*
     @Test
-    public void tulostusOnOikea() {
-        assertEquals("testilehti, Kirjailija: testikirjoittaja, julkaisuvuosi: 2009, pituus: 20, genre: viihde, linkki: www.testi.fi", lehti.toString());
-    }*/
+    public void tulostusOikeinJosLinkkiJaLuettu() {
+        assertEquals(lehti.toString(), "testiartikkeli, Lehti: testijulkaisija, "
+                + "nro: 2, sivuja: 20-30, tekijä: testaaja, julkaistu: 2018, linkki: www.testiartikkeli.fi, luettu");
+        
+    }
+    @Test
+    public void tulostusOikeinJosEiLinkkijaLukematon() {
+        Artikkeli kappale = new Artikkeli(2, "joku", 1, "", "tuntematon", "jossain", 2018, 11, "2-3", LocalDate.now(), false, "2019");
+        
+        assertEquals(kappale.toString(), "joku, Lehti: jossain, "
+                + "nro: 11, sivuja: 2-3, tekijä: tuntematon, julkaistu: 2018, lukematon");
+    }
 }

@@ -114,6 +114,33 @@ public class KirjaTest {
         lehti.setJulkaistu(2011);
         assertEquals(2011, lehti.getJulkaistu(), vertailuTarkkuus);
     }
+    
+    @Test
+    public void julkaisuVuodenOikeaPalautus() {
+        assertEquals(lehti.getJulkaisuVuosi(), 2011, vertailuTarkkuus);
+    }
+    @Test
+    public void julkaisuVuodenMuokkaaminen() {    
+        lehti.setJulkaisuVuosi(2011);
+        assertEquals(2011, lehti.getJulkaisuVuosi(), vertailuTarkkuus);
+    }
+    @Test
+    public void setLuettuAikaVaihtuu() {
+        lehti.setLuettuAika("2019");
+        assertEquals(lehti.getLuettuAika(), "2019");
+    }
+    @Test
+    public void LuettuStringPalutuuOikeinLuetulla() {
+        lehti.setLuettu(false);
+        assertEquals(lehti.getLuettuString(), "Luettu 2018-1");
+    }
+    
+    @Test
+    public void PaivamaaranVoiVaihtaa() {
+        lehti.setPaivamaara(LocalDate.now());
+        assertEquals(lehti.getPaivamaara(), LocalDate.now());
+    }
+    
     /*
     @Test
     public void tulostusOnOikea() {
