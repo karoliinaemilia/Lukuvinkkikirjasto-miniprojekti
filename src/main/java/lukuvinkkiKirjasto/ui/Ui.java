@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import lukuvinkkiKirjasto.dao.KirjaDao;
 
 import lukuvinkkiKirjasto.database.Database;
@@ -283,6 +284,37 @@ public class Ui {
             return "";
         }
         );
+        Spark.get("/kirjat/luetut", (req, res) -> {
+            HashMap map = new HashMap<>();
+            List<Kirja> luetut = kirjaDao.findAll().stream().filter(k -> k.isLuettu() == true).collect(Collectors.toList());
+            map.put("kirjat", luetut);
+
+            return new ModelAndView(map, "kirjat");
+        }, new ThymeleafTemplateEngine());
+
+        Spark.get("/kirjat/lukemattomat", (req, res) -> {
+            HashMap map = new HashMap<>();
+            List<Kirja> lukemattomat = kirjaDao.findAll().stream().filter(k -> k.isLuettu() == false).collect(Collectors.toList());
+            map.put("kirjat", lukemattomat);
+
+            return new ModelAndView(map, "kirjat");
+        }, new ThymeleafTemplateEngine());
+
+        Spark.get("/artikkelit/luetut", (req, res) -> {
+            HashMap map = new HashMap<>();
+            List<Artikkeli> luetut = artikkeliDao.findAll().stream().filter(a -> a.isLuettu() == true).collect(Collectors.toList());
+            map.put("artikkelit", luetut);
+
+            return new ModelAndView(map, "artikkelit");
+        }, new ThymeleafTemplateEngine());
+
+        Spark.get("/artikkelit/lukemattomat", (req, res) -> {
+            HashMap map = new HashMap<>();
+            List<Artikkeli> lukemattomat = artikkeliDao.findAll().stream().filter(a -> a.isLuettu() == false).collect(Collectors.toList());
+            map.put("artikkelit", lukemattomat);
+
+            return new ModelAndView(map, "artikkelit");
+        }, new ThymeleafTemplateEngine());
     }
 
     public static void setDatabase(Database db) {
