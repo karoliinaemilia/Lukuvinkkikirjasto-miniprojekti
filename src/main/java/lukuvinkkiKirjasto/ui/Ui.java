@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import lukuvinkkiKirjasto.dao.KirjaDao;
 
 import lukuvinkkiKirjasto.database.Database;
@@ -122,7 +123,6 @@ public class Ui {
             }
 
             kirjaDao.saveOrUpdate(
-                    req.queryParams("ISBN"),
                     new Kirja(
                             req.queryParams("ISBN"),
                             req.queryParams("genre"),
@@ -157,7 +157,7 @@ public class Ui {
                 Kirja kirja = kirjaDao.findOne(req.params(":ISBN"));
                 kirja.setLuettu(true);
                 kirja.setLuettuAika(uusiAika);
-                kirjaDao.updateInformation(kirja);
+                kirjaDao.updateInformation(req.params(":ISBN"), kirja);
             }
 
             res.redirect("/kirjat");
@@ -184,7 +184,7 @@ public class Ui {
                 System.out.println(aika);
             }
 
-            artikkeliDao.saveOrUpdate(1,
+            artikkeliDao.saveOrUpdate(
                     new Artikkeli(
                             null,
                             req.queryParams("nimi"),
@@ -227,29 +227,45 @@ public class Ui {
             return "";
         });
 
-        /*Spark.post("/artikkelit/:artikkeliId", (req, res) -> {
+        Spark.post("/artikkelit/:artikkeliId", (req, res) -> {
             Artikkeli artikkeli = artikkeliDao.findOne(Integer.parseInt(req.params(":artikkeliId")));
             System.out.println(artikkeli.toString());
             artikkeli.setLuettu(true);
             artikkeliDao.updateInformation(artikkeli);
             res.redirect("/artikkelit");
             return "";
-        });*/
-        Spark.post("/kirja/:id", (req, res) -> {
+        });
+        Spark.post("/artikkeli/:id", (req, res) -> {
             System.out.println(req.params(":id"));
+            Artikkeli artikkeli = artikkeliDao.findOne(Integer.parseInt(req.params(":id")));
+            artikkeli.setNimi(req.queryParams("nimi"));
+            artikkeli.setPituus(Integer.parseInt(req.queryParams("pituus")));
+            artikkeli.setLinkki(req.queryParams("linkki"));
+            artikkeli.setTekija(req.queryParams("tekija"));
+            artikkeli.setJulkaisuLehti(req.queryParams("julkaisuLehti"));
+            artikkeli.setJulkaistu(Integer.parseInt(req.queryParams("julkaisuVuosi")));
+            artikkeli.setNumero(Integer.parseInt(req.queryParams("numero")));
+            artikkeli.setSivut(req.queryParams("sivut"));
+
+            artikkeliDao.updateInformation(artikkeli);
+            res.redirect("/artikkeli/" + artikkeli.getId());
+            return "";
+        });
+
+        Spark.post("/kirja/:id", (req, res) -> {
             Kirja kirja = kirjaDao.findOne(req.params(":id"));
             ISBNValidator isbn = new ISBNValidator();
 
             try {
                 if (!isbn.isValid(req.queryParams("ISBN"))) {
-                    res.redirect("/kirja/:id");
+                    res.redirect("/kirjat");
                     return "";
                 }
             } catch (Exception e) {
                 System.out.println(e);
             }
             if (kirja != null) {
-                kirjaDao.saveOrUpdate(kirja.getISBN(),
+                kirjaDao.updateInformation(kirja.getISBN(),
                         new Kirja(
                                 req.queryParams("ISBN"),
                                 req.queryParams("genre"),
@@ -260,7 +276,7 @@ public class Ui {
                                 Integer.parseInt(req.queryParams("julkaisuVuosi")),
                                 LocalDate.now(),
                                 kirja.isLuettu(),
-                                ""
+                                kirja.getLuettuAika()
                         ));
             }
 
@@ -268,6 +284,37 @@ public class Ui {
             return "";
         }
         );
+        Spark.get("/kirjat/luetut", (req, res) -> {
+            HashMap map = new HashMap<>();
+            List<Kirja> luetut = kirjaDao.findAll().stream().filter(k -> k.isLuettu() == true).collect(Collectors.toList());
+            map.put("kirjat", luetut);
+
+            return new ModelAndView(map, "kirjat");
+        }, new ThymeleafTemplateEngine());
+
+        Spark.get("/kirjat/lukemattomat", (req, res) -> {
+            HashMap map = new HashMap<>();
+            List<Kirja> lukemattomat = kirjaDao.findAll().stream().filter(k -> k.isLuettu() == false).collect(Collectors.toList());
+            map.put("kirjat", lukemattomat);
+
+            return new ModelAndView(map, "kirjat");
+        }, new ThymeleafTemplateEngine());
+
+        Spark.get("/artikkelit/luetut", (req, res) -> {
+            HashMap map = new HashMap<>();
+            List<Artikkeli> luetut = artikkeliDao.findAll().stream().filter(a -> a.isLuettu() == true).collect(Collectors.toList());
+            map.put("artikkelit", luetut);
+
+            return new ModelAndView(map, "artikkelit");
+        }, new ThymeleafTemplateEngine());
+
+        Spark.get("/artikkelit/lukemattomat", (req, res) -> {
+            HashMap map = new HashMap<>();
+            List<Artikkeli> lukemattomat = artikkeliDao.findAll().stream().filter(a -> a.isLuettu() == false).collect(Collectors.toList());
+            map.put("artikkelit", lukemattomat);
+
+            return new ModelAndView(map, "artikkelit");
+        }, new ThymeleafTemplateEngine());
     }
 
     public static void setDatabase(Database db) {

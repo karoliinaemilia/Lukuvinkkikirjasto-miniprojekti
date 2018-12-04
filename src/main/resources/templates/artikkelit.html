@@ -12,14 +12,24 @@
     </head>
     <body>
         <div class="container">
+
+            <form method="GET" action="/artikkelit/luetut">
+                <input class="btn btn-primary" type="submit" value="luetut"/>
+            </form>
+            <form method="GET" action="/artikkelit/lukemattomat">
+                <input class="btn btn-primary" type="submit" value="lukemattomat"/>
+            </form>
+            <form method="GET" action="/artikkelit">
+                <input class="btn btn-primary" type="submit" value="kaikki"/>
+            </form>
             <h1>Artikkelit</h1>
 
             <table class="table">
                 <tr th:each="artikkeli : ${artikkelit}">
                     <td>
-                            <a th:href="@{~/artikkeli/{id}(id=${artikkeli.id})}" ><strong th:text="${artikkeli.getNimi}">N</strong></a> </br>
-                    <span th:text="${artikkeli.getTekija}">T</span> </br>
-                    <span th:text="${artikkeli.getLuettuString}">L</span>
+                        <a th:href="@{~/artikkeli/{id}(id=${artikkeli.id})}" ><strong th:text="${artikkeli.getNimi}">N</strong></a> </br>
+                        <span th:text="${artikkeli.getTekija}">T</span> </br>
+                        <span th:text="${artikkeli.getLuettuString}">L</span>
                     </td>
                     <td>
                         <form th:action="@{~/artikkelit/{artikkeliId}(artikkeliId=${artikkeli.id})}" method="post" id ="nappi">
@@ -27,7 +37,7 @@
                             <input class="btn btn-danger" name = nappi type="submit" value="poista" />
                         </form>
                     </td> 
-              
+
                 </tr>
             </table>
 
