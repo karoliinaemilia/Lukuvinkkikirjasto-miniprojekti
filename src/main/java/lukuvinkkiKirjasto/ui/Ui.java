@@ -122,6 +122,7 @@ public class Ui {
             }
 
             kirjaDao.saveOrUpdate(
+                    req.queryParams("ISBN"),
                     new Kirja(
                             req.queryParams("ISBN"),
                             req.queryParams("genre"),
@@ -169,7 +170,7 @@ public class Ui {
             for (int j = 0; j < artikkelit.size(); j++) {
                 System.out.println(artikkelit.get(j));
                 if (artikkelit.get(j).getNimi().equals(req.queryParams("nimi"))) {
-                    
+
                     res.redirect("/artikkelit");
                     return "";
                 }
@@ -183,7 +184,7 @@ public class Ui {
                 System.out.println(aika);
             }
 
-            artikkeliDao.saveOrUpdate(
+            artikkeliDao.saveOrUpdate(1,
                     new Artikkeli(
                             null,
                             req.queryParams("nimi"),
@@ -213,7 +214,7 @@ public class Ui {
             if (act.equals("poista")) {
                 artikkeliDao.delete(Integer.parseInt(req.params(":id")));
             } else if (act.equals("Merkitse luetuksi")) {
-                String uusiAika = LocalDate.now().toString() + " " 
+                String uusiAika = LocalDate.now().toString() + " "
                         + LocalDateTime.now().getHour() + ":"
                         + LocalDateTime.now().getMinute();
                 Artikkeli artikkeli = artikkeliDao.findOne(Integer.parseInt(req.params(":id")));
@@ -234,6 +235,39 @@ public class Ui {
             res.redirect("/artikkelit");
             return "";
         });*/
+        Spark.post("/kirja/:id", (req, res) -> {
+            System.out.println(req.params(":id"));
+            Kirja kirja = kirjaDao.findOne(req.params(":id"));
+            ISBNValidator isbn = new ISBNValidator();
+
+            try {
+                if (!isbn.isValid(req.queryParams("ISBN"))) {
+                    res.redirect("/kirja/:id");
+                    return "";
+                }
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+            if (kirja != null) {
+                kirjaDao.saveOrUpdate(kirja.getISBN(),
+                        new Kirja(
+                                req.queryParams("ISBN"),
+                                req.queryParams("genre"),
+                                req.queryParams("nimi"),
+                                Integer.parseInt(req.queryParams("pituus")),
+                                req.queryParams("linkki"),
+                                req.queryParams("tekija"),
+                                Integer.parseInt(req.queryParams("julkaisuVuosi")),
+                                LocalDate.now(),
+                                kirja.isLuettu(),
+                                ""
+                        ));
+            }
+
+            res.redirect("/kirja/" + req.queryParams("ISBN"));
+            return "";
+        }
+        );
     }
 
     public static void setDatabase(Database db) {

@@ -27,6 +27,41 @@
             <p><a href="/kirjat">Kirjojen listaukseen</a></p> </br>
             <p><a href="/">Aloitussivulle</a></p>
 
+
+            <h2>Muokkaa kirjan tietoja</h2>
+
+            <form method="POST" th:action="@{~/kirja/{kirjaId}(kirjaId=${kirja.ISBN})}">
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label" for="ISBN">ISBN: </label> 
+                    <input type="text" name="ISBN" th:value="${kirja.getISBN}" />
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Kirjan nimi: </label>
+                    <input type="text" name="nimi" th:value="${kirja.getNimi}"/>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Genre: </label>
+                    <input type="text" name="genre" th:value="${kirja.getGenre}"/>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Pituus: </label>
+                    <input type="text" name="pituus" th:value="${kirja.getPituus}"/>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Linkki: </label>
+                    <input type="text" name="linkki" th:value="${kirja.getLinkki}"/>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Tekija: </label>
+                    <input type="text" name="tekija" th:value="${kirja.getTekija}"/>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Julkaisuvuosi: </label>
+                    <input type="text" name="julkaisuVuosi" th:value="${kirja.getJulkaisuvuosi}"/>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Muokkaa</button>
+            </form>
         </div>
 
 

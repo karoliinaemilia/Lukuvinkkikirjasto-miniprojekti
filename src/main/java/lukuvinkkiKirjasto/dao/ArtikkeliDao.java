@@ -64,28 +64,25 @@ public class ArtikkeliDao implements Dao<Artikkeli, Integer> {
     }
 
     @Override
-    public Artikkeli saveOrUpdate(Artikkeli artikkeli) throws SQLException {
+    public Artikkeli saveOrUpdate(Integer avain, Artikkeli artikkeli) throws SQLException {
         Connection conn = database.getConnection();
-            PreparedStatement statement = conn.prepareStatement("INSERT INTO Artikkeli "
-                    + "(nimi, pituus, linkki, tekija, julkaisuLehti, julkaisuVuosi, "
-                    + "numero, sivut, paivamaara, luettu, luettuAika) VALUES (?, "
-                    + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            statement.setString(1, artikkeli.getNimi());
-            statement.setInt(2, artikkeli.getPituus());
-            statement.setString(3, artikkeli.getLinkki());
-            statement.setString(4, artikkeli.getTekija());
-            statement.setString(5, artikkeli.getJulkaisuLehti());
-            statement.setInt(6, artikkeli.getJulkaistu());
-            statement.setInt(7, artikkeli.getNumero());
-            statement.setString(8, artikkeli.getSivut());
-            statement.setDate(9, Date.valueOf(artikkeli.getPaivamaara()));
-            statement.setBoolean(10, artikkeli.isLuettu());
-            statement.setString(11, artikkeli.getLuettuAika());
-            statement.executeUpdate();
-            
-          
-            
-        
+        PreparedStatement statement = conn.prepareStatement("INSERT INTO Artikkeli "
+                + "(nimi, pituus, linkki, tekija, julkaisuLehti, julkaisuVuosi, "
+                + "numero, sivut, paivamaara, luettu, luettuAika) VALUES (?, "
+                + "?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        statement.setString(1, artikkeli.getNimi());
+        statement.setInt(2, artikkeli.getPituus());
+        statement.setString(3, artikkeli.getLinkki());
+        statement.setString(4, artikkeli.getTekija());
+        statement.setString(5, artikkeli.getJulkaisuLehti());
+        statement.setInt(6, artikkeli.getJulkaistu());
+        statement.setInt(7, artikkeli.getNumero());
+        statement.setString(8, artikkeli.getSivut());
+        statement.setDate(9, Date.valueOf(artikkeli.getPaivamaara()));
+        statement.setBoolean(10, artikkeli.isLuettu());
+        statement.setString(11, artikkeli.getLuettuAika());
+        statement.executeUpdate();
+
         return findOne(artikkeli.getId());
     }
 
