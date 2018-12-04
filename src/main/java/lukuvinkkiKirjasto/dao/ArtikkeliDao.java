@@ -64,7 +64,7 @@ public class ArtikkeliDao implements Dao<Artikkeli, Integer> {
     }
 
     @Override
-    public Artikkeli saveOrUpdate(Integer avain, Artikkeli artikkeli) throws SQLException {
+    public Artikkeli saveOrUpdate(Artikkeli artikkeli) throws SQLException {
         Connection conn = database.getConnection();
         PreparedStatement statement = conn.prepareStatement("INSERT INTO Artikkeli "
                 + "(nimi, pituus, linkki, tekija, julkaisuLehti, julkaisuVuosi, "
