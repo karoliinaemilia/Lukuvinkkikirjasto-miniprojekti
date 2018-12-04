@@ -20,6 +20,7 @@ public class ArtikkeliDao implements Dao<Artikkeli, Integer> {
 
     @Override
     public Artikkeli findOne(Integer key) throws SQLException {
+        Artikkeli artikkeli; 
         try (Connection conn = database.getConnection()) {
             PreparedStatement statement = conn.prepareStatement("SELECT * FROM Artikkeli where id = ?");
             statement.setObject(1, key);
@@ -30,16 +31,15 @@ public class ArtikkeliDao implements Dao<Artikkeli, Integer> {
                 return null;
 
             }
-            Artikkeli artikkeli = new Artikkeli(rs.getInt("id"), rs.getString("nimi"), rs.getInt("pituus"),
+            artikkeli = new Artikkeli(rs.getInt("id"), rs.getString("nimi"), rs.getInt("pituus"),
                     rs.getString("linkki"), rs.getString("tekija"),
                     rs.getString("julkaisuLehti"), rs.getInt("julkaisuVuosi"), rs.getInt("numero"), rs.getString("sivut"),
                     rs.getDate("paivamaara").toLocalDate(), rs.getBoolean("luettu"), rs.getString("luettuAika"));
 
             statement.close();
             rs.close();
-            conn.close();
-            return artikkeli;
         }
+        return artikkeli; 
 
     }
 
@@ -57,9 +57,8 @@ public class ArtikkeliDao implements Dao<Artikkeli, Integer> {
             }
             statement.close();
             rs.close();
-            conn.close();
-            return artikkelit;
         }
+        return artikkelit;
 
     }
 
@@ -93,7 +92,6 @@ public class ArtikkeliDao implements Dao<Artikkeli, Integer> {
             statement.setInt(1, key);
             statement.executeUpdate();
             statement.close();
-            conn.close();
         }
     }
 
