@@ -1,7 +1,6 @@
-Feature: Kayttaja voi poistaa artikkelin
+Feature: As a user I want to be able to delete an article
 
-#  Scenario: painamalla poista nappia artikkeli poistetaan
-#    Given mennaan artikkelien alkusivulle
-#    When kentat taytetaan tiedoilla "nimi4", "200","testi linkki" ,"tekijä", "julkaisulehti","2019","25","31"  ja painetaan lisaa
-#    When painetaan artikkelin poista nappia
-#    Then artikkeli "nimi4", "200","testi linkki" ,"tekijä", "julkaisulehti","2019","25","31" on poistunut
+Scenario: Pressing the delete button deletes the article
+Given the database has an existing article with name "unClean Code" by "Giovanni Tribisi" and the user navigates to the listing page for articles
+When delete button is pressed
+Then article "unClean Code" by "Giovanni Tribisi" has been deleted

@@ -1,12 +1,16 @@
-Feature: Kayttaja voi lisata kirjan
+Feature: As a user I ant to be able to add a book
 
-#  Scenario: kirjan lisays
-#    Given mennaan kirjojen alkusivulle
-#    When kentat taytetaan tiedoilla "9789519854892","Introduction to Algorithms", "School", "2000","info.com" ,"Terrence", "2039"  ja painetaan lisaa
-#    Then Sovellus on lisannyt kirjan tiedoilla "9789519854892","Introduction to Algorithms", "School", "2000","info.com" ,"Terrence", "2039"
+Scenario: Book cannot be added with invalid ISBN
+Given user navigates to the listing page for books
+When the form fields for a book are filled with "54892", "Introduction to Algoholism", "John Favreu", "323", "linkMcLink.com", "self help", "2323" and submitted
+Then the book "54892","Introfuction to Algoholism", "John Favreu", "323","linkMcLink.com" ,"self help", "2323" is not added
 
-  Scenario: kirjaa ei voi lisata samalla ISBN:alla
-    Given mennaan kirjojen alkusivulle
-    When kentat taytetaan tiedoilla "9780136019701","Testi", "testinen", "200","testi linkki" ,"Testi testinen", "2018"  ja painetaan lisaa
-    When kentat taytetaan tiedoilla "9780136019701","toinenTesti", "testinen2", "456","testi linkki2" ,"Testi testinennen", "2019"  ja painetaan lisaa
-    Then kirjaa "9780136019701","toinenTesti", "testinen2", "456","testi linkki2" ,"Testi testinennen", "2019" ei lisata
+Scenario: Adding a book
+Given user navigates to the listing page for books
+When the form fields for a book are filled with "9789519854892", "Introduction to Algorithms", "School", "2000", "info.com", "Terrence", "2039" and submitted
+Then Book with the information "9789519854892","Introduction to Algorithms", "School", "2000","info.com" ,"Terrence", "2039" has been added
+
+Scenario: Book cannot be added with same ISBN
+Given user navigates to the listing page for books
+When the form fields for a book are filled with "9789519854892", "Introduction to Algoholism", "John Favreu", "323", "linkMcLink.com", "self help", "2323" and submitted
+Then the book "97895198954892","Introfuction to Algoholism", "John Favreu", "323","linkMcLink.com" ,"self help", "2323" is not added

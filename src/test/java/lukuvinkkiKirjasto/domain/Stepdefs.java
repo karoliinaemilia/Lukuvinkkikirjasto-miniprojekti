@@ -14,14 +14,42 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 public class Stepdefs {
 
-    WebDriver driver = new HtmlUnitDriver();
+    WebDriver driver = new ChromeDriver();
     String baseUrl = "http://localhost:4567";
 
-    @Given("^mennaan kirjojen alkusivulle$")
-    public void mennaan_kirjojen_alkusivulle() throws Throwable {
-        driver.get(baseUrl);
-        WebElement element = driver.findElement(By.linkText("Kirjojen listaukseen"));
-        element.click();
+    @Given("^user navigates to the listing page for articles$")
+    public void user_navigates_to_the_listing_page_for_articles() throws Throwable {
+        clickLink("Artikkelien listaukseen");
+    }
+
+    @When("^the form fields for an article are filled with \"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\" ,\"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" and submitted$")
+    public void the_form_fields_for_an_article_are_filled_with_and_submitted(String nimi, String pituus, String linkki, String tekija, String lehti, String vuosi, String numero, String sivut) throws Throwable {
+        fillArticleForm(nimi, pituus, linkki, tekija, lehti, vuosi, numero, sivut);
+    }
+
+    @Then("^Article with the information \"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\" ,\"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" has been added$")
+    public void article_with_the_information_has_been_added(String nimi, String pituus, String linkki, String tekija, String lehti, String vuosi, String numero, String sivut) throws Throwable {
+        pageHasContent(nimi);
+        pageHasContent(tekija);
+    }
+
+    @Given("^the database has an existing article with name \"([^\"]*)\" by \"([^\"]*)\" and the user navigates to the listing page for articles$")
+    public void the_database_has_an_existing_article_with_name_by_and_the_user_navigates_to_the_listing_page_for_articles(String nimi, String tekija) throws Throwable {
+        clickLink("Artikkelien listaukseen");
+        fillArticleForm(nimi, "456", "linkkilinkki.com", tekija, "Journal for excellence", "2321", "342", "23-234");
+
+    }
+
+    @When("^delete button is pressed$")
+    public void delete_button_is_pressed() throws Throwable {
+        List<WebElement> elements = driver.findElements(By.id("nappi"));
+        elements.get(elements.size() - 1).submit();
+    }
+
+    @Then("^article \"([^\"]*)\" by \"([^\"]*)\" has been deleted$")
+    public void article_by_has_been_deleted(String nimi, String tekija) throws Throwable {
+        pageDoesNotHaveContent(nimi);
+        pageDoesNotHaveContent(tekija);
     }
 
     @When("^kentat taytetaan tiedoilla \"([^\"]*)\",\"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\" ,\"([^\"]*)\", \"([^\"]*)\"  ja painetaan lisaa$")
@@ -29,84 +57,73 @@ public class Stepdefs {
         fillBookForm(ISBN, nimi, genre, pituus, linkki, tekija, julkaisuVuosi);
     }
 
-//    @Then("^Sovellus on lisannyt kirjan tiedoilla \"([^\"]*)\", \"([^\"]*)\"$")
-//    public void sovellus_on_lisannyt_kirjan_tiedoilla(String ISBN, String nimi, String genre, String pituus, String linkki, String tekija, String julkaisuVuosi) throws Throwable {
-//        pageHasContent(nimi);
-//        pageHasContent(ISBN);
-//        pageHasContent(tekija);
-//        pageHasContent(julkaisuVuosi);
-//        pageHasContent(pituus);
-//        pageHasContent(genre);
-//        pageHasContent(linkki);
-//        
-//    }
+    @Given("^user navigates to the listing page for books$")
+    public void user_navigates_to_the_listing_page_for_books() throws Throwable {
+        clickLink("Kirjojen listaukseen");
+    }
 
-    @Then("^kirjaa \"([^\"]*)\",\"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\" ,\"([^\"]*)\", \"([^\"]*)\" ei lisata$")
-    public void kirjaa_ei_lisata(String ISBN, String nimi, String genre, String pituus, String linkki, String tekija, String julkaisuVuosi) throws Throwable {
+    @When("^the form fields for a book are filled with \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\" and submitted$")
+    public void the_form_fields_for_a_book_are_filled_with_and_submitted(String ISBN, String nimi, String genre, String pituus, String linkki, String tekija, String julkaisuVuosi) throws Throwable {
+        fillBookForm(ISBN, nimi, genre, pituus, linkki, tekija, julkaisuVuosi);
+    }
+
+    @Then("^the book \"([^\"]*)\",\"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\" ,\"([^\"]*)\", \"([^\"]*)\" is not added$")
+    public void the_book_is_not_added(String ISBN, String nimi, String genre, String pituus, String linkki, String tekija, String julkaisuVuosi) throws Throwable {
         pageDoesNotHaveContent(nimi);
         pageDoesNotHaveContent(tekija);
-        pageDoesNotHaveContent(julkaisuVuosi);
-        pageDoesNotHaveContent(pituus);
-        pageDoesNotHaveContent(genre);
-        pageDoesNotHaveContent(linkki);
+    }
+    
+    @Then("^Book with the information \"([^\"]*)\",\"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\" ,\"([^\"]*)\", \"([^\"]*)\" has been added$")
+    public void book_with_the_information_has_been_added(String ISBN, String nimi, String genre, String pituus, String linkki, String tekija, String julkaisuVuosi) throws Throwable {
+        pageHasContent(nimi);
+        pageHasContent(tekija);
     }
 
-    @When("^painetaan kirjan poista nappia$")
-    public void painetaan_kirjan_poista_nappia() throws Throwable {
-        List<WebElement> elements = driver.findElements(By.id("nappi"));
-        elements.get(elements.size() - 1).submit();
+    @Given("^the database has an existing book with name \"([^\"]*)\" by \"([^\"]*)\" and the user navigates to the listing page for books$")
+    public void the_database_has_an_existing_book_with_name_by_and_the_user_navigates_to_the_listing_page_for_books(String nimi, String tekija) throws Throwable {
+        clickLink("Kirjojen listaukseen");
+        fillBookForm(nimi, "2312", "genrenen", "2930", "linked", tekija, "2312");
     }
-//
-//    @Then("^kirja \"([^\"]*)\",\"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\" ,\"([^\"]*)\", \"([^\"]*)\" on poistunut$")
-//    public void kirja_on_poistunut(String ISBN, String nimi, String genre, String pituus, String linkki, String tekija, String julkaisuVuosi) throws Throwable {
-//        pageDoesNotHaveContent(nimi);
-//        pageDoesNotHaveContent(ISBN);
-//        pageDoesNotHaveContent(tekija);
-//        pageDoesNotHaveContent(julkaisuVuosi);
-//        pageDoesNotHaveContent(pituus);
-//        pageDoesNotHaveContent(genre);
-//        pageDoesNotHaveContent(linkki);
-//    }
-//artikkeli 
 
-    @Given("^mennaan artikkelien alkusivulle$")
-    public void mennaan_artikkelien_alkusivulle() throws Throwable {
+    @Then("^book \"([^\"]*)\" by \"([^\"]*)\" has been deleted$")
+    public void book_by_has_been_deleted(String nimi, String tekija) throws Throwable {
+        pageDoesNotHaveContent(nimi);
+        pageDoesNotHaveContent(tekija);
+    }
+    
+    @Given("^the database has an existing book$")
+    public void the_database_has_an_existing_book() throws Throwable {
+        clickLink("Kirjojen listaukseen");
+        fillBookForm("9780997316025", "There once was a book named Barry", "edjumacational", "long", "linklinkalinklinklinkisaidalinklinklinklinkedylink", "Barry the First", "932");
+        System.out.println(driver.getPageSource());
+    }
+    
+    @Given("^the database has an existing article$")
+    public void the_database_has_an_existing_article() throws Throwable {
+        clickLink("Artikkelien listaukseen");
+        fillArticleForm("The Software Engineer", "3231","lii.com" ,"Sandro MacMuffin", "Scientific Canadian","48485","2303","223-22");
+        
+    }
+    
+    @Then("^Only some of the information for book is shown$")
+    public void only_some_of_the_information_for_book_is_shown() throws Throwable {
+        pageDoesNotHaveContent("genre: edjumacational");
+        pageDoesNotHaveContent("932");
+        pageDoesNotHaveContent("linklinkalinklinklinkisaidalinklinklinklinkedylink");
+    }
+    
+    @Then("^Only some of the information for article is shown$")
+    public void only_some_of_the_information_for_article_is_shown() throws Throwable {
+        pageDoesNotHaveContent("lii.com");
+        pageDoesNotHaveContent("Scientific Canadian");
+    }
+
+
+    private void clickLink(String name) {
         driver.get(baseUrl);
-        WebElement element = driver.findElement(By.linkText("Artikkelien listaukseen"));
+        WebElement element = driver.findElement(By.linkText(name));
         element.click();
     }
-
-    @When("^kentat taytetaan tiedoilla \"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\" ,\"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\"  ja painetaan lisaa$")
-    public void kentat_taytetaan_tiedoilla_ja_painetaan_lisaa(String nimi, String pituus, String linkki, String tekija, String lehti, String vuosi, String numero, String sivut) throws Throwable {
-        fillArticleForm(nimi, pituus, linkki, tekija, lehti, vuosi, numero, sivut);
-    }
-
-//    @Then("^Sovellus on lisannyt artikkelin tiedoilla \"([^\"]*)\", \"([^\"]*)\"$")
-//    public void sovellus_on_lisannyt_artikkelin_tiedoilla(String nimi, String pituus, String linkki, String tekija, String lehti, String vuosi, String numero, String sivut) throws Throwable {
-//        pageHasContent(nimi);
-////        pageHasContent(lehti);
-//        pageHasContent(tekija);
-////        pageHasContent(numero);
-////        pageHasContent(sivut);
-////        pageHasContent(linkki);
-//    }
-
-
-    @When("^painetaan artikkelin poista nappia$")
-    public void painetaan_artikkelin_poista_nappia() throws Throwable {
-        List<WebElement> elements = driver.findElements(By.id("nappi"));
-        elements.get(elements.size() - 1).submit();
-    }
-//
-//    @Then("^artikkeli \"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\" ,\"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" on poistunut$")
-//    public void artikkeli_on_poistunut(String nimi, String pituus, String linkki, String tekija, String lehti, String vuosi, String numero, String sivut) throws Throwable {
-//        pageDoesNotHaveContent(nimi);
-//        pageDoesNotHaveContent(lehti);
-//        pageDoesNotHaveContent(tekija);
-//        pageDoesNotHaveContent(numero);
-//        pageDoesNotHaveContent(sivut);
-//        pageDoesNotHaveContent(linkki);
-//    }
 
     private void pageHasContent(String content) {
         assertTrue(driver.getPageSource().contains(content));
