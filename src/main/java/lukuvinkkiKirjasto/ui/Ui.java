@@ -112,14 +112,14 @@ public class Ui {
                     return "";
                 }
             } catch (Exception e) {
-                System.out.println("aaaaaa");
+                System.out.println(e);
             }
             String aika = "";
             if (Boolean.parseBoolean(req.queryParams("luettu"))) {
                 aika = LocalDate.now().toString() + " "
                         + LocalDateTime.now().getHour() + ":"
                         + LocalDateTime.now().getMinute();
-                System.out.println(aika);
+
             }
 
             kirjaDao.saveOrUpdate(
@@ -143,7 +143,7 @@ public class Ui {
         });
 
         Spark.post("/kirjat/:ISBN", (req, res) -> {
-            System.out.println("jotain");
+           
             String act = req.queryParams("nappi");
 
             System.out.print(act);
@@ -168,7 +168,7 @@ public class Ui {
             List<Artikkeli> artikkelit = artikkeliDao.findAll();
 
             for (int j = 0; j < artikkelit.size(); j++) {
-                System.out.println(artikkelit.get(j));
+                
                 if (artikkelit.get(j).getNimi().equals(req.queryParams("nimi"))) {
 
                     res.redirect("/artikkelit");
@@ -181,7 +181,7 @@ public class Ui {
                 aika = LocalDate.now().toString() + " "
                         + LocalDateTime.now().getHour() + ":"
                         + LocalDateTime.now().getMinute();
-                System.out.println(aika);
+          
             }
 
             artikkeliDao.saveOrUpdate(
@@ -209,7 +209,7 @@ public class Ui {
 
             String act = req.queryParams("nappi");
 
-            System.out.print(act);
+        
 
             if (act.equals("poista")) {
                 artikkeliDao.delete(Integer.parseInt(req.params(":id")));
@@ -229,14 +229,14 @@ public class Ui {
 
         Spark.post("/artikkelit/:artikkeliId", (req, res) -> {
             Artikkeli artikkeli = artikkeliDao.findOne(Integer.parseInt(req.params(":artikkeliId")));
-            System.out.println(artikkeli.toString());
+           
             artikkeli.setLuettu(true);
             artikkeliDao.updateInformation(artikkeli);
             res.redirect("/artikkelit");
             return "";
         });
         Spark.post("/artikkeli/:id", (req, res) -> {
-            System.out.println(req.params(":id"));
+      
             Artikkeli artikkeli = artikkeliDao.findOne(Integer.parseInt(req.params(":id")));
             artikkeli.setNimi(req.queryParams("nimi"));
             artikkeli.setPituus(Integer.parseInt(req.queryParams("pituus")));
