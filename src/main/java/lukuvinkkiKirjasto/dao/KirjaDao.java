@@ -84,26 +84,26 @@ public class KirjaDao implements Dao<Kirja, String> {
 
     @Override
     public Kirja saveOrUpdate(Kirja kirja) throws SQLException {
-
-        try (Connection conn = database.getConnection()) {
-            PreparedStatement statement = conn.prepareStatement("INSERT INTO Kirja "
-                    + "(ISBN, genre, nimi, pituus, linkki, tekija, julkaisuVuosi,"
-                    + " paivamaara, luettu, luettuAika) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            statement.setString(1, kirja.getISBN());
-            statement.setString(2, kirja.getGenre());
-            statement.setString(3, kirja.getNimi());
-            statement.setInt(4, kirja.getPituus());
-            statement.setString(5, kirja.getLinkki());
-            statement.setString(6, kirja.getTekija());
-            statement.setInt(7, kirja.getJulkaistu());
-            statement.setDate(8, Date.valueOf(kirja.getPaivamaara()));
-            statement.setBoolean(9, kirja.isLuettu());
-            statement.setString(10, kirja.getLuettuAika());
-            statement.executeUpdate();
-            statement.close();
-            conn.close();
+        if (findOne(kirja.getISBN()) == null) {
+            try (Connection conn = database.getConnection()) {
+                PreparedStatement statement = conn.prepareStatement("INSERT INTO Kirja "
+                        + "(ISBN, genre, nimi, pituus, linkki, tekija, julkaisuVuosi,"
+                        + " paivamaara, luettu, luettuAika) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                statement.setString(1, kirja.getISBN());
+                statement.setString(2, kirja.getGenre());
+                statement.setString(3, kirja.getNimi());
+                statement.setInt(4, kirja.getPituus());
+                statement.setString(5, kirja.getLinkki());
+                statement.setString(6, kirja.getTekija());
+                statement.setInt(7, kirja.getJulkaistu());
+                statement.setDate(8, Date.valueOf(kirja.getPaivamaara()));
+                statement.setBoolean(9, kirja.isLuettu());
+                statement.setString(10, kirja.getLuettuAika());
+                statement.executeUpdate();
+                statement.close();
+                conn.close();
+            }
         }
-
         return findOne(kirja.getISBN());
     }
 
