@@ -40,10 +40,14 @@ public class Stepdefs {
 
     }
 
-    @When("^delete button is pressed$")
-    public void delete_button_is_pressed() throws Throwable {
-        List<WebElement> elements = driver.findElements(By.id("nappi"));
-        elements.get(elements.size() - 1).submit();
+    @When("^delete button is pressed at \"([^\"]*)\"$")
+    public void delete_button_is_pressed_at(String index) throws Throwable {
+        List<WebElement> elements = driver.findElements(By.name("poistoNappi"));
+        if (index.isEmpty()) {
+            elements.get(elements.size() - 1).submit();
+        } else {
+            elements.get(Integer.parseInt(index)).submit();
+        }
     }
 
     @Then("^article \"([^\"]*)\" by \"([^\"]*)\" has been deleted$")
@@ -53,7 +57,10 @@ public class Stepdefs {
     }
 
     @When("^kentat taytetaan tiedoilla \"([^\"]*)\",\"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\" ,\"([^\"]*)\", \"([^\"]*)\"  ja painetaan lisaa$")
-    public void kentat_taytetaan_tiedoilla_ja_painetaan_lisaa(String ISBN, String nimi, String genre, String pituus, String linkki, String tekija, String julkaisuVuosi) throws Throwable {
+    public void kentat_taytetaan_tiedoilla_ja_painetaan_lisaa(String ISBN, String nimi,
+             String genre, String pituus,
+             String linkki, String tekija,
+             String julkaisuVuosi) throws Throwable {
         fillBookForm(ISBN, nimi, genre, pituus, linkki, tekija, julkaisuVuosi);
     }
 
@@ -63,18 +70,27 @@ public class Stepdefs {
     }
 
     @When("^the form fields for a book are filled with \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\" and submitted$")
-    public void the_form_fields_for_a_book_are_filled_with_and_submitted(String ISBN, String nimi, String genre, String pituus, String linkki, String tekija, String julkaisuVuosi) throws Throwable {
+    public void the_form_fields_for_a_book_are_filled_with_and_submitted(String ISBN, String nimi,
+             String genre, String pituus,
+             String linkki, String tekija,
+             String julkaisuVuosi) throws Throwable {
         fillBookForm(ISBN, nimi, genre, pituus, linkki, tekija, julkaisuVuosi);
     }
 
     @Then("^the book \"([^\"]*)\",\"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\" ,\"([^\"]*)\", \"([^\"]*)\" is not added$")
-    public void the_book_is_not_added(String ISBN, String nimi, String genre, String pituus, String linkki, String tekija, String julkaisuVuosi) throws Throwable {
+    public void the_book_is_not_added(String ISBN, String nimi,
+             String genre, String pituus,
+             String linkki, String tekija,
+             String julkaisuVuosi) throws Throwable {
         pageDoesNotHaveContent(nimi);
         pageDoesNotHaveContent(tekija);
     }
-    
+
     @Then("^Book with the information \"([^\"]*)\",\"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\" ,\"([^\"]*)\", \"([^\"]*)\" has been added$")
-    public void book_with_the_information_has_been_added(String ISBN, String nimi, String genre, String pituus, String linkki, String tekija, String julkaisuVuosi) throws Throwable {
+    public void book_with_the_information_has_been_added(String ISBN, String nimi,
+             String genre, String pituus,
+             String linkki, String tekija,
+             String julkaisuVuosi) throws Throwable {
         pageHasContent(nimi);
         pageHasContent(tekija);
     }
@@ -90,34 +106,33 @@ public class Stepdefs {
         pageDoesNotHaveContent(nimi);
         pageDoesNotHaveContent(tekija);
     }
-    
+
     @Given("^the database has an existing book$")
     public void the_database_has_an_existing_book() throws Throwable {
         clickLink("Kirjojen listaukseen");
         fillBookForm("9780997316025", "There once was a book named Barry", "edjumacational", "long", "linklinkalinklinklinkisaidalinklinklinklinkedylink", "Barry the First", "932");
         System.out.println(driver.getPageSource());
     }
-    
+
     @Given("^the database has an existing article$")
     public void the_database_has_an_existing_article() throws Throwable {
         clickLink("Artikkelien listaukseen");
-        fillArticleForm("The Software Engineer", "3231","lii.com" ,"Sandro MacMuffin", "Scientific Canadian","48485","2303","223-22");
-        
+        fillArticleForm("The Software Engineer", "3231", "lii.com", "Sandro MacMuffin", "Scientific Canadian", "48485", "2303", "223-22");
+
     }
-    
+
     @Then("^Only some of the information for book is shown$")
     public void only_some_of_the_information_for_book_is_shown() throws Throwable {
         pageDoesNotHaveContent("genre: edjumacational");
         pageDoesNotHaveContent("932");
         pageDoesNotHaveContent("linklinkalinklinklinkisaidalinklinklinklinkedylink");
     }
-    
+
     @Then("^Only some of the information for article is shown$")
     public void only_some_of_the_information_for_article_is_shown() throws Throwable {
         pageDoesNotHaveContent("lii.com");
         pageDoesNotHaveContent("Scientific Canadian");
     }
-
 
     private void clickLink(String name) {
         driver.get(baseUrl);

@@ -32,7 +32,7 @@
                     </td>
                     <td> <form th:action="@{~/kirjat/{ISBN}(ISBN=${kirja.ISBN})}" method="post" id="nappi">                            
                             <input th:if="${not kirja.isLuettu}" class="btn btn-success" name = nappi type="submit" value="Merkitse luetuksi" />
-                            <input class="btn btn-danger" name = nappi type="submit" value="poista"/>
+                            <input class="btn btn-danger" name = poistoNappi type="submit" value="poista"/>
                         </form> </td>
                 </tr>
             </table>
