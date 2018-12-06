@@ -33,8 +33,8 @@
                     </td>
                     <td>
                         <form th:action="@{~/artikkelit/{artikkeliId}(artikkeliId=${artikkeli.id})}" method="post" id ="nappi">
-                            <input th:if="${not artikkeli.isLuettu}" class="btn btn-success" name = nappi type="submit" value="Merkitse luetuksi" />
-                            <input class="btn btn-danger" name = poistoNappi type="submit" value="poista" />
+                            <input th:if="${not artikkeli.isLuettu}" id="luettuNappi" class="btn btn-success" name = nappi type="submit" value="Merkitse luetuksi" />
+                            <input class="btn btn-danger" id="poistoNappi" name = nappi type="submit" value="poista" />
                         </form>
                     </td> 
 

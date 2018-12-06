@@ -146,7 +146,7 @@ public class Ui {
            
             String act = req.queryParams("nappi");
 
-            System.out.print(act);
+          
 
             if (act.equals("poista")) {
                 kirjaDao.delete(req.params(":ISBN"));

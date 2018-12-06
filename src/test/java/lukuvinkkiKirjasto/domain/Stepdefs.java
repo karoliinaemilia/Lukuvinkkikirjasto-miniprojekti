@@ -4,7 +4,10 @@ import cucumber.api.java.After;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
+import lukuvinkkiKirjasto.ui.Ui;
 import static org.junit.Assert.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -37,17 +40,12 @@ public class Stepdefs {
     public void the_database_has_an_existing_article_with_name_by_and_the_user_navigates_to_the_listing_page_for_articles(String nimi, String tekija) throws Throwable {
         clickLink("Artikkelien listaukseen");
         fillArticleForm(nimi, "456", "linkkilinkki.com", tekija, "Journal for excellence", "2321", "342", "23-234");
-
     }
 
-    @When("^delete button is pressed at \"([^\"]*)\"$")
-    public void delete_button_is_pressed_at(String index) throws Throwable {
-        List<WebElement> elements = driver.findElements(By.name("poistoNappi"));
-        if (index.isEmpty()) {
-            elements.get(elements.size() - 1).submit();
-        } else {
-            elements.get(Integer.parseInt(index)).submit();
-        }
+    @When("^delete button is pressed$")
+    public void delete_button_is_pressed() throws Throwable {
+        List<WebElement> elements = driver.findElements(By.id("poistoNappi"));
+        elements.get(elements.size() - 1).submit();
     }
 
     @Then("^article \"([^\"]*)\" by \"([^\"]*)\" has been deleted$")
@@ -98,7 +96,7 @@ public class Stepdefs {
     @Given("^the database has an existing book with name \"([^\"]*)\" by \"([^\"]*)\" and the user navigates to the listing page for books$")
     public void the_database_has_an_existing_book_with_name_by_and_the_user_navigates_to_the_listing_page_for_books(String nimi, String tekija) throws Throwable {
         clickLink("Kirjojen listaukseen");
-        fillBookForm(nimi, "2312", "genrenen", "2930", "linked", tekija, "2312");
+        fillBookForm("9781617294075" , nimi, "genrenen", "2930", "linked", tekija, "2312");
     }
 
     @Then("^book \"([^\"]*)\" by \"([^\"]*)\" has been deleted$")
@@ -111,7 +109,6 @@ public class Stepdefs {
     public void the_database_has_an_existing_book() throws Throwable {
         clickLink("Kirjojen listaukseen");
         fillBookForm("9780997316025", "There once was a book named Barry", "edjumacational", "long", "linklinkalinklinklinkisaidalinklinklinklinkedylink", "Barry the First", "932");
-        System.out.println(driver.getPageSource());
     }
 
     @Given("^the database has an existing article$")
@@ -133,6 +130,41 @@ public class Stepdefs {
         pageDoesNotHaveContent("lii.com");
         pageDoesNotHaveContent("Scientific Canadian");
     }
+
+    @Given("^The database has an existing book that hasn't been read$")
+    public void the_database_has_an_existing_book_that_hasn_t_been_read() throws Throwable {
+        clickLink("Kirjojen listaukseen");
+        fillBookForm("9781789534313", "Beginning Swift", "Swift", "202", "amazon", "Rob Kerr", "1223");
+    }
+
+    @When("^book is marked as read$")
+    public void book_is_marked_as_read() throws Throwable {
+        List<WebElement> elements = driver.findElements(By.id("luettuNappi"));
+        elements.get(elements.size() - 1).submit();
+    }
+    
+    @Then("^the site shows the book as read with the time of reading$")
+    public void the_site_shows_the_book_as_read() throws Throwable {
+        pageHasContent("Luettu " + LocalDate.now().toString() + " " + LocalDateTime.now().getHour() + ":" + LocalDateTime.now().getMinute());
+    }
+    
+    @Given("^The database has an existing article that hasn't been read$")
+    public void the_database_has_an_existing_article_that_hasn_t_been_read() throws Throwable {
+        clickLink("Artikkelien listaukseen");
+        fillArticleForm("How to own a", "23412", "linkedy.com", "Martin Strohm", "Academic", "324", "213456", "345-12");
+    }
+
+    @When("^article is marked as read$")
+    public void article_is_marked_as_read() throws Throwable {
+        List<WebElement> elements = driver.findElements(By.id("luettuNappi"));
+        elements.get(elements.size() - 1).submit();
+    }
+    
+    @Then("^the site shows the article as read with the time of reading$")
+    public void the_site_shows_the_article_as_read() throws Throwable {
+        pageHasContent("Luettu " + LocalDate.now().toString() + " " + LocalDateTime.now().getHour() + ":" + LocalDateTime.now().getMinute());
+    }
+
 
     private void clickLink(String name) {
         driver.get(baseUrl);
@@ -188,7 +220,7 @@ public class Stepdefs {
 
         element.submit();
     }
-
+    
     @After
     public void tearDown() {
         driver.quit();
