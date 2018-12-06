@@ -9,3 +9,8 @@ Scenario: The information for an article can be changed
 Given The database has an existing article and the user navigates to its page
 When some of the information the maker "Jonathan Smith" and year of release "1345" is changed
 Then the new information "Jonathan Smith" and "1345" is shown
+
+Scenario: If the ISBN of a book is changed is must be valid
+Given The database has an existing book and the user navigates to its page
+When the ISBN is changed to a nonvalid ISBN
+Then the ISBN hasn't been changed
