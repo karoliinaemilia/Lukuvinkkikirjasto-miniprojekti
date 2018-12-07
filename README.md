@@ -12,6 +12,8 @@
 
 [Sprintti2](https://docs.google.com/spreadsheets/d/1Aro0I-WY7YCHkPSGKGB8r2TdpK9SfSF0zFdTCQ5nMlM/edit#gid=924703174)
 
+[Sprintti3](https://docs.google.com/spreadsheets/d/1Aro0I-WY7YCHkPSGKGB8r2TdpK9SfSF0zFdTCQ5nMlM/edit#gid=1702940277)
+
 [![codecov](https://codecov.io/gh/karoliinaemilia/Lukuvinkkikirjasto-miniprojekti/branch/master/graph/badge.svg)](https://codecov.io/gh/karoliinaemilia/Lukuvinkkikirjasto-miniprojekti)
 
 [![Build Status](https://travis-ci.org/karoliinaemilia/Lukuvinkkikirjasto-miniprojekti.svg?branch=master)](https://travis-ci.org/karoliinaemilia/Lukuvinkkikirjasto-miniprojekti)
