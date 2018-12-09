@@ -20,39 +20,39 @@ public class Stepdefs {
     WebDriver driver = new HtmlUnitDriver();
     String baseUrl = "http://localhost:4567";
 
-    @Given("^user navigates to the listing page for articles$")
-    public void user_navigates_to_the_listing_page_for_articles() throws Throwable {
-        clickLink("Artikkelien listaukseen");
-    }
+//    @Given("^user navigates to the listing page for articles$")
+//    public void user_navigates_to_the_listing_page_for_articles() throws Throwable {
+//        clickLink("Artikkelien listaukseen");
+//    }
+//
+//    @When("^the form fields for an article are filled with \"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\" ,\"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" and submitted$")
+//    public void the_form_fields_for_an_article_are_filled_with_and_submitted(String nimi, String pituus, String linkki, String tekija, String lehti, String vuosi, String numero, String sivut) throws Throwable {
+//        fillArticleForm(nimi, pituus, linkki, tekija, lehti, vuosi, numero, sivut);
+//    }
+//    @Then("^Article with the information \"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\" ,\"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" has been added$")
+//    public void article_with_the_information_has_been_added(String nimi, String pituus, String linkki, String tekija, String lehti, String vuosi, String numero, String sivut) throws Throwable {
+//        pageHasContent(nimi);
+//        pageHasContent(tekija);
+//    }
 
-    @When("^the form fields for an article are filled with \"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\" ,\"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" and submitted$")
-    public void the_form_fields_for_an_article_are_filled_with_and_submitted(String nimi, String pituus, String linkki, String tekija, String lehti, String vuosi, String numero, String sivut) throws Throwable {
-        fillArticleForm(nimi, pituus, linkki, tekija, lehti, vuosi, numero, sivut);
-    }
 
-    @Then("^Article with the information \"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\" ,\"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\",\"([^\"]*)\" has been added$")
-    public void article_with_the_information_has_been_added(String nimi, String pituus, String linkki, String tekija, String lehti, String vuosi, String numero, String sivut) throws Throwable {
-        pageHasContent(nimi);
-        pageHasContent(tekija);
-    }
+//    @Given("^the database has an existing article with name \"([^\"]*)\" by \"([^\"]*)\" and the user navigates to the listing page for articles$")
+//    public void the_database_has_an_existing_article_with_name_by_and_the_user_navigates_to_the_listing_page_for_articles(String nimi, String tekija) throws Throwable {
+//        clickLink("Artikkelien listaukseen");
+//        fillArticleForm(nimi, "456", "linkkilinkki.com", tekija, "Journal for excellence", "2321", "342", "23-234");
+//    }
+//
+//    @When("^delete button is pressed$")
+//    public void delete_button_is_pressed() throws Throwable {
+//        List<WebElement> elements = driver.findElements(By.id("poistoNappi"));
+//        elements.get(elements.size() - 1).submit();
+//    }
 
-    @Given("^the database has an existing article with name \"([^\"]*)\" by \"([^\"]*)\" and the user navigates to the listing page for articles$")
-    public void the_database_has_an_existing_article_with_name_by_and_the_user_navigates_to_the_listing_page_for_articles(String nimi, String tekija) throws Throwable {
-        clickLink("Artikkelien listaukseen");
-        fillArticleForm(nimi, "456", "linkkilinkki.com", tekija, "Journal for excellence", "2321", "342", "23-234");
-    }
-
-    @When("^delete button is pressed$")
-    public void delete_button_is_pressed() throws Throwable {
-        List<WebElement> elements = driver.findElements(By.id("poistoNappi"));
-        elements.get(elements.size() - 1).submit();
-    }
-
-    @Then("^article \"([^\"]*)\" by \"([^\"]*)\" has been deleted$")
-    public void article_by_has_been_deleted(String nimi, String tekija) throws Throwable {
-        pageDoesNotHaveContent(nimi);
-        pageDoesNotHaveContent(tekija);
-    }
+//    @Then("^article \"([^\"]*)\" by \"([^\"]*)\" has been deleted$")
+//    public void article_by_has_been_deleted(String nimi, String tekija) throws Throwable {
+//        pageDoesNotHaveContent(nimi);
+//        pageDoesNotHaveContent(tekija);
+//    }
 
     @When("^kentat taytetaan tiedoilla \"([^\"]*)\",\"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\" ,\"([^\"]*)\", \"([^\"]*)\"  ja painetaan lisaa$")
     public void kentat_taytetaan_tiedoilla_ja_painetaan_lisaa(String ISBN, String nimi,
@@ -148,22 +148,22 @@ public class Stepdefs {
         pageHasContent("Luettu " + LocalDate.now().toString() + " " + LocalDateTime.now().getHour() + ":" + LocalDateTime.now().getMinute());
     }
     
-    @Given("^The database has an existing article that hasn't been read$")
-    public void the_database_has_an_existing_article_that_hasn_t_been_read() throws Throwable {
-        clickLink("Artikkelien listaukseen");
-        fillArticleForm("How to own a", "23412", "linkedy.com", "Martin Strohm", "Academic", "324", "213456", "345-12");
-    }
-
-    @When("^article is marked as read$")
-    public void article_is_marked_as_read() throws Throwable {
-        List<WebElement> elements = driver.findElements(By.id("luettuNappi"));
-        elements.get(elements.size() - 1).submit();
-    }
-    
-    @Then("^the site shows the article as read with the time of reading$")
-    public void the_site_shows_the_article_as_read() throws Throwable {
-        pageHasContent("Luettu " + LocalDate.now().toString() + " " + LocalDateTime.now().getHour() + ":" + LocalDateTime.now().getMinute());
-    }
+//    @Given("^The database has an existing article that hasn't been read$")
+//    public void the_database_has_an_existing_article_that_hasn_t_been_read() throws Throwable {
+//        clickLink("Artikkelien listaukseen");
+//        fillArticleForm("How to own a", "23412", "linkedy.com", "Martin Strohm", "Academic", "324", "213456", "345-12");
+//    }
+//
+//    @When("^article is marked as read$")
+//    public void article_is_marked_as_read() throws Throwable {
+//        List<WebElement> elements = driver.findElements(By.id("luettuNappi"));
+//        elements.get(elements.size() - 1).submit();
+//    }
+//    
+//    @Then("^the site shows the article as read with the time of reading$")
+//    public void the_site_shows_the_article_as_read() throws Throwable {
+//        pageHasContent("Luettu " + LocalDate.now().toString() + " " + LocalDateTime.now().getHour() + ":" + LocalDateTime.now().getMinute());
+//    }
 
 
     private void clickLink(String name) {
