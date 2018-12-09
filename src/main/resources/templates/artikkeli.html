@@ -65,6 +65,14 @@
 
                 <button type="submit" class="btn btn-primary">Muokkaa</button>
             </form>
+            
+            <p>Artikkelin tagit:</p>
+            <ol>
+                <li th:each="tagi : ${tagit}">
+                    <span th:text="${tagi}">Tagin nimi </span>
+                </li>
+            </ol>
+            
         </div>
     </body>
 

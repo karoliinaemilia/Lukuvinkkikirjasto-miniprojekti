@@ -83,6 +83,35 @@
 
                 <button type="submit" class="btn btn-primary">Lisää</button>
             </form>
+            
+            <h3>Lisää tagejä</h4>
+            
+            <form method="POST" action="/lisaaminen">
+                Artikkeli:
+                <br>
+                    <select name="artikkeli">
+                    <option th:each="artikkeli: ${artikkelit}">
+
+                        <span th:text="${artikkeli.nimi}">artikkelin nimi</span>
+
+
+
+                    </option>
+                    
+                </select>
+                    <br>
+                Tagit:
+                <br>
+                    <select name="tagi">
+                        <option th:each="tagi: ${tagit}">
+                            
+                            <span th:text="${tagi.nimi}">Nimi</span>
+                            
+                        </option>
+                    </select>
+                    <br>
+                        <input value="Lisää" type="submit">
+            </from>
 
             <p><a href="/">Aloitussivulle</a></p>
         </div>

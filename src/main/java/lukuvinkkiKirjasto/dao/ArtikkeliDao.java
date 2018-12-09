@@ -125,5 +125,30 @@ public class ArtikkeliDao implements Dao<Artikkeli, Integer> {
         }
 
     }
+    public int artikkelitTageille(int tagiId) throws SQLException{
+         String kysely = "SELECT Artikkeli.id, Artikkeli.nimi, Artikkeli.pituus, "
+                 + "Artikkeli.linkki, Artikkeli.tekija, Artikkeli.jullkaisuLehti, Artikkeli.julkaisuVuosi,"
+                 + "Artikkeli.numero, Artikkeli.sivut, Artikkeli.paivamaara, Artikkeli.luettu, Artikkeli.luettuAika FROM Artikkeli, ArtikkeliTagi\n"
+                + "              WHERE artikkeli.id = ArtikkeliTagi.artikkeli_id "
+                + "                  AND ArtikkeliTagi.tagi_id = ?\n";
+
+        List<Artikkeli> artikkelit = new ArrayList<>();
+
+        try (Connection conn = database.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement(kysely);
+            stmt.setInt(1, tagiId);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                artikkelit.add(new Artikkeli(rs.getInt("id"), rs.getString("nimi"), rs.getInt("pituus"),
+                        rs.getString("linkki"), rs.getString("tekija"),
+                        rs.getString("julkaisuLehti"), rs.getInt("julkaisuVuosi"), rs.getInt("numero"), rs.getString("sivut"),
+                        rs.getDate("paivamaara").toLocalDate(), rs.getBoolean("luettu"), rs.getString("luettuAika")));   
+
+            }
+        }
+        
+        return artikkelit.size();
+    }
 
 }
