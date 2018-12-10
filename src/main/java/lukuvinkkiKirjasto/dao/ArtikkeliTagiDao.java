@@ -58,7 +58,7 @@ public class ArtikkeliTagiDao implements Dao<ArtikkeliTagi, Integer> {
             return null;
         }
         while (rs.next()) {
-        ArtikkeliTagi at = new ArtikkeliTagi(rs.getInt("artikkei_id"), rs.getInt("tagi_id"));
+        ArtikkeliTagi at = new ArtikkeliTagi(rs.getInt("artikkeli_id"), rs.getInt("tagi_id"));
         artikkeliTagit.add(at);
         }
         

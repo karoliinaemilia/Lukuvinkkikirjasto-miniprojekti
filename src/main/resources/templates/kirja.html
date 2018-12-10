@@ -62,6 +62,13 @@
 
                 <button type="submit" class="btn btn-primary">Muokkaa</button>
             </form>
+            
+            <p>Kirjan tagit:</p>
+            <ol>
+                <li th:each="tagi: ${tagit}">
+                     <a th:href="@{~/tagi/{id}(id=${tagi.id})}"><span th:text="${tagi.getNimi}">Tagin nimi </span></a></br>
+                </li>
+            </ol>
         </div>
 
 

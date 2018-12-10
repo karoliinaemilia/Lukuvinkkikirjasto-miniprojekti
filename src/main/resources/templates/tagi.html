@@ -1,0 +1,36 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://wwwxmlns.thymeleaf.org">
+
+    <head>
+        <title>Artikkeli</title>
+        <meta charset="utf-8" />
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+
+    </head>
+
+    <body>
+        <div class="container">
+            <h1><span th:text="${tagi.nimi}">nimi</span></h1>
+            <p>Artikkelit joissa käytetään:</p>
+            <ol>
+                <li th:each="artikkeli: ${artikkelit}">
+                    <a th:href="@{~/artikkeli/{id}(id=${artikkeli.id})}" ><span th:text="${artikkeli.getNimi}">artikkelin nimi</span></a></br>
+                </li>
+            </ol>
+            <p>Kirjat joissa käytetään:</p>
+            <ol>
+                <li th:each="kirja: ${kirjat}">
+                    <a th:href="@{~/kirja/{ISBN}(ISBN=${kirja.ISBN})}"><span th:text="${kirja.getNimi}">kirjan nimi</span></a></br>
+                </li>
+            </ol>
+            
+                <a href="/">Aloitussivulle></a>
+                <a href="/tagit">Tagien listaukseen></a>
+        </div>
+                </body>
+                </html>

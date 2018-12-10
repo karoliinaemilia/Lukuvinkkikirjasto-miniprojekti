@@ -17,7 +17,7 @@
             <table class="table">
                 <tr th:each="tagi : ${tagit}">
                     <td>
-                        <span th:text="${tagi.getNimi}">Nimi</span></br>
+                        <a th:href="@{~/tagi/{id}(id=${tagi.id})}" > <span th:text="${tagi.getNimi}">Nimi</span></a></br>
                     </td>
                 </tr>
             </table>

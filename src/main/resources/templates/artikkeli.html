@@ -68,8 +68,8 @@
             
             <p>Artikkelin tagit:</p>
             <ol>
-                <li th:each="tagi : ${tagit}">
-                    <span th:text="${tagi}">Tagin nimi </span>
+                <li th:each="tagi: ${tagit}">
+                    <a th:href="@{~/tagi/{id}(id=${tagi.id})}"><span th:text="${tagi.getNimi}">Tagin nimi </span></a></br>
                 </li>
             </ol>
             

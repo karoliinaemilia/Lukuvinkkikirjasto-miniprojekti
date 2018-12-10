@@ -57,7 +57,7 @@ public class KirjaDao implements Dao<Kirja, String> {
             conn.close();
             return kirjat;
         }
-
+         
     }
 
     public Kirja updateInformation(String ISBN, Kirja kirja) throws SQLException {
@@ -120,5 +120,38 @@ public class KirjaDao implements Dao<Kirja, String> {
         conn.close();
 
     }
+    
+    public List<Kirja> kirjatTageille(int tagiId) throws SQLException{
+        System.out.println("hello");
+         String kysely = "SELECT Kirja.ISBN, Kirja.genre, Kirja.nimi, "
+                 + "Kirja.pituus, Kirja.linkki, Kirja.tekija, "
+                 + "Kirja.julkaisuVuosi, "
+                 + "Kirja.paivamaara, Kirja.luettu, Kirja.luettuAika "
+                 + "FROM Kirja, KirjaTagi\n WHERE kirja.ISBN = "
+                 + "KirjaTagi.kirja_ISBN AND KirjaTagi.tagi_id = ?\n";
 
-}
+        List<Kirja> kirjat = new ArrayList<>();
+        System.out.println("hai");
+        try (Connection conn = database.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement(kysely);
+            stmt.setInt(1, tagiId);
+            ResultSet rs = stmt.executeQuery();
+            System.out.println("hei");
+            while (rs.next()) {
+                kirjat.add(new Kirja(rs.getString("ISBN"), rs.getString("genre"), 
+                        rs.getString("nimi"), rs.getInt("pituus"), rs.getString("linkki"), 
+                        rs.getString("tekija"), rs.getInt("julkaisuVuosi"), 
+                        rs.getDate("paivamaara").toLocalDate(), 
+                        rs.getBoolean("luettu"), rs.getString("luettuAika")));   
+
+            }
+            System.out.println("plaa");
+        }
+        
+//       
+        
+        return kirjat;
+    }
+    }
+
+

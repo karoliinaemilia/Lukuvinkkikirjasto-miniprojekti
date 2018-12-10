@@ -103,7 +103,7 @@ public class TagiDao implements Dao<Tagi, Integer>{
 
     }
     
-    public List<String> tagitArtikkelille(Integer artikkeliId) throws SQLException{
+    public List<Tagi> tagitArtikkelille(Integer artikkeliId) throws SQLException{
         String kysely = "SELECT Tagi.id, Tagi.nimi FROM Tagi, ArtikkeliTagi\n"
                 + "              WHERE tagi.id = ArtikkeliTagi.tagi_id "
                 + "                  AND ArtikkeliTagi.artikkeli_id = ?\n";
@@ -118,24 +118,35 @@ public class TagiDao implements Dao<Tagi, Integer>{
             while (result.next()) {
                 tagit.add(new Tagi(result.getInt("id"), result.getString("nimi")));
             }
-        }
-
-        List<String> tagiNimet = new ArrayList<>();
-
-        
-       
-            if (tagiNimet.size()==tagit.size()) {
-                return tagiNimet;
-            }
-           
-            for (int j = 0; j < tagit.size(); j++) {
-                tagiNimet.add(tagit.get(j).getNimi());
-            }
-       
+        }   
      
 
             
-        return tagiNimet;
+        return tagit;
+        
+        
+    }
+    
+     public List<Tagi> tagitKirjoille(String kirjaId) throws SQLException{
+        String kysely = "SELECT Tagi.id, Tagi.nimi FROM Tagi, KirjaTagi\n"
+                + "              WHERE tagi.id = KirjaTagi.tagi_id "
+                + "                  AND KirjaTagi.kirja_ISBN = ?\n";
+        
+         List<Tagi> tagit = new ArrayList<>();
+
+        try (Connection conn = database.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement(kysely);
+            stmt.setString(1, kirjaId);
+            ResultSet result = stmt.executeQuery();
+
+            while (result.next()) {
+                tagit.add(new Tagi(result.getInt("id"), result.getString("nimi")));
+            }
+        }   
+     
+
+            
+        return tagit;
         
         
     }

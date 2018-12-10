@@ -6,7 +6,7 @@ public class ArtikkeliTagi {
     private Integer tagiId;
     private Integer artikkeliId;
     
-    public ArtikkeliTagi(Integer tagiId, Integer artikkeliId){
+    public ArtikkeliTagi(Integer artikkeliId, Integer tagiId){
         this.tagiId = tagiId;
         this.artikkeliId = artikkeliId;
     }
