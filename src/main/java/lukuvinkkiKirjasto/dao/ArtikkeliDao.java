@@ -127,7 +127,7 @@ public class ArtikkeliDao implements Dao<Artikkeli, Integer> {
 
     }
     public List<Artikkeli> artikkelitTageille(int tagiId) throws SQLException{
-        System.out.println("hello");
+       
          String kysely = "SELECT Artikkeli.id, Artikkeli.nimi, Artikkeli.pituus, "
                  + "Artikkeli.linkki, Artikkeli.tekija, Artikkeli.julkaisuLehti, "
                  + "Artikkeli.julkaisuVuosi, Artikkeli.numero, Artikkeli.sivut, "
@@ -136,12 +136,12 @@ public class ArtikkeliDao implements Dao<Artikkeli, Integer> {
                  + "ArtikkeliTagi.artikkeli_id AND ArtikkeliTagi.tagi_id = ?\n";
 
         List<Artikkeli> artikkelit = new ArrayList<>();
-        System.out.println("hai");
+       
         try (Connection conn = database.getConnection()) {
             PreparedStatement stmt = conn.prepareStatement(kysely);
             stmt.setInt(1, tagiId);
             ResultSet rs = stmt.executeQuery();
-            System.out.println("hei");
+            
             while (rs.next()) {
                 artikkelit.add(new Artikkeli(rs.getInt("id"), rs.getString("nimi"), 
                         rs.getInt("pituus"), rs.getString("linkki"), 
@@ -151,7 +151,7 @@ public class ArtikkeliDao implements Dao<Artikkeli, Integer> {
                         rs.getBoolean("luettu"), rs.getString("luettuAika")));   
 
             }
-            System.out.println("plaa");
+           
         }
         
 //       
