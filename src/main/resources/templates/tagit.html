@@ -18,6 +18,9 @@
                 <tr th:each="tagi : ${tagit}">
                     <td>
                         <a th:href="@{~/tagi/{id}(id=${tagi.id})}" > <span th:text="${tagi.getNimi}">Nimi</span></a></br>
+                        <form th:action="@{~/deletoi/{id}(id=${tagi.id})}" method="POST">
+                    <input type="submit" value="Poista"/>
+                </form>
                     </td>
                 </tr>
             </table>

@@ -167,6 +167,7 @@ public class Ui {
 
             if (act.equals("poista")) {
                 kirjaDao.delete(req.params(":ISBN"));
+                kirjaTagiDao.delete(req.params(":ISBN"));
             } else if (act.equals("Merkitse luetuksi")) {
                 String uusiAika = LocalDate.now().toString() + " "
                         + LocalDateTime.now().getHour() + ":"
@@ -244,6 +245,15 @@ public class Ui {
             res.redirect("/artikkelit");
             return "";
         });
+        
+        Spark.post("/deletoi/:id", (req, res) -> {
+            int i = Integer.parseInt(req.params(":id"));
+            tagiDao.delete(i);
+            artikkeliTagiDao.deleteTagi(i);
+            kirjaTagiDao.deleteTagi(i);
+            res.redirect("/tagit");
+            return "";
+        });
 
         Spark.post("/artikkelit/:id", (req, res) -> {
             System.out.println();
@@ -251,6 +261,7 @@ public class Ui {
 
             if (act.equals("poista")) {
                 artikkeliDao.delete(Integer.parseInt(req.params(":id")));
+                artikkeliTagiDao.delete(Integer.parseInt(req.params(":id")));
             } else if (act.equals("Merkitse luetuksi")) {
                 String uusiAika = LocalDate.now().toString() + " "
                         + LocalDateTime.now().getHour() + ":"
@@ -355,7 +366,7 @@ public class Ui {
         }, new ThymeleafTemplateEngine());
 
         Spark.post("/lisaaminen", (req, res) -> {
-            System.out.println("täällä");
+           
             String t = req.queryParams("tagi");
             String a = req.queryParams("artikkeli");
 
@@ -401,14 +412,14 @@ public class Ui {
         });
         
         Spark.post("/lisaaminenK", (req, res) -> {
-            System.out.println("täällä");
+            
             String t = req.queryParams("tagi");
             String k = req.queryParams("kirja");
 
             List<Tagi> tagit = tagiDao.findAll();
             List<Kirja> kirjat = kirjaDao.findAll();
             List<KirjaTagi> kt = kirjaTagiDao.findAll();
-            System.out.println("tässäkö");
+           
             int tagi = -1;
 
             int s = 0;
@@ -431,8 +442,7 @@ public class Ui {
                 }
                 p++;
             }
-            System.out.println("vai täällä");
-
+          
             for (int i = 0; i < kt.size(); i++) {
                 if (kt.get(i).getKirjaId().equals(kirja)
                         && kt.get(i).getTagiId().equals(tagi)) {
@@ -440,9 +450,9 @@ public class Ui {
                     return "";
                 }
             }
-            System.out.println("ehkä");
+            
             kirjaTagiDao.saveOrUpdate(new KirjaTagi(kirja, tagi));
-            System.out.println("nyt viimeistään");
+
             res.redirect("/kirjat");
             return "";
         });
@@ -450,12 +460,9 @@ public class Ui {
         Spark.get("/tagi/:id", (req, res) -> {
             HashMap map = new HashMap<>();
             Integer tagId = Integer.parseInt(req.params(":id"));
-            System.out.println("toimii");
             map.put("tagi", tagiDao.findOne(tagId));
-            System.out.println("edelleen");
             map.put("artikkelit", artikkeliDao.artikkelitTageille(tagId));
             map.put("kirjat", kirjaDao.kirjatTageille(tagId));
-            System.out.println("oho");
             return new ModelAndView(map, "tagi");
         }, new ThymeleafTemplateEngine());
 

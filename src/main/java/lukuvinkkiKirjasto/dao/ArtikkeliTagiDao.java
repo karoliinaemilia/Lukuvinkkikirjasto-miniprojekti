@@ -98,6 +98,24 @@ public class ArtikkeliTagiDao implements Dao<ArtikkeliTagi, Integer> {
     @Override
     public void delete(Integer key) throws SQLException {
        
-    }
+      Connection conn = database.getConnection();
+        PreparedStatement stmt = conn.prepareStatement("DELETE FROM ArtikkeliTagi WHERE artikkeli_id = ?");
+
+        stmt.setInt(1, key);
+        stmt.executeUpdate();
+
+        stmt.close();
+        conn.close();
     
+}
+    public void deleteTagi(Integer key) throws SQLException {
+          Connection conn = database.getConnection();
+        PreparedStatement stmt = conn.prepareStatement("DELETE FROM ArtikkeliTagi WHERE tagi_id = ?");
+
+        stmt.setInt(1, key);
+        stmt.executeUpdate();
+
+        stmt.close();
+        conn.close();
+    }
 }

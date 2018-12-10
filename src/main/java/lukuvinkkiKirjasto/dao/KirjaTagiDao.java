@@ -90,7 +90,25 @@ public class KirjaTagiDao implements Dao<KirjaTagi, String>{
 
     @Override
     public void delete(String key) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Connection conn = database.getConnection();
+        PreparedStatement stmt = conn.prepareStatement("DELETE FROM KirjaTagi WHERE kirja_ISBN = ?");
+
+        stmt.setString(1, key);
+        stmt.executeUpdate();
+
+        stmt.close();
+        conn.close();
+    }
+    
+    public void deleteTagi(Integer key) throws SQLException {
+          Connection conn = database.getConnection();
+        PreparedStatement stmt = conn.prepareStatement("DELETE FROM KirjaTagi WHERE tagi_id = ?");
+
+        stmt.setInt(1, key);
+        stmt.executeUpdate();
+
+        stmt.close();
+        conn.close();
     }
     
 }
