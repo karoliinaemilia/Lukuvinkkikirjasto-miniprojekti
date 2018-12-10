@@ -337,7 +337,7 @@ public class Ui {
             HashMap map = new HashMap<>();
             List<Kirja> luetut = kirjaDao.findAll().stream().filter(k -> k.isLuettu() == true).collect(Collectors.toList());
             map.put("kirjat", luetut);
-
+            map.put("tagit", tagiDao.findAll());
             return new ModelAndView(map, "kirjat");
         }, new ThymeleafTemplateEngine());
 
@@ -345,6 +345,7 @@ public class Ui {
             HashMap map = new HashMap<>();
             List<Kirja> lukemattomat = kirjaDao.findAll().stream().filter(k -> k.isLuettu() == false).collect(Collectors.toList());
             map.put("kirjat", lukemattomat);
+            map.put("tagit", tagiDao.findAll());
 
             return new ModelAndView(map, "kirjat");
         }, new ThymeleafTemplateEngine());
@@ -353,7 +354,7 @@ public class Ui {
             HashMap map = new HashMap<>();
             List<Artikkeli> luetut = artikkeliDao.findAll().stream().filter(a -> a.isLuettu() == true).collect(Collectors.toList());
             map.put("artikkelit", luetut);
-
+            map.put("tagit", tagiDao.findAll());
             return new ModelAndView(map, "artikkelit");
         }, new ThymeleafTemplateEngine());
 
@@ -361,7 +362,7 @@ public class Ui {
             HashMap map = new HashMap<>();
             List<Artikkeli> lukemattomat = artikkeliDao.findAll().stream().filter(a -> a.isLuettu() == false).collect(Collectors.toList());
             map.put("artikkelit", lukemattomat);
-
+            map.put("tagit", tagiDao.findAll());
             return new ModelAndView(map, "artikkelit");
         }, new ThymeleafTemplateEngine());
 
