@@ -1,19 +1,34 @@
 package lukuvinkkiKirjasto.ui;
 
-import java.sql.*;
-import java.time.*;
-import java.util.*;
-import java.util.logging.*;
-import lukuvinkkiKirjasto.dao.*;
-import lukuvinkkiKirjasto.domain.*;
-import org.apache.commons.validator.routines.*;
-import spark.*;
-
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javassist.NotFoundException;
 import javax.servlet.DispatcherType;
+import lukuvinkkiKirjasto.dao.KirjaDao;
 import lukuvinkkiKirjasto.database.Database;
+import lukuvinkkiKirjasto.domain.Kirja;
+import spark.ModelAndView;
+import spark.Spark;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
+import org.apache.commons.validator.routines.*;
+import lukuvinkkiKirjasto.dao.ArtikkeliDao;
+import lukuvinkkiKirjasto.dao.ArtikkeliTagiDao;
+import lukuvinkkiKirjasto.dao.KirjaTagiDao;
+import lukuvinkkiKirjasto.dao.TagiDao;
+import lukuvinkkiKirjasto.domain.Artikkeli;
+import lukuvinkkiKirjasto.domain.ArtikkeliTagi;
+import lukuvinkkiKirjasto.domain.KirjaTagi;
+import lukuvinkkiKirjasto.domain.Tagi;
 
 public class Ui {
 
