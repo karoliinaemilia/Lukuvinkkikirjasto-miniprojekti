@@ -1,41 +1,28 @@
 package lukuvinkkiKirjasto.ui;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.sql.*;
+import java.time.*;
+import java.util.*;
+import java.util.logging.*;
+import lukuvinkkiKirjasto.dao.*;
+import lukuvinkkiKirjasto.domain.*;
+import org.apache.commons.validator.routines.*;
+import spark.*;
+
 import java.util.stream.Collectors;
 import javassist.NotFoundException;
 import javax.servlet.DispatcherType;
-import lukuvinkkiKirjasto.dao.KirjaDao;
-
 import lukuvinkkiKirjasto.database.Database;
-import lukuvinkkiKirjasto.domain.Kirja;
-import spark.ModelAndView;
-import spark.Spark;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
-import org.apache.commons.validator.routines.*;
-import lukuvinkkiKirjasto.dao.ArtikkeliDao;
-import lukuvinkkiKirjasto.dao.ArtikkeliTagiDao;
-import lukuvinkkiKirjasto.dao.KirjaTagiDao;
-import lukuvinkkiKirjasto.dao.TagiDao;
-import lukuvinkkiKirjasto.domain.Artikkeli;
-import lukuvinkkiKirjasto.domain.ArtikkeliTagi;
-import lukuvinkkiKirjasto.domain.KirjaTagi;
-import lukuvinkkiKirjasto.domain.Tagi;
-
-
 
 public class Ui {
 
     public static Database db = new Database("jdbc:sqlite:LukuvinkkiKirjasto.db");
+    public static KirjaDao kirjaDao = new KirjaDao(db);
+    public static ArtikkeliDao artikkeliDao = new ArtikkeliDao(db);
+    public static TagiDao tagiDao = new TagiDao(db);
+    public static ArtikkeliTagiDao artikkeliTagiDao = new ArtikkeliTagiDao(db);
+    public static KirjaTagiDao kirjaTagiDao = new KirjaTagiDao(db);
 
     public static void main(String[] args) throws Exception {
         if (System.getenv("PORT") != null) {
@@ -55,13 +42,6 @@ public class Ui {
             System.out.println("Yhteys epäonnistui");
         }
 
-        KirjaDao kirjaDao = new KirjaDao(db);
-
-        ArtikkeliDao artikkeliDao = new ArtikkeliDao(db);
-        TagiDao tagiDao = new TagiDao(db);
-        ArtikkeliTagiDao artikkeliTagiDao = new ArtikkeliTagiDao(db);
-        KirjaTagiDao kirjaTagiDao = new KirjaTagiDao(db);
-
         Spark.get("/", (req, res) -> {
             HashMap map = new HashMap<>();
             try {
@@ -72,6 +52,7 @@ public class Ui {
             return new ModelAndView(map, "aloitus");
         }, new ThymeleafTemplateEngine());
 
+        //listaa kirjat artikkelit ja tagit
         Spark.get("/kirjat", (req, res) -> {
             HashMap map = new HashMap<>();
             map.put("kirjat", kirjaDao.findAll());
@@ -92,6 +73,7 @@ public class Ui {
             return new ModelAndView(map, "tagit");
         }, new ThymeleafTemplateEngine());
 
+        //Hae yksi kirja
         Spark.get("/kirja/:ISBN", (req, res) -> {
             HashMap map = new HashMap();
             String tunnus = req.params(":ISBN");
@@ -100,6 +82,7 @@ public class Ui {
             return new ModelAndView(map, "kirja");
         }, new ThymeleafTemplateEngine());
 
+        //Hae yksi artikkeli
         Spark.get("/artikkeli/:id", (req, res) -> {
             HashMap map = new HashMap();
             int i = Integer.parseInt(req.params(":id"));
@@ -113,6 +96,7 @@ public class Ui {
 
         }, new ThymeleafTemplateEngine());
 
+        //siisti
         Spark.post("/kirjat", (req, res) -> {
 
             List<Kirja> kirjat = kirjaDao.findAll();
@@ -120,8 +104,7 @@ public class Ui {
             for (int j = 0; j < kirjat.size(); j++) {
 
                 if (kirjat.get(j).getISBN().equals(req.queryParams("ISBN"))) {
-                    
-                    
+
                     res.redirect("/kirjat");
                     return "";
                 }
@@ -132,7 +115,7 @@ public class Ui {
 
             try {
                 if (!isbn.isValid(testi)) {
-               
+
                     res.status(401);
                     return "Ei oikea ISBN!";
                 }
@@ -166,7 +149,7 @@ public class Ui {
             return "";
 
         });
-
+        // kirjan napit
         Spark.post("/kirjat/:ISBN", (req, res) -> {
 
             String act = req.queryParams("nappi");
@@ -187,7 +170,7 @@ public class Ui {
             res.redirect("/kirjat");
             return "";
         });
-
+        //hakee tagit
         Spark.post("/tagit", (req, res) -> {
             String nimi = req.queryParams("nimi");
 
@@ -209,14 +192,14 @@ public class Ui {
             res.redirect("/tagit");
             return "";
         });
-
+// artikkelin lisäys
         Spark.post("/artikkelit", (req, res) -> {
 
-            List<Artikkeli> artikkel = artikkeliDao.findAll();
+            List<Artikkeli> artikkeli = artikkeliDao.findAll();
 
-            for (int l = 0; l < artikkel.size(); l++) {
+            for (int l = 0; l < artikkeli.size(); l++) {
 
-                if (artikkel.get(l).getNimi().equals(req.queryParams("nimi"))) {
+                if (artikkeli.get(l).getNimi().equals(req.queryParams("nimi"))) {
 
                     res.redirect("/artikkelit");
                     return "";
@@ -251,7 +234,7 @@ public class Ui {
             res.redirect("/artikkelit");
             return "";
         });
-        
+        //poista tagi
         Spark.post("/deletoi/:id", (req, res) -> {
             int i = Integer.parseInt(req.params(":id"));
             tagiDao.delete(i);
@@ -260,7 +243,7 @@ public class Ui {
             res.redirect("/tagit");
             return "";
         });
-
+//napit artikkelille
         Spark.post("/artikkelit/:id", (req, res) -> {
             System.out.println();
             String act = req.queryParams("nappi");
@@ -281,7 +264,7 @@ public class Ui {
             res.redirect("/artikkelit");
             return "";
         });
-
+//merkkaa luetuksi
         Spark.post("/artikkelit/:artikkeliId", (req, res) -> {
             Artikkeli artikkeli = artikkeliDao.findOne(Integer.parseInt(req.params(":artikkeliId")));
 
@@ -290,6 +273,7 @@ public class Ui {
             res.redirect("/artikkelit");
             return "";
         });
+        //muokkaa artikkelin tietoja
         Spark.post("/artikkeli/:id", (req, res) -> {
 
             Artikkeli artikkeli = artikkeliDao.findOne(Integer.parseInt(req.params(":id")));
@@ -306,7 +290,7 @@ public class Ui {
             res.redirect("/artikkeli/" + artikkeli.getId());
             return "";
         });
-
+//muokkaa kirjan tietoja
         Spark.post("/kirja/:id", (req, res) -> {
             Kirja kirja = kirjaDao.findOne(req.params(":id"));
             ISBNValidator isbn = new ISBNValidator();
@@ -315,8 +299,6 @@ public class Ui {
                 if (!isbn.isValid(req.queryParams("ISBN"))) {
                     res.status(500);
                     return "Ei oikea ISBN!";
-    
-                  
 
                 }
             } catch (Exception e) {
@@ -342,131 +324,47 @@ public class Ui {
             return "";
         }
         );
+        //näytä luetut ***
+
         Spark.get("/kirjat/luetut", (req, res) -> {
-            HashMap map = new HashMap<>();
-            List<Kirja> luetut = kirjaDao.findAll().stream().filter(k -> k.isLuettu() == true).collect(Collectors.toList());
-            map.put("kirjat", luetut);
-            map.put("tagit", tagiDao.findAll());
+            HashMap map = vainOsaKirjoista(true);
             return new ModelAndView(map, "kirjat");
         }, new ThymeleafTemplateEngine());
 
         Spark.get("/kirjat/lukemattomat", (req, res) -> {
-            HashMap map = new HashMap<>();
-            List<Kirja> lukemattomat = kirjaDao.findAll().stream().filter(k -> k.isLuettu() == false).collect(Collectors.toList());
-            map.put("kirjat", lukemattomat);
-            map.put("tagit", tagiDao.findAll());
-
+            HashMap map = vainOsaKirjoista(false);
             return new ModelAndView(map, "kirjat");
         }, new ThymeleafTemplateEngine());
 
         Spark.get("/artikkelit/luetut", (req, res) -> {
-            HashMap map = new HashMap<>();
-            List<Artikkeli> luetut = artikkeliDao.findAll().stream().filter(a -> a.isLuettu() == true).collect(Collectors.toList());
-            map.put("artikkelit", luetut);
-            map.put("tagit", tagiDao.findAll());
+            HashMap map = vainOsaArtikkeleista(true);
             return new ModelAndView(map, "artikkelit");
         }, new ThymeleafTemplateEngine());
 
         Spark.get("/artikkelit/lukemattomat", (req, res) -> {
-            HashMap map = new HashMap<>();
-            List<Artikkeli> lukemattomat = artikkeliDao.findAll().stream().filter(a -> a.isLuettu() == false).collect(Collectors.toList());
-            map.put("artikkelit", lukemattomat);
-            map.put("tagit", tagiDao.findAll());
+            HashMap map = vainOsaArtikkeleista(false);
             return new ModelAndView(map, "artikkelit");
         }, new ThymeleafTemplateEngine());
 
+//lisaa tagin artikkeliin
         Spark.post("/lisaaminen", (req, res) -> {
-           
-            String t = req.queryParams("tagi");
-            String a = req.queryParams("artikkeli");
 
-            List<Tagi> tagit = tagiDao.findAll();
-            List<Artikkeli> artikkelit = artikkeliDao.findAll();
-            List<ArtikkeliTagi> at = artikkeliTagiDao.findAll();
-
-            int tagi = -1;
-
-            int k = 0;
-            while (k < tagit.size()) {
-                if (tagit.get(k).getNimi().equals(t)) {
-                    tagi = tagit.get(k).getId();
-                    break;
-                }
-
-                k++;
-            }
-
-            int artikkeli = -1;
-
-            int p = 0;
-            while (p < artikkelit.size()) {
-                if (artikkelit.get(p).getNimi().equals(a)) {
-                    artikkeli = artikkelit.get(p).getId();
-                    break;
-                }
-                p++;
-            }
-
-            for (int i = 0; i < at.size(); i++) {
-                if (at.get(i).getArtikkeliId().equals(artikkeli)
-                        && at.get(i).getTagiId().equals(tagi)) {
-                    res.redirect("/artikkelit");
-                    return "";
-                }
-            }
-
-            artikkeliTagiDao.saveOrUpdate(new ArtikkeliTagi(artikkeli, tagi));
+            String tagi = req.queryParams("tagi");
+            String artikkeli = req.queryParams("artikkeli");
+            lisaaTagiArtikkelille(tagi, artikkeli);
 
             res.redirect("/artikkelit");
             return "";
         });
-        
+        //tagin lisäys kirjaan ***
         Spark.post("/lisaaminenK", (req, res) -> {
-            
-            String t = req.queryParams("tagi");
-            String k = req.queryParams("kirja");
-
-            List<Tagi> tagit = tagiDao.findAll();
-            List<Kirja> kirjat = kirjaDao.findAll();
-            List<KirjaTagi> kt = kirjaTagiDao.findAll();
-           
-            int tagi = -1;
-
-            int s = 0;
-            while (s < tagit.size()) {
-                if (tagit.get(s).getNimi().equals(t)) {
-                    tagi = tagit.get(s).getId();
-                    break;
-                }
-
-                s++;
-            }
-
-            String kirja = "";
-
-            int p = 0;
-            while (p < kirjat.size()) {
-                if (kirjat.get(p).getNimi().equals(k)) {
-                    kirja = kirjat.get(p).getISBN();
-                    break;
-                }
-                p++;
-            }
-          
-            for (int i = 0; i < kt.size(); i++) {
-                if (kt.get(i).getKirjaId().equals(kirja)
-                        && kt.get(i).getTagiId().equals(tagi)) {
-                    res.redirect("/kirjat");
-                    return "";
-                }
-            }
-            
-            kirjaTagiDao.saveOrUpdate(new KirjaTagi(kirja, tagi));
-
+            String tagi = req.queryParams("tagi");
+            String kirja = req.queryParams("kirja");
+            lisaaTagiKirjalle(tagi, kirja);
             res.redirect("/kirjat");
             return "";
         });
-        
+//hae tagiin tagatyt
         Spark.get("/tagi/:id", (req, res) -> {
             HashMap map = new HashMap<>();
             Integer tagId = Integer.parseInt(req.params(":id"));
@@ -482,4 +380,80 @@ public class Ui {
         Ui.db = db;
     }
 
+    public static HashMap vainOsaKirjoista(boolean luettu) throws Exception {
+        HashMap map = new HashMap<>();
+        List<Kirja> kirjat = kirjaDao.findAll().stream().filter(kirja -> kirja.isLuettu() == luettu).collect(Collectors.toList());
+        map.put("kirjat", kirjat);
+        map.put("tagit", tagiDao.findAll());
+        return map;
+    }
+
+    public static HashMap vainOsaArtikkeleista(boolean luettu) throws Exception {
+        HashMap map = new HashMap<>();
+        List<Artikkeli> artikkelit = artikkeliDao.findAll().stream().filter(artikkeli -> artikkeli.isLuettu() == luettu).collect(Collectors.toList());
+        map.put("artikkelit", artikkelit);
+        map.put("tagit", tagiDao.findAll());
+        return map;
+    }
+
+    public static boolean lisaaTagiKirjalle(String tagi, String nimi) throws Exception {
+
+        List<Kirja> kirjat = kirjaDao.findAll();
+        List<KirjaTagi> kirjaTagit = kirjaTagiDao.findAll();
+        int tagiId = loydaTagiId(tagi);
+
+        String kirjaISBN = "";
+        for (int p = 0; p < kirjat.size(); p++) {
+            if (kirjat.get(p).getNimi().equals(nimi)) {
+                kirjaISBN = kirjat.get(p).getISBN();
+                break;
+            }
+        }
+        for (int i = 0; i < kirjaTagit.size(); i++) {
+            if (kirjaTagit.get(i).getKirjaId().equals(kirjaISBN)
+                    && kirjaTagit.get(i).getTagiId().equals(tagiId)) {
+
+                return false;
+            }
+        }
+        kirjaTagiDao.saveOrUpdate(new KirjaTagi(kirjaISBN, tagiId));
+        return true;
+
+    }
+
+    public static boolean lisaaTagiArtikkelille(String tagi, String artikkeli) throws Exception {
+
+        List<Artikkeli> artikkelit = artikkeliDao.findAll();
+        List<ArtikkeliTagi> artikkeliTagit = artikkeliTagiDao.findAll();
+        int tagiId = loydaTagiId(tagi);
+
+        int artikkeliId = -1;
+        for (int p = 0; p < artikkelit.size(); p++) {
+            if (artikkelit.get(p).getNimi().equals(artikkeli)) {
+                artikkeliId = artikkelit.get(p).getId();
+                break;
+            }
+        }
+        for (int i = 0; i < artikkeliTagit.size(); i++) {
+            if (artikkeliTagit.get(i).getArtikkeliId().equals(artikkeliId)
+                    && artikkeliTagit.get(i).getTagiId().equals(tagiId)) {
+
+                return false;
+            }
+        }
+        artikkeliTagiDao.saveOrUpdate(new ArtikkeliTagi(artikkeliId, tagiId));
+        return true;
+    }
+
+    public static int loydaTagiId(String tagi) throws Exception {
+        List<Tagi> tagit = tagiDao.findAll();
+        int tagiId = -1;
+        for (int s = 0; s < tagit.size(); s++) {
+            if (tagit.get(s).getNimi().equals(tagi)) {
+                tagiId = tagit.get(s).getId();
+                break;
+            }
+        }
+        return tagiId;
+    }
 }
