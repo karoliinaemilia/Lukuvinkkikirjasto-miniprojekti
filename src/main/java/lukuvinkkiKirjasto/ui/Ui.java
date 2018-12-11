@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import javassist.NotFoundException;
 import javax.servlet.DispatcherType;
 import lukuvinkkiKirjasto.dao.KirjaDao;
 
@@ -29,6 +30,8 @@ import lukuvinkkiKirjasto.domain.Artikkeli;
 import lukuvinkkiKirjasto.domain.ArtikkeliTagi;
 import lukuvinkkiKirjasto.domain.KirjaTagi;
 import lukuvinkkiKirjasto.domain.Tagi;
+
+
 
 public class Ui {
 
@@ -117,6 +120,8 @@ public class Ui {
             for (int j = 0; j < kirjat.size(); j++) {
 
                 if (kirjat.get(j).getISBN().equals(req.queryParams("ISBN"))) {
+                    
+                    
                     res.redirect("/kirjat");
                     return "";
                 }
@@ -127,8 +132,9 @@ public class Ui {
 
             try {
                 if (!isbn.isValid(testi)) {
-                    res.redirect("/kirjat");
-                    return "";
+               
+                    res.status(401);
+                    return "Ei oikea ISBN!";
                 }
             } catch (Exception e) {
                 System.out.println(e);
@@ -307,8 +313,11 @@ public class Ui {
 
             try {
                 if (!isbn.isValid(req.queryParams("ISBN"))) {
-                    res.redirect("/kirjat");
-                    return "";
+                    res.status(500);
+                    return "Ei oikea ISBN!";
+    
+                  
+
                 }
             } catch (Exception e) {
                 System.out.println(e);
