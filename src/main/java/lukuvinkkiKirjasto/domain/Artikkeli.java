@@ -1,7 +1,6 @@
 package lukuvinkkiKirjasto.domain;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public class Artikkeli {
 
@@ -18,10 +17,8 @@ public class Artikkeli {
     private boolean luettu;
     private String luettuAika;
 
-    public Artikkeli(Integer id, String nimi, int pituus, String linkki, String 
-            tekija, String julkaisuLehti, int julkaisuVuosi, int numero, String 
-            sivut, LocalDate paivamaara, boolean luettu, String aika) {
-        
+    public Artikkeli(Integer id, String nimi, int pituus, String linkki, String tekija, String julkaisuLehti, int julkaisuVuosi, int numero, String sivut, LocalDate paivamaara, boolean luettu, String aika) {
+
         this.id = id;
         this.nimi = nimi;
         this.pituus = pituus;
@@ -43,7 +40,7 @@ public class Artikkeli {
     public void setLuettu(boolean luettu) {
         this.luettu = luettu;
     }
-    
+
     public String getLuettuString() {
         if (this.luettu) {
             return "Luettu " + luettuAika;
@@ -141,7 +138,7 @@ public class Artikkeli {
     }
 
     public String toString() {
-        String tuloste =  nimi + ", Lehti: " + julkaisuLehti + ", nro: " + numero + ", sivuja: " + sivut + ", tekijä: " + tekija + ", julkaistu: " + julkaisuVuosi;
+        String tuloste = nimi + ", Lehti: " + julkaisuLehti + ", nro: " + numero + ", sivuja: " + sivut + ", tekijä: " + tekija + ", julkaistu: " + julkaisuVuosi;
         if (!linkki.isEmpty()) {
             tuloste += ", linkki: " + linkki;
         }

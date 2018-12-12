@@ -1,18 +1,13 @@
-
 package lukuvinkkiKirjasto.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.*;
+import java.util.*;
 import lukuvinkkiKirjasto.database.Database;
 import lukuvinkkiKirjasto.domain.Tagi;
 
+public class TagiDao implements Dao<Tagi, Integer> {
 
-public class TagiDao implements Dao<Tagi, Integer>{
-     private Database database;
+    private Database database;
 
     public TagiDao(Database database) {
         this.database = database;
@@ -21,9 +16,9 @@ public class TagiDao implements Dao<Tagi, Integer>{
     @Override
     public Tagi findOne(Integer key) throws SQLException {
         try (Connection conn = database.getConnection()) {
-            PreparedStatement statement = conn.prepareStatement("SELECT * FROM Tagi where id = ?");
-            statement.setObject(1, key);
-            ResultSet rs = statement.executeQuery();
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Tagi where id = ?");
+            stmt.setObject(1, key);
+            ResultSet rs = stmt.executeQuery();
 
             boolean hasOne = rs.next();
             if (!hasOne) {
@@ -33,9 +28,7 @@ public class TagiDao implements Dao<Tagi, Integer>{
             Tagi tagi = new Tagi(rs.getInt("id"),
                     rs.getString("nimi"));
 
-            statement.close();
-            rs.close();
-            conn.close();
+            sulkija(stmt, rs, conn);
             return tagi;
         }
 
@@ -45,15 +38,13 @@ public class TagiDao implements Dao<Tagi, Integer>{
     public List<Tagi> findAll() throws SQLException {
         List<Tagi> tagit = new ArrayList<>();
         try (Connection conn = database.getConnection()) {
-            PreparedStatement statement = conn.prepareStatement("SELECT * FROM Tagi");
-            ResultSet rs = statement.executeQuery();
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Tagi");
+            ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 tagit.add(new Tagi(rs.getInt("id"),
                         rs.getString("nimi")));
             }
-            statement.close();
-            rs.close();
-            conn.close();
+            sulkija(stmt, rs, conn);
             return tagit;
         }
 
@@ -61,15 +52,13 @@ public class TagiDao implements Dao<Tagi, Integer>{
 
     public Tagi updateInformation(Integer id, Tagi tagi) throws SQLException {
         try (Connection conn = database.getConnection()) {
-            PreparedStatement statement = conn.prepareStatement("UPDATE Tagi set nimi = ? where id = ?");
+            PreparedStatement stmt = conn.prepareStatement("UPDATE Tagi set nimi = ? where id = ?");
 
-           
-            statement.setString(1, tagi.getNimi());
-            statement.setInt(2, id);
-            statement.executeUpdate();
-            statement.close();
-            conn.close();
-         
+            stmt.setString(1, tagi.getNimi());
+            stmt.setInt(2, id);
+            stmt.executeUpdate();
+            sulkija(stmt, null, conn);
+
         }
         return findOne(id);
     }
@@ -78,37 +67,36 @@ public class TagiDao implements Dao<Tagi, Integer>{
     public Tagi saveOrUpdate(Tagi tagi) throws SQLException {
         if (findOne(tagi.getId()) == null) {
             Connection conn = database.getConnection();
-                PreparedStatement statement = conn.prepareStatement("INSERT INTO Tagi"
-                        + "(nimi)"
-                        + "VALUES (?)");
-            
-                statement.setString(1, tagi.getNimi());
-                
-                statement.executeUpdate();
-                statement.close();
-                conn.close();
-            
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO Tagi"
+                    + "(nimi)"
+                    + "VALUES (?)");
+
+            stmt.setString(1, tagi.getNimi());
+
+            stmt.executeUpdate();
+            sulkija(stmt, null, conn);
+
         }
         return findOne(tagi.getId());
     }
+
     @Override
     public void delete(Integer key) throws SQLException {
         Connection conn = database.getConnection();
-        PreparedStatement statement = conn.prepareStatement("DELETE FROM Tagi WHERE id = ?");
+        PreparedStatement stmt = conn.prepareStatement("DELETE FROM Tagi WHERE id = ?");
 
-        statement.setInt(1, key);
-        statement.executeUpdate();
-        statement.close();
-        conn.close();
+        stmt.setInt(1, key);
+        stmt.executeUpdate();
+        sulkija(stmt, null, conn);
 
     }
-    
-    public List<Tagi> tagitArtikkelille(Integer artikkeliId) throws SQLException{
+
+    public List<Tagi> tagitArtikkelille(Integer artikkeliId) throws SQLException {
         String kysely = "SELECT Tagi.id, Tagi.nimi FROM Tagi, ArtikkeliTagi\n"
                 + "              WHERE tagi.id = ArtikkeliTagi.tagi_id "
                 + "                  AND ArtikkeliTagi.artikkeli_id = ?\n";
-        
-         List<Tagi> tagit = new ArrayList<>();
+
+        List<Tagi> tagit = new ArrayList<>();
 
         try (Connection conn = database.getConnection()) {
             PreparedStatement stmt = conn.prepareStatement(kysely);
@@ -118,21 +106,16 @@ public class TagiDao implements Dao<Tagi, Integer>{
             while (result.next()) {
                 tagit.add(new Tagi(result.getInt("id"), result.getString("nimi")));
             }
-        }   
-     
-
-            
+        }
         return tagit;
-        
-        
     }
-    
-     public List<Tagi> tagitKirjoille(String kirjaId) throws SQLException{
+
+    public List<Tagi> tagitKirjoille(String kirjaId) throws SQLException {
         String kysely = "SELECT Tagi.id, Tagi.nimi FROM Tagi, KirjaTagi\n"
                 + "              WHERE tagi.id = KirjaTagi.tagi_id "
                 + "                  AND KirjaTagi.kirja_ISBN = ?\n";
-        
-         List<Tagi> tagit = new ArrayList<>();
+
+        List<Tagi> tagit = new ArrayList<>();
 
         try (Connection conn = database.getConnection()) {
             PreparedStatement stmt = conn.prepareStatement(kysely);
@@ -142,14 +125,20 @@ public class TagiDao implements Dao<Tagi, Integer>{
             while (result.next()) {
                 tagit.add(new Tagi(result.getInt("id"), result.getString("nimi")));
             }
-        }   
-     
-
-            
+        }
         return tagit;
-        
-        
     }
 
-   
+    public void sulkija(Statement stmt, ResultSet rs, Connection conn) throws SQLException {
+        if (stmt != null) {
+            stmt.close();
+        }
+        if (rs != null) {
+            rs.close();
+        }
+        if (conn != null) {
+            conn.close();
+        }
+    }
+
 }

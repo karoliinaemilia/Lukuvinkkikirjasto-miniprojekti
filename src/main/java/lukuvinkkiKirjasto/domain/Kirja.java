@@ -1,11 +1,6 @@
 package lukuvinkkiKirjasto.domain;
 
-import com.sun.jna.platform.win32.Sspi;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Calendar;
-import java.util.Date;
-import javax.print.attribute.standard.DateTimeAtCompleted;
 
 public class Kirja {
 
@@ -21,7 +16,7 @@ public class Kirja {
     private String luettuAika;
 
     public Kirja(
-            String id, String genre, String nimi, int pituus, String linkki, 
+            String id, String genre, String nimi, int pituus, String linkki,
             String tekija, int julkaisuVuosi, LocalDate paivamaara, boolean luettu,
             String luettuAika
     ) {
@@ -35,7 +30,6 @@ public class Kirja {
         this.paivamaara = paivamaara;
         this.luettu = luettu;
         this.luettuAika = luettuAika;
-     
 
     }
 
@@ -48,26 +42,26 @@ public class Kirja {
     }
 
     public boolean isLuettu() {
-      
+
         return luettu;
     }
+
     public String getLuettuAika() {
         return luettuAika;
     }
-    
-    public void setLuettuAika(String aika) {        
-            this.luettuAika = aika;
-                    
-        
+
+    public void setLuettuAika(String aika) {
+        this.luettuAika = aika;
+
     }
+
     public void setLuettu(boolean luettu) {
-       
+
         this.luettu = luettu;
     }
-    
+
     public String getLuettuString() {
-        
-        
+
         if (this.luettu) {
             return "Luettu " + this.luettuAika;
         } else {
@@ -141,8 +135,6 @@ public class Kirja {
 
     @Override
     public String toString() {
-       
-        
         return "Tekijä: " + tekija + ", nimi: " + nimi;
     }
 }

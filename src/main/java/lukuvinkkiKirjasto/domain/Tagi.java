@@ -1,12 +1,11 @@
-
 package lukuvinkkiKirjasto.domain;
 
-
 public class Tagi {
+
     private Integer id;
     private String nimi;
-    
-    public Tagi(Integer id, String nimi){
+
+    public Tagi(Integer id, String nimi) {
         this.id = id;
         this.nimi = nimi;
     }
@@ -26,6 +25,5 @@ public class Tagi {
     public void setNimi(String nimi) {
         this.nimi = nimi;
     }
-    
-    
+
 }

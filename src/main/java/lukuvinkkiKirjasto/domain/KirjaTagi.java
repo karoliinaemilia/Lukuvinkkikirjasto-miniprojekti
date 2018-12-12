@@ -1,8 +1,7 @@
-
 package lukuvinkkiKirjasto.domain;
 
-
 public class KirjaTagi {
+
     private Integer tagiId;
     private String kirjaISBN;
 
@@ -26,7 +25,5 @@ public class KirjaTagi {
     public void setKirjaId(String kirjaId) {
         this.kirjaISBN = kirjaId;
     }
-    
-    
-    
+
 }

@@ -1,43 +1,27 @@
 package lukuvinkkiKirjasto.ui;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
-import javassist.NotFoundException;
-import javax.servlet.DispatcherType;
-import lukuvinkkiKirjasto.dao.KirjaDao;
-import lukuvinkkiKirjasto.database.Database;
-import lukuvinkkiKirjasto.domain.Kirja;
-import spark.ModelAndView;
-import spark.Spark;
-import spark.template.thymeleaf.ThymeleafTemplateEngine;
+import java.sql.*;
+import java.time.*;
+import java.util.*;
+import java.util.logging.*;
+import lukuvinkkiKirjasto.dao.*;
+import lukuvinkkiKirjasto.domain.*;
 import org.apache.commons.validator.routines.*;
-import lukuvinkkiKirjasto.dao.ArtikkeliDao;
-import lukuvinkkiKirjasto.dao.ArtikkeliTagiDao;
-import lukuvinkkiKirjasto.dao.KirjaTagiDao;
-import lukuvinkkiKirjasto.dao.TagiDao;
-import lukuvinkkiKirjasto.domain.Artikkeli;
-import lukuvinkkiKirjasto.domain.ArtikkeliTagi;
-import lukuvinkkiKirjasto.domain.KirjaTagi;
-import lukuvinkkiKirjasto.domain.Tagi;
+import spark.*;
+
+import java.util.stream.Collectors;
+import lukuvinkkiKirjasto.database.Database;
+import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
 public class Ui {
 
     public static Database db = new Database("jdbc:sqlite:LukuvinkkiKirjasto.db");
-    public static KirjaDao kirjaDao = new KirjaDao(db);
-    public static ArtikkeliDao artikkeliDao = new ArtikkeliDao(db);
-    public static TagiDao tagiDao = new TagiDao(db);
-    public static ArtikkeliTagiDao artikkeliTagiDao = new ArtikkeliTagiDao(db);
-    public static KirjaTagiDao kirjaTagiDao = new KirjaTagiDao(db);
+
+    public static KirjaDao kirjaDao;
+    public static ArtikkeliDao artikkeliDao;
+    public static TagiDao tagiDao;
+    public static ArtikkeliTagiDao artikkeliTagiDao;
+    public static KirjaTagiDao kirjaTagiDao;
 
     public static void main(String[] args) throws Exception {
         if (System.getenv("PORT") != null) {
@@ -56,6 +40,11 @@ public class Ui {
         } else {
             System.out.println("Yhteys epäonnistui");
         }
+        kirjaDao = new KirjaDao(db);
+        artikkeliDao = new ArtikkeliDao(db);
+        tagiDao = new TagiDao(db);
+        artikkeliTagiDao = new ArtikkeliTagiDao(db);
+        kirjaTagiDao = new KirjaTagiDao(db);
 
         Spark.get("/", (req, res) -> {
             HashMap map = new HashMap<>();
@@ -113,24 +102,17 @@ public class Ui {
 
         //siisti
         Spark.post("/kirjat", (req, res) -> {
-
             List<Kirja> kirjat = kirjaDao.findAll();
-
             for (int j = 0; j < kirjat.size(); j++) {
-
                 if (kirjat.get(j).getISBN().equals(req.queryParams("ISBN"))) {
-
                     res.redirect("/kirjat");
                     return "";
                 }
-
             }
             String testi = req.queryParams("ISBN");
             ISBNValidator isbn = new ISBNValidator();
-
             try {
                 if (!isbn.isValid(testi)) {
-
                     res.status(401);
                     return "Ei oikea ISBN!";
                 }
@@ -139,12 +121,8 @@ public class Ui {
             }
             String aika = "";
             if (Boolean.parseBoolean(req.queryParams("luettu"))) {
-                aika = LocalDate.now().toString() + " "
-                        + LocalDateTime.now().getHour() + ":"
-                        + LocalDateTime.now().getMinute();
-
+                aika = aikaToString();
             }
-
             kirjaDao.saveOrUpdate(
                     new Kirja(
                             req.queryParams("ISBN"),
@@ -159,23 +137,18 @@ public class Ui {
                             aika
                     )
             );
-
             res.redirect("/kirjat");
             return "";
 
         });
         // kirjan napit
         Spark.post("/kirjat/:ISBN", (req, res) -> {
-
             String act = req.queryParams("nappi");
-
             if (act.equals("poista")) {
                 kirjaDao.delete(req.params(":ISBN"));
                 kirjaTagiDao.delete(req.params(":ISBN"));
             } else if (act.equals("Merkitse luetuksi")) {
-                String uusiAika = LocalDate.now().toString() + " "
-                        + LocalDateTime.now().getHour() + ":"
-                        + LocalDateTime.now().getMinute();
+                String uusiAika = aikaToString();
                 Kirja kirja = kirjaDao.findOne(req.params(":ISBN"));
                 kirja.setLuettu(true);
                 kirja.setLuettuAika(uusiAika);
@@ -188,12 +161,10 @@ public class Ui {
         //hakee tagit
         Spark.post("/tagit", (req, res) -> {
             String nimi = req.queryParams("nimi");
-
             if (nimi.isEmpty()) {
                 res.redirect("tagit");
                 return "";
             }
-
             List<Tagi> tagit = tagiDao.findAll();
             for (int i = 0; i < tagit.size(); i++) {
                 if (nimi.equals(tagit.get(i).getNimi())) {
@@ -201,9 +172,7 @@ public class Ui {
                     return "";
                 }
             }
-
             tagiDao.saveOrUpdate(new Tagi(null, nimi));
-
             res.redirect("/tagit");
             return "";
         });
@@ -211,22 +180,15 @@ public class Ui {
         Spark.post("/artikkelit", (req, res) -> {
 
             List<Artikkeli> artikkeli = artikkeliDao.findAll();
-
             for (int l = 0; l < artikkeli.size(); l++) {
-
                 if (artikkeli.get(l).getNimi().equals(req.queryParams("nimi"))) {
-
                     res.redirect("/artikkelit");
                     return "";
                 }
-
             }
             String aika = "";
             if (Boolean.parseBoolean(req.queryParams("luettu"))) {
-                aika = LocalDate.now().toString() + " "
-                        + LocalDateTime.now().getHour() + ":"
-                        + LocalDateTime.now().getMinute();
-
+                aika = aikaToString();
             }
 
             artikkeliDao.saveOrUpdate(
@@ -334,13 +296,12 @@ public class Ui {
                                 kirja.getLuettuAika()
                         ));
             }
-
             res.redirect("/kirja/" + req.queryParams("ISBN"));
             return "";
         }
         );
-        //näytä luetut ***
 
+        //näytä luetut tai lukemattomat ***
         Spark.get("/kirjat/luetut", (req, res) -> {
             HashMap map = vainOsaKirjoista(true);
             return new ModelAndView(map, "kirjat");
@@ -361,9 +322,8 @@ public class Ui {
             return new ModelAndView(map, "artikkelit");
         }, new ThymeleafTemplateEngine());
 
-//lisaa tagin artikkeliin
+        //lisaa tagi artikkeliin ***
         Spark.post("/lisaaminen", (req, res) -> {
-
             String tagi = req.queryParams("tagi");
             String artikkeli = req.queryParams("artikkeli");
             lisaaTagiArtikkelille(tagi, artikkeli);
@@ -371,7 +331,7 @@ public class Ui {
             res.redirect("/artikkelit");
             return "";
         });
-        //tagin lisäys kirjaan ***
+        //lisaa tagi kirjaan ***
         Spark.post("/lisaaminenK", (req, res) -> {
             String tagi = req.queryParams("tagi");
             String kirja = req.queryParams("kirja");
@@ -379,7 +339,7 @@ public class Ui {
             res.redirect("/kirjat");
             return "";
         });
-//hae tagiin tagatyt
+        //hae tagiin tagatyt
         Spark.get("/tagi/:id", (req, res) -> {
             HashMap map = new HashMap<>();
             Integer tagId = Integer.parseInt(req.params(":id"));
@@ -395,6 +355,7 @@ public class Ui {
         Ui.db = db;
     }
 
+    //apumetodit
     public static HashMap vainOsaKirjoista(boolean luettu) throws Exception {
         HashMap map = new HashMap<>();
         List<Kirja> kirjat = kirjaDao.findAll().stream().filter(kirja -> kirja.isLuettu() == luettu).collect(Collectors.toList());
@@ -452,7 +413,6 @@ public class Ui {
         for (int i = 0; i < artikkeliTagit.size(); i++) {
             if (artikkeliTagit.get(i).getArtikkeliId().equals(artikkeliId)
                     && artikkeliTagit.get(i).getTagiId().equals(tagiId)) {
-
                 return false;
             }
         }
@@ -470,5 +430,11 @@ public class Ui {
             }
         }
         return tagiId;
+    }
+
+    public static String aikaToString() {
+        return LocalDate.now().toString() + " "
+                + LocalDateTime.now().getHour() + ":"
+                + LocalDateTime.now().getMinute();
     }
 }

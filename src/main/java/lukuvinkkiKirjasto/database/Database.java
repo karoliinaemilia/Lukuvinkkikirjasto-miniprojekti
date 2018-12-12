@@ -20,7 +20,6 @@ public class Database {
                 return DriverManager.getConnection(dbUrl);
             }
         }
-
         return DriverManager.getConnection(databaseAddress);
     }
 
