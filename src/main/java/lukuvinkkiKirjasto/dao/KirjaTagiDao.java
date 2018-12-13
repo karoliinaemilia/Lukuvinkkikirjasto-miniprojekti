@@ -18,7 +18,7 @@ public class KirjaTagiDao implements Dao<KirjaTagi, String> {
     public KirjaTagi findOne(String key) throws SQLException {
         try (Connection conn = database.getConnection()) {
             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM KirjaTagi"
-                    + " WHERE artikkeli_ISBN = ?");
+                    + " WHERE kirja_ISBN = ?");
             stmt.setString(1, key);
             ResultSet rs = stmt.executeQuery();
             boolean hasOne = rs.next();

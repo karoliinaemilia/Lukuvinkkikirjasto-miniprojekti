@@ -214,9 +214,9 @@ public class Ui {
         //poista tagi
         Spark.post("/deletoi/:id", (req, res) -> {
             int i = Integer.parseInt(req.params(":id"));
-            tagiDao.delete(i);
             artikkeliTagiDao.deleteTagi(i);
             kirjaTagiDao.deleteTagi(i);
+            tagiDao.delete(i);
             res.redirect("/tagit");
             return "";
         });
