@@ -50,19 +50,6 @@ public class TagiDao implements Dao<Tagi, Integer> {
 
     }
 
-    public Tagi updateInformation(Integer id, Tagi tagi) throws SQLException {
-        try (Connection conn = database.getConnection()) {
-            PreparedStatement stmt = conn.prepareStatement("UPDATE Tagi set nimi = ? where id = ?");
-
-            stmt.setString(1, tagi.getNimi());
-            stmt.setInt(2, id);
-            stmt.executeUpdate();
-            sulkija(stmt, null, conn);
-
-        }
-        return findOne(id);
-    }
-
     @Override
     public Tagi saveOrUpdate(Tagi tagi) throws SQLException {
         if (findOne(tagi.getId()) == null) {
