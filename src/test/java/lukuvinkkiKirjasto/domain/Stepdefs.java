@@ -4,6 +4,10 @@ import cucumber.api.java.After;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -14,13 +18,12 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.openqa.selenium.support.ui.Select;
 
 public class Stepdefs {
 
     WebDriver driver = new HtmlUnitDriver();
     String baseUrl = "http://localhost:4567";
-    Boolean kirjatLuotu = false;
-    Boolean artikkelitLuotu = false;
 
     //mennään artikkelit sivulle
     @Given("^user navigates to the listing page for articles$")
@@ -41,11 +44,6 @@ public class Stepdefs {
         pageHasContent(tekija);
     }
 
-//    @Given("^the database has an existing article with name \"([^\"]*)\" by \"([^\"]*)\" and the user navigates to the listing page for articles$")
-//    public void the_database_has_an_existing_article_with_name_by_and_the_user_navigates_to_the_listing_page_for_articles(String nimi, String tekija) throws Throwable {
-//        clickLink("Artikkelien listaukseen");
-//        fillArticleForm(nimi, "456", "linkkilinkki.com", tekija, "Journal for excellence", "2321", "342", "23-234");
-//    }
     //poisto nappia painetaan
     @When("^delete button is pressed$")
     public void delete_button_is_pressed() throws Throwable {
@@ -60,14 +58,6 @@ public class Stepdefs {
         pageDoesNotHaveContent(tekija);
     }
 
-    /*    @When("^kentat taytetaan tiedoilla \"([^\"]*)\",\"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\",\"([^\"]*)\" ,\"([^\"]*)\", \"([^\"]*)\"  ja painetaan lisaa$")
-    public void kentat_taytetaan_tiedoilla_ja_painetaan_lisaa(String ISBN, String nimi,
-            String genre, String pituus,
-            String linkki, String tekija,
-            String julkaisuVuosi) throws Throwable {
-        fillBookForm(ISBN, nimi, genre, pituus, linkki, tekija, julkaisuVuosi);
-    }
-     */
     //mennään kirjat sivulle
     @Given("^user navigates to the listing page for books$")
     public void user_navigates_to_the_listing_page_for_books() throws Throwable {
@@ -110,12 +100,6 @@ public class Stepdefs {
         pageDoesNotHaveContent(tekija);
     }
 
-    /*  @Given("^the database has an existing article$")
-    public void the_database_has_an_existing_article() throws Throwable {
-        clickLink("Artikkelien listaukseen");
-        fillArticleForm("The Software Engineer", "3231", "lii.com", "Sandro MacMuffin", "Scientific Canadian", "48485", "2303", "223-22");
-
-    }*/
     //vain osa kirjan tiedoista näytetään
     @Then("^information such as \"([^\"]*)\" and \"([^\"]*)\" are not shown$")
     public void information_such_as_and_are_not_shown(String content1, String content2) throws Throwable {
@@ -130,7 +114,7 @@ public class Stepdefs {
         fillBookForm(ISBN, name, "Swift", "202", "amazon", "Rob Kerr", "1223");
     }
 
-    @When("^The user is directed to \"([^\"]*)\" page$")
+    @Then("^The user is directed to \"([^\"]*)\" page$")
     public void the_user_is_directed_to_page(String name) throws Throwable {
         WebElement element = driver.findElement(By.linkText(name));
         element.click();
@@ -199,9 +183,9 @@ public class Stepdefs {
     @Given("^database has one read and one unread book$")
     public void database_has_one_read_and_one_unread_book() throws Throwable {
         clickLink("Kirjojen listaukseen");
-        if (kirjatLuotu == false) {
-            luoKaksiKirjaa();
-        }
+        clearDatabase();
+        luoKaksiKirjaa();
+        book_is_marked_as_read();
     }
 
     @When("^luetut is pressed$")
@@ -212,36 +196,37 @@ public class Stepdefs {
 
     @Then("^only the read book is shown$")
     public void only_the_read_book_is_shown() throws Throwable {
-        pageHasContent("luettuKirja");
-        pageDoesNotHaveContent("kirjainen");
+        pageHasContent("Reading is awesome");
+        pageDoesNotHaveContent("Reading is for the weak");
     }
 
-    //EI TOIMI
+    
     @Then("^only the unread book is shown$")
     public void only_the_unread_book_is_shown() throws Throwable {
-        pageDoesNotHaveContent("luettuKirja");
-
+        pageDoesNotHaveContent("Reading is awesome");
+        pageHasContent("Reading is for the weak");
     }
 
     @Given("^database has one read and one unread article$")
     public void database_has_one_read_and_one_unread_article() throws Throwable {
         clickLink("Artikkelien listaukseen");
-        if (artikkelitLuotu == false) {
-            luoKaksiArtikkelia();
-        }
+        clearDatabase();
+        luoKaksiArtikkelia();
+        article_is_marked_as_read();
+
     }
 
     @Then("^only the read article is shown$")
     public void only_the_read_article_is_shown() throws Throwable {
-        pageDoesNotHaveContent("artikkeliiniJokaEiLuettu");
-        pageHasContent("luettuArtikkeli");
+        pageDoesNotHaveContent("How reading ruined my life");
+        pageHasContent("How reading changed my life for the better");
     }
 
-    //EI TOIMI
+    
     @Then("^only the unread article is shown$")
     public void only_the_unread_article_is_shown() throws Throwable {
-        pageDoesNotHaveContent("luettuArtikkeli");
-
+        pageDoesNotHaveContent("How reading changed my life for the better");
+        pageHasContent("How reading ruined my life");
     }
 
     @When("^kaikki is pressed$")
@@ -252,19 +237,79 @@ public class Stepdefs {
 
     @Then("^all books are shown$")
     public void all_books_are_shown() throws Throwable {
-        pageHasContent("kirjainen");
-        pageHasContent("luettuKirja");
+        pageHasContent("Reading is awesome");
+        pageHasContent("Reading is for the weak");
     }
 
     @Then("^all articles are shown$")
     public void all_articles_are_shown() throws Throwable {
-        pageHasContent("artikkeliiniJokaEiLuettu");
-        pageHasContent("luettuArtikkeli");
+        pageHasContent("How reading ruined my life");
+        pageHasContent("How reading changed my life for the better");
     }
 
     @When("^lukemattomat is pressed$")
     public void lukemattomat_is_pressed() throws Throwable {
         WebElement element = driver.findElement(By.id("lukemattomat"));
+        element.submit();
+    }
+    
+    @Given("^The user navigates to the tags page$")
+    public void the_user_navigates_to_the_tags_page() throws Throwable {
+        clickLink("Tagien listaukseen");
+    }
+
+    @When("^The user adds tag \"([^\"]*)\"$")
+    public void the_user_adds_tag(String name) throws Throwable {
+        addTag(name);
+    }
+
+    @Then("^The tag \"([^\"]*)\" is shown$")
+    public void the_tag_is_shown(String name) throws Throwable {
+        pageHasContent(name);
+    }
+
+    @When("^The user adds tag \"([^\"]*)\" to book \"([^\"]*)\"$")
+    public void the_user_adds_tag_to_book(String tagi, String vinkki) throws Throwable {
+        addTagToTip("kirja", tagi, vinkki);
+    }
+
+    @When("^The user adds tag \"([^\"]*)\" to article \"([^\"]*)\"$")
+    public void the_user_adds_tag_to_article(String tagi, String vinkki) throws Throwable {
+        addTagToTip("artikkeli", tagi, vinkki);
+    }
+    
+    @Given("^The tag \"([^\"]*)\" has been added to book \"([^\"]*)\", ISBN \"([^\"]*)\" and article \"([^\"]*)\"$")
+    public void the_tag_has_been_added_to_book_ISBN_and_article(String tag, String kirjaNimi, String kirjaISBN, String artikkeli) throws Throwable {
+        clickLink("Tagien listaukseen");
+        addTag(tag);
+        clickLink("Artikkelien listaukseen");
+        fillArticleForm(artikkeli, "23412", "linkedy.com", "Martin Strohm", "Academic", "324", "213456", "345-12");
+        addTagToTip("artikkeli", tag, artikkeli);
+        clickLink("Kirjojen listaukseen");
+        fillBookForm(kirjaISBN, kirjaNimi, "Swift", "202", "amazon", "Rob Kerr", "1223");
+        addTagToTip("kirja", tag, kirjaNimi);
+    }
+
+    @When("^the user navigates to tag \"([^\"]*)\" page$")
+    public void the_user_navigates_to_tag_page(String tagi) throws Throwable {
+        clickLink("Tagien listaukseen");
+        WebElement element = driver.findElement(By.linkText(tagi));
+        element.click();
+    }
+
+    @Then("^Book \"([^\"]*)\" and article \"([^\"]*)\" are shown$")
+    public void book_and_article_are_shown(String book, String artikkeli) throws Throwable {
+        pageHasContent(book);
+        pageHasContent(artikkeli);
+    }
+
+    
+    private void addTagToTip(String tip, String tagName, String tipName) {
+        Select dropdown = new Select(driver.findElement(By.name(tip)));
+        dropdown.selectByVisibleText(tipName);
+        dropdown = new Select(driver.findElement(By.name("tagi")));
+        dropdown.selectByVisibleText(tagName);
+        WebElement element = driver.findElement(By.name(tip));
         element.submit();
     }
 
@@ -280,6 +325,12 @@ public class Stepdefs {
 
     private void pageDoesNotHaveContent(String content) {
         assertFalse(driver.getPageSource().contains(content));
+    }
+    
+    private void addTag(String name) {
+        WebElement element = driver.findElement(By.name("nimi"));
+        element.sendKeys(name);
+        element.submit();
     }
 
     private void fillBookForm(String ISBN, String nimi, String genre, String pituus, String linkki, String tekija, String julkaisuVuosi) {
@@ -324,19 +375,23 @@ public class Stepdefs {
     }
 
     public void luoKaksiKirjaa() throws Throwable {
-        System.out.println("taoa");
-        fillBookForm("9789523003927", "luettuKirja", "luettuGenre", "4", "luettuLinkki", "luettuTekijä", "2019");
-        book_is_marked_as_read();
-        fillBookForm("9789510422410", "kirjainen", "genreinen", "3", "linkkelinen", "tekijäinen", "2018");
-        kirjatLuotu = true;
+        fillBookForm("9789510422410", "Reading is for the weak", "Self disactualization", "323", "lessawesomelink.com", "James Munroe", "2330");
+        fillBookForm("9789523003927", "Reading is awesome", "Self actualization", "2113", "awesomelink.com", "James Monroe", "2329");
+
     }
 
     public void luoKaksiArtikkelia() throws Throwable {
+        fillArticleForm("How reading ruined my life", "2331", "nobodyreadthis.com", "Arthur Hill", "Audio book", "2321", "1223", "3456");
+        fillArticleForm("How reading changed my life for the better", "3234", "readingarticles.com", "Alison Jones", "Reading Weekly", "2442", "234", "1233");
 
-        fillArticleForm("luettuArtikkeli", "3", "luettuLinkki", "tekijä", "lehti", "2000", "2", "2");
-        article_is_marked_as_read();
-        fillArticleForm("artikkeliiniJokaEiLuettu", "4", "linkki", "luettuTekijä", "luettuLehti", "2000", "2", "2");
-        artikkelitLuotu = true;
+    }
+
+    public void clearDatabase() throws SQLException {
+        Connection conn = DriverManager.getConnection("jdbc:sqlite:LukuvinkkiKirjasto.db");
+        PreparedStatement stmt = conn.prepareStatement("DELETE FROM Kirja;");
+        stmt.execute();
+        stmt = conn.prepareStatement("DELETE FROM Artikkeli;");
+        stmt.execute();
     }
 
     @After

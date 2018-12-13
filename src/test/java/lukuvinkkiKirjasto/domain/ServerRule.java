@@ -27,6 +27,8 @@ public class ServerRule extends ExternalResource {
         stmt.execute();
         stmt = conn.prepareStatement("DELETE FROM Artikkeli;");
         stmt.execute();
+        stmt = conn.prepareStatement("DELETE FROM Tagi");
+        stmt.execute();
         Ui.main(null);
     }
 
