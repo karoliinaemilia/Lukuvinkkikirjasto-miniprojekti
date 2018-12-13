@@ -24,84 +24,89 @@ public class ArtikkeliTagiDao implements Dao<ArtikkeliTagi, Integer> {
 
     @Override
     public ArtikkeliTagi findOne(Integer key) throws SQLException {
-        Connection conn = database.getConnection();
-        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM ArtikkeliTagi"
-                + " WHERE artikkeli_id = ?");
-        stmt.setInt(1, key);
+        try (Connection conn = database.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM ArtikkeliTagi"
+                    + " WHERE artikkeli_id = ?");
+            stmt.setInt(1, key);
 
-        ResultSet rs = stmt.executeQuery();
-        boolean hasOne = rs.next();
-        if (!hasOne) {
-            return null;
+            ResultSet rs = stmt.executeQuery();
+            boolean hasOne = rs.next();
+            if (!hasOne) {
+                return null;
+            }
+            ArtikkeliTagi artikkeliTagi = new ArtikkeliTagi(rs.getInt("artikkeli_id"), rs.getInt("tagi_id"));
+
+            sulkija(stmt, rs, conn);
+
+            return artikkeliTagi;
         }
-        ArtikkeliTagi artikkeliTagi = new ArtikkeliTagi(rs.getInt("artikkeli_id"), rs.getInt("tagi_id"));
-
-        sulkija(stmt, rs, conn);
-
-        return artikkeliTagi;
 
     }
 
     @Override
     public List<ArtikkeliTagi> findAll() throws SQLException {
-        Connection conn = database.getConnection();
-        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM ArtikkeliTagi");
-        List<ArtikkeliTagi> artikkeliTagit = new ArrayList();
+        try (Connection conn = database.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM ArtikkeliTagi");
+            List<ArtikkeliTagi> artikkeliTagit = new ArrayList();
 
-        ResultSet rs = stmt.executeQuery();
-        if (!rs.next()) {
-            return null;
-        }
-        while (rs.next()) {
-            artikkeliTagit.add(new ArtikkeliTagi(rs.getInt("artikkeli_id"), rs.getInt("tagi_id")));
-        }
-        sulkija(stmt, rs, conn);
+            ResultSet rs = stmt.executeQuery();
+            if (!rs.next()) {
+                return null;
+            }
+            while (rs.next()) {
+                artikkeliTagit.add(new ArtikkeliTagi(rs.getInt("artikkeli_id"), rs.getInt("tagi_id")));
+            }
+            sulkija(stmt, rs, conn);
 
-        return artikkeliTagit;
+            return artikkeliTagit;
+        }
     }
 
     @Override
     public ArtikkeliTagi saveOrUpdate(ArtikkeliTagi object) throws SQLException {
-        Connection conn = database.getConnection();
-        PreparedStatement stmt = conn.prepareStatement("INSERT INTO ArtikkeliTagi" + "(artikkeli_id, tagi_id)" + "VALUES (?, ?)");
-        stmt.setInt(1, object.getArtikkeliId());
-        stmt.setInt(2, object.getTagiId());
-        stmt.executeUpdate();
-        stmt.close();
+        try (Connection conn = database.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO ArtikkeliTagi" + "(artikkeli_id, tagi_id)" + "VALUES (?, ?)");
+            stmt.setInt(1, object.getArtikkeliId());
+            stmt.setInt(2, object.getTagiId());
+            stmt.executeUpdate();
+            stmt.close();
 
-        stmt = conn.prepareStatement("SELECT * FROM ArtikkeliTagi WHERE artikkeli_id = ? AND tagi_id = ?");
-        stmt.setInt(1, object.getArtikkeliId());
-        stmt.setInt(2, object.getTagiId());
+            stmt = conn.prepareStatement("SELECT * FROM ArtikkeliTagi WHERE artikkeli_id = ? AND tagi_id = ?");
+            stmt.setInt(1, object.getArtikkeliId());
+            stmt.setInt(2, object.getTagiId());
 
-        ResultSet rs = stmt.executeQuery();
-        rs.next();
+            ResultSet rs = stmt.executeQuery();
+            rs.next();
 
-        ArtikkeliTagi artikkeliTagi = new ArtikkeliTagi(rs.getInt("artikkeli_id"), rs.getInt("tagi_id"));
+            ArtikkeliTagi artikkeliTagi = new ArtikkeliTagi(rs.getInt("artikkeli_id"), rs.getInt("tagi_id"));
 
-        sulkija(stmt, rs, conn);
-        return artikkeliTagi;
+            sulkija(stmt, rs, conn);
+            return artikkeliTagi;
+        }
     }
 
     @Override
     public void delete(Integer key) throws SQLException {
 
-        Connection conn = database.getConnection();
-        PreparedStatement stmt = conn.prepareStatement("DELETE FROM ArtikkeliTagi WHERE artikkeli_id = ?");
+        try (Connection conn = database.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement("DELETE FROM ArtikkeliTagi WHERE artikkeli_id = ?");
 
-        stmt.setInt(1, key);
-        stmt.executeUpdate();
+            stmt.setInt(1, key);
+            stmt.executeUpdate();
 
-        sulkija(stmt, null, conn);
+            sulkija(stmt, null, conn);
+        }
     }
 
     public void deleteTagi(Integer key) throws SQLException {
-        Connection conn = database.getConnection();
-        PreparedStatement stmt = conn.prepareStatement("DELETE FROM ArtikkeliTagi WHERE tagi_id = ?");
+        try (Connection conn = database.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement("DELETE FROM ArtikkeliTagi WHERE tagi_id = ?");
 
-        stmt.setInt(1, key);
-        stmt.executeUpdate();
+            stmt.setInt(1, key);
+            stmt.executeUpdate();
 
-        sulkija(stmt, null, conn);
+            sulkija(stmt, null, conn);
+        }
     }
 
     public void sulkija(Statement stmt, ResultSet rs, Connection conn) throws SQLException {

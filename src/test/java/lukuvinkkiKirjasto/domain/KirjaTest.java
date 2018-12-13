@@ -117,12 +117,12 @@ public class KirjaTest {
     
     @Test
     public void julkaisuVuodenOikeaPalautus() {
-        assertEquals(lehti.getJulkaisuVuosi(), 2009, vertailuTarkkuus);
+        assertEquals(lehti.getJulkaistu(), 2009, vertailuTarkkuus);
     }
     @Test
     public void julkaisuVuodenMuokkaaminen() {    
-        lehti.setJulkaisuVuosi(2011);
-        assertEquals(2011, lehti.getJulkaisuVuosi(), vertailuTarkkuus);
+        lehti.setJulkaistu(2011);
+        assertEquals(2011, lehti.getJulkaistu(), vertailuTarkkuus);
     }
     @Test
     public void setLuettuAikaVaihtuu() {

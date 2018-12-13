@@ -18,7 +18,7 @@
             <h1><span th:text="${artikkeli.getNimi}">nimi</span></h1>
 
             Tekijät: <span th:text="${artikkeli.getTekija}">Tekija</span>, Julkaisuvuosi: <span th:text="${artikkeli.getJulkaistu}">Vuosi</span></br>
-            Julkaistu: <span th:text="${artikkeli.getJulkaisuLehti}">Pituus</span>, numerossa <span th:text="${artikkeli.getNumero}">Genre</span>, pituus <span th:text="${artikkeli.getSivut}">Sivut</span></br>
+            Julkaistu: <span th:text="${artikkeli.getJulkaisuLehti}">Pituus</span>, numerossa <span th:text="${artikkeli.getNumero}">Genre</span>, pituus <span th:text="${artikkeli.getPituus}">Sivut</span></br>
             <a th:href="${artikkeli.getLinkki}"><span th:text="${artikkeli.getLinkki}">Linkki</span></a></br>
             <span th:text="${artikkeli.getLuettuString}">Luettu</span> </br>
             <p><a href="/artikkelit">Artikkelien listaukseen</a></p> </br>
