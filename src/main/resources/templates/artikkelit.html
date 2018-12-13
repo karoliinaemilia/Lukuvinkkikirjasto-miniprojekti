@@ -99,21 +99,21 @@
                         </option>
 
                     </select>
-                    <br>
-                        Tagit:
-                        <br>
-                            <select name="tagi">
-                                <option th:each="tagi: ${tagit}">
+                <br>
+                Tagit:
+                <br>
+                    <select name="tagi">
+                        <option th:each="tagi: ${tagit}">
+                            <span th:text="${tagi.nimi}">Nimi</span>
 
-                                    <span th:text="${tagi.nimi}">Nimi</span>
+                        </option>
+                    </select>
+                <br>
+                    <input value="Lisää" type="submit">
+            </from>
 
-                                </option>
-                            </select>
-                            <br>
-                                <input value="Lisää" type="submit">
-                                    </from>
-
-                                    <p><a href="/">Aloitussivulle</a></p>
-                                    </div>
-                                    </body>
-                                    </html>
+            <p><a href="/">Aloitussivulle</a></p>
+            
+            </div>
+    </body>
+</html>
