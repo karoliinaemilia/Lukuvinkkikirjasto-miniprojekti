@@ -5,6 +5,12 @@ Given The user navigates to the tags page
 When The user adds tag "Science"
 Then The tag "Science" is shown
 
+Scenario: A tag can be deleted
+Given The user navigates to the tags page
+When The user adds tag "Informational"
+When The user deletes the tag
+Then The tag "Informational" is not shown
+
 Scenario: An existing tag can be added to an existing book
 Given The database has an existing book "9789522344786", "Book of the ages" that hasn't been read
 When The user adds tag "Science" to book "Book of the ages"

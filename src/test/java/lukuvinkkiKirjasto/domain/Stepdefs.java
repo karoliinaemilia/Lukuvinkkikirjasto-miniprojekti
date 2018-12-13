@@ -302,6 +302,18 @@ public class Stepdefs {
         pageHasContent(book);
         pageHasContent(artikkeli);
     }
+    
+    @When("^The user deletes the tag$")
+    public void the_user_deletes_tag() throws Throwable {
+        List<WebElement> elements = driver.findElements(By.id("poistoNappi"));
+        elements.get(elements.size() - 1).submit();
+    }
+
+
+    @Then("^The tag \"([^\"]*)\" is not shown$")
+    public void the_tag_is_not_shown(String arg1) throws Throwable {
+        pageDoesNotHaveContent(arg1);
+    }
 
     
     private void addTagToTip(String tip, String tagName, String tipName) {

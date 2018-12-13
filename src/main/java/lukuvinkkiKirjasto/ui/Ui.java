@@ -243,15 +243,7 @@ public class Ui {
             res.redirect("/artikkelit");
             return "";
         });
-//merkkaa luetuksi
-        Spark.post("/artikkelit/:artikkeliId", (req, res) -> {
-            Artikkeli artikkeli = artikkeliDao.findOne(Integer.parseInt(req.params(":artikkeliId")));
-
-            artikkeli.setLuettu(true);
-            artikkeliDao.updateInformation(artikkeli);
-            res.redirect("/artikkelit");
-            return "";
-        });
+        
         //muokkaa artikkelin tietoja
         Spark.post("/artikkeli/:id", (req, res) -> {
 

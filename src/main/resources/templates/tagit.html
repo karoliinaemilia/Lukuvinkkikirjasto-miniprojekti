@@ -19,7 +19,7 @@
                     <td>
                         <a th:href="@{~/tagi/{id}(id=${tagi.id})}" > <span th:text="${tagi.getNimi}">Nimi</span></a></br>
                         <form th:action="@{~/deletoi/{id}(id=${tagi.id})}" method="POST">
-                    <input type="submit" value="Poista"/>
+                    <input id="poistoNappi" type="submit" value="Poista"/>
                 </form>
                     </td>
                 </tr>
