@@ -8,9 +8,14 @@ package lukuvinkkiKirjasto.dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import lukuvinkkiKirjasto.database.Database;
 import lukuvinkkiKirjasto.domain.Artikkeli;
+import lukuvinkkiKirjasto.domain.ArtikkeliTagi;
+import lukuvinkkiKirjasto.domain.Kirja;
+import lukuvinkkiKirjasto.domain.KirjaTagi;
+import lukuvinkkiKirjasto.domain.Tagi;
 import lukuvinkkiKirjasto.ui.Ui;
 import static lukuvinkkiKirjasto.ui.Ui.db;
 import org.junit.After;
@@ -29,6 +34,8 @@ public class ArtikkeliDaoTest {
 
     Database db;
     ArtikkeliDao artikkeliDao;
+    ArtikkeliTagiDao artikkeliTagiDao;
+    TagiDao tagiDao;
 
     public ArtikkeliDaoTest() {
     }
@@ -46,7 +53,10 @@ public class ArtikkeliDaoTest {
         db = new Database("jdbc:sqlite:LukuvinkkiKirjasto.db");
         db.setTest(true);
         artikkeliDao = new ArtikkeliDao(db);
+        artikkeliTagiDao = new ArtikkeliTagiDao(db);
+        tagiDao = new TagiDao(db);
 
+        
         Connection conn = db.getConnection();
         PreparedStatement stmt = conn.prepareStatement("DELETE FROM Artikkeli;");
         stmt.execute();
@@ -145,6 +155,20 @@ public class ArtikkeliDaoTest {
         artikkeli.setNimi("uusiNimi");
         assertTrue(artikkeliDao.findAll().size() == 1);
 
+    }
+    
+    @Test
+    public void tietokannassaOlevaArtikkeliTagiLotyy() throws SQLException {
+        Artikkeli artikkeli = new Artikkeli(2, "Double trouble", 0, "linkki", "tekija", "julkaisuLehti", 0, 0, "sivut", LocalDate.MAX, true, "aika");
+        artikkeliDao.saveOrUpdate(artikkeli);
+        Tagi tagi = new Tagi(4, "Info");
+        tagiDao.saveOrUpdate(tagi);
+        ArtikkeliTagi artikkeliTagi = new ArtikkeliTagi(2, 4);
+        artikkeliTagiDao.saveOrUpdate(artikkeliTagi);
+        
+        ArtikkeliTagi uusi = artikkeliTagiDao.findOne(2);
+        
+        assertEquals(new Integer(4), uusi.getTagiId());
     }
 
     @After

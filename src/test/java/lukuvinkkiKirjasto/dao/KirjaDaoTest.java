@@ -7,9 +7,12 @@ package lukuvinkkiKirjasto.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import lukuvinkkiKirjasto.database.Database;
 import lukuvinkkiKirjasto.domain.Kirja;
+import lukuvinkkiKirjasto.domain.KirjaTagi;
+import lukuvinkkiKirjasto.domain.Tagi;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -25,6 +28,8 @@ public class KirjaDaoTest {
 
     Database db;
     KirjaDao kirjaDao;
+    KirjaTagiDao kirjaTagiDao;
+    TagiDao tagiDao;
 
     public KirjaDaoTest() {
     }
@@ -42,7 +47,9 @@ public class KirjaDaoTest {
         db = new Database("jdbc:sqlite:LukuvinkkiKirjasto.db");
         db.setTest(true);
         kirjaDao = new KirjaDao(db);
-
+        kirjaTagiDao = new KirjaTagiDao(db);
+        tagiDao = new TagiDao(db);
+        
         Connection conn = db.getConnection();
         PreparedStatement stmt = conn.prepareStatement("DELETE FROM Kirja;");
         stmt.execute();
@@ -137,6 +144,20 @@ public class KirjaDaoTest {
         kirja.setNimi("uusiNimi");
         assertTrue(kirjaDao.findAll().size() == 1);
 
+    }
+    
+    @Test
+    public void tietokannassaOlevaKirjaTagiLotyy() throws SQLException {
+        Kirja kirja = new Kirja("9789511319177", "genre", "kirja1", 1, "linkki", "tekija", 1, LocalDate.MAX, true, "luettuAika");
+        kirjaDao.saveOrUpdate(kirja);
+        Tagi tagi = new Tagi(2, "Info");
+        tagiDao.saveOrUpdate(tagi);
+        KirjaTagi kirjaTagi = new KirjaTagi("9789511319177", 2);
+        kirjaTagiDao.saveOrUpdate(kirjaTagi);
+        
+        KirjaTagi uusi = kirjaTagiDao.findOne("9789511319177");
+        
+        assertEquals(new Integer(2), uusi.getTagiId());
     }
 
     @After
