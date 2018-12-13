@@ -14,13 +14,13 @@
         <div class="container">
 
             <form method="GET" action="/artikkelit/luetut">
-                <input class="btn btn-primary" type="submit" value="luetut"/>
+                <input class="btn btn-primary" type="submit" value="luetut" id="luetut"/>
             </form>
             <form method="GET" action="/artikkelit/lukemattomat">
-                <input class="btn btn-primary" type="submit" value="lukemattomat"/>
+                <input class="btn btn-primary" type="submit" value="lukemattomat"id="lukemattomat"/>
             </form>
             <form method="GET" action="/artikkelit">
-                <input class="btn btn-primary" type="submit" value="kaikki"/>
+                <input class="btn btn-primary" type="submit" value="kaikki" id="kaikki"/>
             </form>
             <h1>Artikkelit</h1>
 
@@ -83,37 +83,37 @@
 
                 <button type="submit" class="btn btn-primary">Lisää</button>
             </form>
-            
+
             <h3>Lisää tagejä</h3>
-            
+
             <form method="POST" action="/lisaaminen">
                 Artikkeli:
                 <br>
                     <select name="artikkeli">
-                    <option th:each="artikkeli: ${artikkelit}">
+                        <option th:each="artikkeli: ${artikkelit}">
 
-                        <span th:text="${artikkeli.nimi}">artikkelin nimi</span>
+                            <span th:text="${artikkeli.nimi}">artikkelin nimi</span>
 
 
 
-                    </option>
-                    
-                </select>
-                    <br>
-                Tagit:
-                <br>
-                    <select name="tagi">
-                        <option th:each="tagi: ${tagit}">
-                            
-                            <span th:text="${tagi.nimi}">Nimi</span>
-                            
                         </option>
+
                     </select>
                     <br>
-                        <input value="Lisää" type="submit">
-            </from>
+                        Tagit:
+                        <br>
+                            <select name="tagi">
+                                <option th:each="tagi: ${tagit}">
 
-            <p><a href="/">Aloitussivulle</a></p>
-        </div>
-    </body>
-</html>
+                                    <span th:text="${tagi.nimi}">Nimi</span>
+
+                                </option>
+                            </select>
+                            <br>
+                                <input value="Lisää" type="submit">
+                                    </from>
+
+                                    <p><a href="/">Aloitussivulle</a></p>
+                                    </div>
+                                    </body>
+                                    </html>

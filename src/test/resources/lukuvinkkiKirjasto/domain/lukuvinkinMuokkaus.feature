@@ -1,16 +1,19 @@
 Feature: As a user I want to be able to change the information for a reading tip on the reading tips page
 
-Scenario: The information for a book can be changed
-Given The database has an existing book and the user navigates to its page
-When some of the infomration the genre "Science fiction" and the length "2384" is changed for the book
-Then the new information "Science fiction" and "2384" is shown
+  Scenario: The information for a book can be changed
+    Given The database has an existing book "9789513196455", "lazarus" that hasn't been read
+    When The user is directed to "lazarus" page
+    When some of the information "genre" "Science fiction" and "pituus" "2384" is changed
+    Then the new information "Science fiction" and "2384" is shown
 
-Scenario: The information for an article can be changed
-Given The database has an existing article and the user navigates to its page
-When some of the information the maker "Jonathan Smith" and year of release "1345" is changed
-Then the new information "Jonathan Smith" and "1345" is shown
+  Scenario: The information for an article can be changed
+    Given The database has an existing article named "testi1" that hasn't been read
+    When The user is directed to "testi1" page
+    When some of the information "nimi" "Jonathan Smith" and "julkaisuVuosi" "1345" is changed
+    Then the new information "Jonathan Smith" and "1345" is shown
 
-Scenario: If the ISBN of a book is changed is must be valid
-Given The database has an existing book and the user navigates to its page
-When the ISBN is changed to a nonvalid ISBN
-Then the ISBN hasn't been changed
+  Scenario: If the ISBN of a book is changed it must be valid
+    Given The database has an existing book "9780997316025", "booky" that hasn't been read
+    When The user is directed to "booky" page
+    When the ISBN is changed to a nonvalid ISBN
+    Then the user is shown a error message "Ei oikea ISBN!"
