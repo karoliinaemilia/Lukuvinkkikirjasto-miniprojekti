@@ -145,8 +145,9 @@ public class Ui {
         Spark.post("/kirjat/:ISBN", (req, res) -> {
             String act = req.queryParams("nappi");
             if (act.equals("poista")) {
-                kirjaDao.delete(req.params(":ISBN"));
+                
                 kirjaTagiDao.delete(req.params(":ISBN"));
+                kirjaDao.delete(req.params(":ISBN"));
             } else if (act.equals("Merkitse luetuksi")) {
                 String uusiAika = aikaToString();
                 Kirja kirja = kirjaDao.findOne(req.params(":ISBN"));
@@ -226,8 +227,9 @@ public class Ui {
             String act = req.queryParams("nappi");
 
             if (act.equals("poista")) {
-                artikkeliDao.delete(Integer.parseInt(req.params(":id")));
                 artikkeliTagiDao.delete(Integer.parseInt(req.params(":id")));
+                artikkeliDao.delete(Integer.parseInt(req.params(":id")));
+                
             } else if (act.equals("Merkitse luetuksi")) {
                 String uusiAika = LocalDate.now().toString() + " "
                         + LocalDateTime.now().getHour() + ":"
