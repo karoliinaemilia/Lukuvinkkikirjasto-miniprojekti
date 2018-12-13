@@ -6,9 +6,11 @@
 
 ## Releaset
 
-[Release Sprint 2](https://github.com/karoliinaemilia/Lukuvinkkikirjasto-miniprojekti/releases/tag/sprintti2)
+[Release Sprint 4](https://github.com/karoliinaemilia/Lukuvinkkikirjasto-miniprojekti/releases/tag/sprintti4)
 
 [Release Sprint 3](https://github.com/karoliinaemilia/Lukuvinkkikirjasto-miniprojekti/releases/tag/sprint3)
+
+[Release Sprint 2](https://github.com/karoliinaemilia/Lukuvinkkikirjasto-miniprojekti/releases/tag/sprintti2)
 
 ## Linkit backlogeihin
 
