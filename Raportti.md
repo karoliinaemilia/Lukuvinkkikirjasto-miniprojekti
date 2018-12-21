@@ -3,9 +3,9 @@ Raportti
 Lukuvinkkikirjasto
 
 Ryhmän jäsenet: 
-Julia Martikainen
-Karoliina Koivu
-Sanna Iholin
+Julia Martikainen,
+Karoliina Koivu,
+Sanna Iholin,
 Martin Strohm
 
 Sprintti 1:
@@ -22,7 +22,7 @@ Mikäli koodaaminen stoppasi yhden henkilön kohdalta, toinen ryhmäläinen jatk
 Mikä sujui hyvin:
 
 Kuten yllä totesimme, ryhmän yhteistyö sujui loistavasti. Saimme toteutettua asiakkaan pyytämät toiminnallisuudet
-jokaiselle sprintille, mitään ei ikinä jäänyt tekemättä.
+jokaiselle sprintille, mitään ei jäänyt tekemättä.
 
 Missä olisi parannettavaa:
 
