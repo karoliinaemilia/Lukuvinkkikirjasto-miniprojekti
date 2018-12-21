@@ -4,6 +4,8 @@
 
 [Ohjelman selitys/käyttöohje](https://github.com/karoliinaemilia/Lukuvinkkikirjasto-miniprojekti/blob/master/Kaytto-ohje.md)
 
+[Raportti](https://github.com/karoliinaemilia/Lukuvinkkikirjasto-miniprojekti/blob/master/Raportti.md)
+
 ## Releaset
 
 [Release Sprint 4](https://github.com/karoliinaemilia/Lukuvinkkikirjasto-miniprojekti/releases/tag/sprintti4)
